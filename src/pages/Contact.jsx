@@ -44,7 +44,7 @@ export const Contact = () => {
             <div style={{ marginTop: '2rem', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
               <iframe
                 title="Hui Yin Seh Location Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.213969719114!2d100.31011831476106!3d5.38477599609503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304ac3ed69b1cb41%3A0x7d6f51dfcf545b74!2sSolok%20Rawang%2C%20Jelutong%2C%20Penang!5e0!3m2!1sen!2smy!4v1650000000000!5m2!1sen!2smy"
+                src="https://maps.google.com/maps?q=30,%20Lintang%20Paya%20Terubong%203,%20Bandar%20Baru%20Air%20Itam,%2011060%20Ayer%20Itam,%20Pulau%20Pinang,%20Malaysia&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="220"
                 style={{ border: 0 }}
