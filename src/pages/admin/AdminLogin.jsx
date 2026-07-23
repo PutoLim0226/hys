@@ -12,8 +12,8 @@ export const AdminLogin = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin123');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -95,10 +95,6 @@ export const AdminLogin = () => {
             {loading ? 'Authenticating...' : t('admin.loginBtn')}
           </button>
         </form>
-
-        <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-          預設測試帳號: <code>admin</code> / <code>admin123</code>
-        </div>
       </div>
     </div>
   );
