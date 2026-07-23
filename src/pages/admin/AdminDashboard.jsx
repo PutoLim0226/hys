@@ -153,16 +153,16 @@ export const AdminDashboard = () => {
 
         </div>
 
-        {/* Volunteer & Activity Breakdown Table */}
+        {/* Volunteer Count per Event / Activity Breakdown */}
         <div className="card card-padding-md margin-bottom-lg">
           <div className="admin-header-bar margin-bottom-md">
             <div>
               <h2 className="card-heading-section margin-bottom-xs">
                 <Award size={20} className="icon-inline-primary" />
-                {lang === 'zh-CN' ? '各活动志愿者报名明细' : 'Volunteers per Activity Breakdown'}
+                {lang === 'zh-CN' ? '各活动 / 专案志愿者统计人数' : 'Volunteers Count Per Event Breakdown'}
               </h2>
               <p className="text-muted text-sm">
-                {lang === 'zh-CN' ? '实时检视参与献血活动、合唱团、慈幼班与慈善专案的志愿者人数及状态' : 'Real-time volunteer list for blood drives, choir, and charity events'}
+                {lang === 'zh-CN' ? '实时统计绑定至各个具体献血运动、合唱团音乐会与公益项目的报名人数' : 'Real-time volunteer registration counts grouped by specific published event'}
               </p>
             </div>
             <Link to="/admin/volunteers" className="btn btn-secondary btn-sm">
@@ -171,14 +171,41 @@ export const AdminDashboard = () => {
           </div>
 
           <div className="table-responsive">
+            <table className="admin-table margin-bottom-md">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>{lang === 'zh-CN' ? '活动 / 专案名称' : 'Event / Activity Name'}</th>
+                  <th>{t('admin.category')}</th>
+                  <th>{lang === 'zh-CN' ? '已报名志工人数' : 'Registered Volunteers'}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(stats.volunteers?.event_breakdown || []).map(ev => (
+                  <tr key={ev.event_id}>
+                    <td>#{ev.event_id}</td>
+                    <td className="font-bold">{lang === 'zh-CN' ? ev.title_zh : ev.title_en}</td>
+                    <td><span className="badge badge-pending">{t(`news.${ev.category}`) || ev.category}</span></td>
+                    <td className="font-bold text-primary">{ev.count} 人</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="card-heading-section margin-top-md margin-bottom-xs">
+            <Users size={16} className="icon-inline-primary" />
+            {lang === 'zh-CN' ? '最新志愿服务报名明细' : 'Recent Volunteer Applications'}
+          </h3>
+          <div className="table-responsive">
             <table className="admin-table">
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>{lang === 'zh-CN' ? '姓名' : 'Name'}</th>
                   <th>{lang === 'zh-CN' ? '联系电话' : 'Phone'}</th>
-                  <th>{lang === 'zh-CN' ? '参与活动 / 专长技能' : 'Activity / Special Skill'}</th>
-                  <th>{lang === 'zh-CN' ? '可配合时间' : 'Availability'}</th>
+                  <th>{lang === 'zh-CN' ? '对应活动项目' : 'Target Event'}</th>
+                  <th>{lang === 'zh-CN' ? '专长技能' : 'Skills'}</th>
                   <th>{t('admin.status')}</th>
                 </tr>
               </thead>
@@ -188,8 +215,8 @@ export const AdminDashboard = () => {
                     <td>#{v.id}</td>
                     <td className="font-bold">{v.name}</td>
                     <td>{v.phone}</td>
-                    <td><span className="activity-skill-tag">{v.skills}</span></td>
-                    <td className="text-sm">{v.availability}</td>
+                    <td><span className="activity-skill-tag">{lang === 'zh-CN' ? (v.event_title_zh || '通用支援') : (v.event_title_en || 'General Support')}</span></td>
+                    <td className="text-sm">{v.skills}</td>
                     <td>
                       <span className={`badge badge-${v.status}`}>
                         {t(`admin.${v.status}`)}

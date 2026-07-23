@@ -116,8 +116,8 @@ export const AdminVolunteers = () => {
               <tr>
                 <th>ID</th>
                 <th>{lang === 'zh-CN' ? '姓名' : 'Name'}</th>
+                <th>{lang === 'zh-CN' ? '报名活动 / 项目' : 'Target Event'}</th>
                 <th>{lang === 'zh-CN' ? '联系电话' : 'Phone'}</th>
-                <th>{lang === 'zh-CN' ? '电子邮件' : 'Email'}</th>
                 <th>{lang === 'zh-CN' ? '专长 / 技能' : 'Skills'}</th>
                 <th>{t('admin.status')}</th>
                 <th>{lang === 'zh-CN' ? '报名时间' : 'Applied At'}</th>
@@ -129,8 +129,12 @@ export const AdminVolunteers = () => {
                 <tr key={item.id}>
                   <td>#{item.id}</td>
                   <td className="font-bold">{item.name}</td>
+                  <td>
+                    <span className="badge badge-pending">
+                      {lang === 'zh-CN' ? (item.event_title_zh || '通用支援') : (item.event_title_en || 'General Support')}
+                    </span>
+                  </td>
                   <td>{item.phone}</td>
-                  <td>{item.email}</td>
                   <td className="max-w-cell">{item.skills}</td>
                   <td>
                     <span className={`badge badge-${item.status}`}>
@@ -173,6 +177,7 @@ export const AdminVolunteers = () => {
         <Modal isOpen={!!selectedVolunteer} onClose={() => setSelectedVolunteer(null)} title={lang === 'zh-CN' ? '志愿者详细报名资料' : 'Volunteer Application Details'}>
           {selectedVolunteer && (
             <div className="volunteer-detail-body">
+              <p><strong>{lang === 'zh-CN' ? '报名活动：' : 'Target Event: '}</strong> {lang === 'zh-CN' ? (selectedVolunteer.event_title_zh || '通用支援') : (selectedVolunteer.event_title_en || 'General Support')}</p>
               <p><strong>{lang === 'zh-CN' ? '姓名：' : 'Name: '}</strong> {selectedVolunteer.name}</p>
               <p><strong>{lang === 'zh-CN' ? '电话：' : 'Phone: '}</strong> {selectedVolunteer.phone}</p>
               <p><strong>{lang === 'zh-CN' ? 'Email：' : 'Email: '}</strong> {selectedVolunteer.email}</p>

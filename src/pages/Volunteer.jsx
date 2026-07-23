@@ -1,22 +1,43 @@
-// src/pages/Volunteer.jsx - Volunteer Application Component
+// src/pages/Volunteer.jsx - Volunteer Application Component with Event Association
 
-import React, { useState } from 'react';
-import { Users, CheckCircle, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Users, CheckCircle, AlertCircle, Calendar } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { SeoHead } from '../components/SeoHead';
 
 export const Volunteer = () => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
+  const [searchParams] = useSearchParams();
+  const preselectedEventId = searchParams.get('event_id') || '';
+
+  const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
+    event_id: preselectedEventId,
     name: '',
     phone: '',
     email: '',
     skills: '',
     availability: ''
   });
+
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/news.php?status=published')
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === 'success' && Array.isArray(res.data)) {
+          setEvents(res.data);
+          if (preselectedEventId && !formData.event_id) {
+            setFormData(prev => ({ ...prev, event_id: preselectedEventId }));
+          }
+        }
+      })
+      .catch(() => setEvents([]));
+  }, [preselectedEventId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +66,7 @@ export const Volunteer = () => {
 
       if (res.ok && json.status === 'success') {
         setSuccessMsg(t('volunteer.successMsg'));
-        setFormData({ name: '', phone: '', email: '', skills: '', availability: '' });
+        setFormData({ event_id: '', name: '', phone: '', email: '', skills: '', availability: '' });
       } else {
         setErrorMsg(json.message || 'Submission failed');
       }
@@ -87,6 +108,25 @@ export const Volunteer = () => {
           )}
 
           <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>
+                <Calendar size={14} className="inline-icon" /> {lang === 'zh-CN' ? '选择报名活动 / 项目 *' : 'Select Target Event / Activity *'}
+              </label>
+              <select
+                name="event_id"
+                value={formData.event_id}
+                onChange={handleChange}
+                required
+              >
+                <option value="">{lang === 'zh-CN' ? '-- 请选择志愿服务活动 --' : '-- Select an Activity --'}</option>
+                {events.map(item => (
+                  <option key={item.id} value={item.id}>
+                    {lang === 'zh-CN' ? item.title_zh : item.title_en} [{t(`news.${item.category}`) || item.category}]
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="form-group">
               <label>{t('volunteer.name')} *</label>
               <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. 李小明 / Lee Siu Ming" />
