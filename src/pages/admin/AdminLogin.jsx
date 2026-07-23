@@ -38,13 +38,7 @@ export const AdminLogin = () => {
         setError(json.message || 'Login failed');
       }
     } catch (err) {
-      // Mock login for offline dev environment
-      if (username === 'admin') {
-        login('mock_admin_token_2026', { id: 1, username: 'admin' });
-        navigate('/admin/dashboard');
-      } else {
-        setError('Invalid username or password');
-      }
+      setError('伺服器連線失敗，請檢查 API 服務狀態 (API connection error)');
     } finally {
       setLoading(false);
     }

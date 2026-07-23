@@ -27,28 +27,7 @@ export const AdminDonations = () => {
         }
       })
       .catch(() => {
-        setDonations([
-          {
-            id: 101,
-            donor_name: '張偉強 (Cheong Wai Keong)',
-            phone: '+6012-9876543',
-            amount: '500.00',
-            payment_method: 'tng',
-            receipt_image_url: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80',
-            status: 'pending',
-            created_at: '2026-07-20 14:30:00'
-          },
-          {
-            id: 102,
-            donor_name: '黃美玲 (Wong Mei Ling)',
-            phone: '+6016-1234567',
-            amount: '200.00',
-            payment_method: 'duitnow',
-            receipt_image_url: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80',
-            status: 'confirmed',
-            created_at: '2026-07-18 10:15:00'
-          }
-        ]);
+        setDonations([]);
       });
   };
 
@@ -64,7 +43,7 @@ export const AdminDonations = () => {
         body: JSON.stringify({ id, status: newStatus })
       });
     } catch (err) {
-      // Mock
+      console.error('Error updating donation status:', err);
     } finally {
       fetchDonations();
     }

@@ -27,28 +27,7 @@ export const AdminVolunteers = () => {
         }
       })
       .catch(() => {
-        setVolunteers([
-          {
-            id: 1,
-            name: '林志豪 (Lim Chee How)',
-            phone: '+6017-4567890',
-            email: 'cheehow@example.com',
-            skills: '獻血運動現場登記、活動主持',
-            availability: '每個週末、專案緊急支援',
-            status: 'pending',
-            created_at: '2026-07-22 09:00:00'
-          },
-          {
-            id: 2,
-            name: '陳雅婷 (Tan Ya Ting)',
-            phone: '+6012-3334444',
-            email: 'yating@example.com',
-            skills: '合唱團伴奏、文宣設計',
-            availability: '週五晚間、週六下午',
-            status: 'approved',
-            created_at: '2026-07-15 16:20:00'
-          }
-        ]);
+        setVolunteers([]);
       });
   };
 
@@ -64,7 +43,7 @@ export const AdminVolunteers = () => {
         body: JSON.stringify({ id, status: newStatus })
       });
     } catch (err) {
-      // Mock
+      console.error('Error updating volunteer status:', err);
     } finally {
       fetchVolunteers();
     }

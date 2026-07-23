@@ -7,6 +7,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 
+import logoImg from '../assets/img/logo.png';
+
 export const Header = () => {
   const { lang, toggleLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
@@ -20,10 +22,7 @@ export const Header = () => {
     <header className="app-header">
       <div className="container header-container">
         <Link to="/" className="brand-logo" onClick={closeMobile}>
-          <svg viewBox="0 0 100 100" width="40" height="40">
-            <circle cx="50" cy="50" r="48" fill="#E65100"/>
-            <path d="M50 20 L65 40 L85 45 L70 60 L75 80 L50 70 L25 80 L30 60 L15 45 L35 40 Z" fill="#FFFFFF"/>
-          </svg>
+          <img src={logoImg} alt="慧音社 Logo" className="brand-logo-img" />
           <div>
             <span>{t('brandName')}</span>
             <small className="brand-sub">{t('brandSub')}</small>

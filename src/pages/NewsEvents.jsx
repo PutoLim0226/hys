@@ -20,28 +20,7 @@ export const NewsEvents = () => {
         }
       })
       .catch(() => {
-        setNews([
-          {
-            id: 1,
-            title_zh: '慧音社熱血獻血活動 2026',
-            title_en: 'Hui Yin Seh Blood Donation Drive 2026',
-            content_zh: '慧音社誠邀廣大民眾踴躍參與2026年度愛心獻血活動，共同挽救生命，傳遞愛心。',
-            content_en: 'Hui Yin Seh warmly invites the public to participate in our 2026 Blood Donation Drive.',
-            category: 'donation_drive',
-            cover_image: 'https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=800&q=80',
-            created_at: '2026-07-01'
-          },
-          {
-            id: 2,
-            title_zh: '慧音社合唱團週年紀念音樂會預告',
-            title_en: 'Hui Yin Seh Choir Anniversary Concert Announcement',
-            content_zh: '慧音社合唱團將於下月舉辦週年紀念音樂會，帶來多首溫馨動人的經典曲目。',
-            content_en: 'Hui Yin Seh Choir will host an anniversary concert next month featuring inspirational classics.',
-            category: 'choir',
-            cover_image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
-            created_at: '2026-06-25'
-          }
-        ]);
+        setNews([]);
       });
   }, []);
 

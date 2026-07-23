@@ -50,8 +50,7 @@ export const Volunteer = () => {
         setErrorMsg(json.message || 'Submission failed');
       }
     } catch (err) {
-      setSuccessMsg(t('volunteer.successMsg'));
-      setFormData({ name: '', phone: '', email: '', skills: '', availability: '' });
+      setErrorMsg('無法傳送報名資料，請檢查網路連線或稍後再試 (Connection error, please try again)');
     } finally {
       setIsSubmitting(false);
     }

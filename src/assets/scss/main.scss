@@ -258,11 +258,28 @@ a {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--primary-color);
+    transition: opacity var(--transition-fast);
 
     img,
-    svg {
-      width: 40px;
-      height: 40px;
+    svg,
+    .brand-logo-img {
+      width: auto;
+      height: 44px;
+      max-height: 44px;
+      object-fit: contain;
+      transition: transform var(--transition-fast);
+
+      @media (max-width: 576px) {
+        height: 38px;
+        max-height: 38px;
+      }
+    }
+
+    &:hover {
+      img,
+      .brand-logo-img {
+        transform: scale(1.06);
+      }
     }
 
     .brand-sub {
@@ -270,6 +287,10 @@ a {
       color: var(--text-muted);
       font-weight: 400;
       display: block;
+
+      @media (max-width: 576px) {
+        font-size: 0.68rem;
+      }
     }
   }
 

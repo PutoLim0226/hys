@@ -20,16 +20,7 @@ export const NewsDetail = () => {
         }
       })
       .catch(() => {
-        setArticle({
-          id: id,
-          title_zh: '慧音社熱血獻血活動 2026',
-          title_en: 'Hui Yin Seh Blood Donation Drive 2026',
-          content_zh: '慧音社誠邀廣大民眾踴躍參與2026年度愛心獻血活動，共同挽救生命，傳遞愛心。\n\n時間：2026年8月15日 早上9點至下午4點\n地點：檳城慧音社禮堂\n備註：請攜帶身分證件，現場提供健康諮詢與豐富贈品。',
-          content_en: 'Hui Yin Seh warmly invites the public to participate in our 2026 Blood Donation Drive.\n\nDate: 15 August 2026, 9:00 AM - 4:00 PM\nVenue: Hui Yin Seh Hall, Penang\nNote: Please bring your IC/Passport.',
-          category: 'donation_drive',
-          cover_image: 'https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1200&q=80',
-          created_at: '2026-07-01'
-        });
+        setArticle(null);
       });
   }, [id]);
 

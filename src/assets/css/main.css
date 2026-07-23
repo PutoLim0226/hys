@@ -31,9 +31,9 @@
   --border-color: #DEE2E6;
   --input-bg: #FFFFFF;
   /* Shadows & Radius */
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 20px;
@@ -56,9 +56,9 @@
   --border-color: #333333;
   --input-bg: #2A2A2A;
   --primary-light: #3E2723;
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
   --success-bg: #1B381E;
   --warning-bg: #3E2B10;
   --danger-bg: #3B1B1D;
@@ -66,7 +66,9 @@
 }
 
 /* Reset & Baseline */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -250,16 +252,39 @@ a:hover {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--primary-color);
+  transition: opacity var(--transition-fast);
 }
-.app-header .brand-logo img, .app-header .brand-logo svg {
-  width: 40px;
-  height: 40px;
+.app-header .brand-logo img,
+.app-header .brand-logo svg,
+.app-header .brand-logo .brand-logo-img {
+  width: auto;
+  height: 44px;
+  max-height: 44px;
+  object-fit: contain;
+  transition: transform var(--transition-fast);
+}
+@media (max-width: 576px) {
+  .app-header .brand-logo img,
+  .app-header .brand-logo svg,
+  .app-header .brand-logo .brand-logo-img {
+    height: 38px;
+    max-height: 38px;
+  }
+}
+.app-header .brand-logo:hover img,
+.app-header .brand-logo:hover .brand-logo-img {
+  transform: scale(1.06);
 }
 .app-header .brand-logo .brand-sub {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-weight: 400;
   display: block;
+}
+@media (max-width: 576px) {
+  .app-header .brand-logo .brand-sub {
+    font-size: 0.68rem;
+  }
 }
 .app-header .nav-menu {
   display: none;
@@ -625,7 +650,9 @@ a:hover {
   font-weight: 600;
   color: var(--text-primary);
 }
-.form-group input, .form-group select, .form-group textarea {
+.form-group input,
+.form-group select,
+.form-group textarea {
   width: 100%;
   padding: 0.75rem 1rem;
   background-color: var(--input-bg);
@@ -636,7 +663,9 @@ a:hover {
   font-family: inherit;
   transition: border-color var(--transition-fast);
 }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(230, 81, 0, 0.15);
@@ -780,7 +809,8 @@ a:hover {
   border-collapse: collapse;
   text-align: left;
 }
-.admin-table th, .admin-table td {
+.admin-table th,
+.admin-table td {
   padding: 1rem;
   border-bottom: 1px solid var(--card-border);
   font-size: 0.95rem;

@@ -89,11 +89,7 @@ export const Donation = () => {
         setErrorMsg(json.message || 'Submission failed');
       }
     } catch (err) {
-      // Mock success fallback for offline preview environment
-      setSuccessMsg(t('donation.successMsg'));
-      setFormData({ donor_name: '', phone: '', amount: '', payment_method: 'tng' });
-      setReceiptFile(null);
-      setReceiptPreview(null);
+      setErrorMsg('無法傳送捐款資料，請檢查網路連線或稍後再試 (Connection error, please try again)');
     } finally {
       setIsSubmitting(false);
     }

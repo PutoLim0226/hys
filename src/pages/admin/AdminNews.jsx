@@ -42,19 +42,7 @@ export const AdminNews = () => {
         }
       })
       .catch(() => {
-        setNews([
-          {
-            id: 1,
-            title_zh: '慧音社熱血獻血活動 2026',
-            title_en: 'Hui Yin Seh Blood Donation Drive 2026',
-            content_zh: '慧音社誠邀廣大民眾踴躍參與2026年度愛心獻血活動，共同挽救生命，傳遞愛心。',
-            content_en: 'Hui Yin Seh warmly invites the public to participate in our 2026 Blood Donation Drive.',
-            category: 'donation_drive',
-            cover_image: 'https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=800&q=80',
-            status: 'published',
-            created_at: '2026-07-01'
-          }
-        ]);
+        setNews([]);
       })
       .finally(() => setLoading(false));
   };
@@ -120,7 +108,7 @@ export const AdminNews = () => {
       });
       await res.json();
     } catch (err) {
-      // Ignore network mock errors
+      console.error('Error saving news:', err);
     } finally {
       setModalOpen(false);
       fetchNews();
@@ -136,7 +124,7 @@ export const AdminNews = () => {
         body: JSON.stringify({ id: activeItem.id })
       });
     } catch (err) {
-      // Ignore mock
+      console.error('Error deleting news:', err);
     } finally {
       setDeleteModalOpen(false);
       fetchNews();
