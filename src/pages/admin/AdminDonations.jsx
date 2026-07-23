@@ -9,7 +9,7 @@ import { SeoHead } from '../../components/SeoHead';
 import { Modal } from '../../components/Modal';
 
 export const AdminDonations = () => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const { getAuthHeaders } = useAuth();
 
   const [donations, setDonations] = useState([]);
@@ -50,25 +50,25 @@ export const AdminDonations = () => {
   };
 
   return (
-    <div className="container" style={{ padding: '3rem 1.25rem', flex: 1 }}>
+    <div className="container admin-container flex-1">
       <SeoHead title={t('admin.donationMgmt')} />
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="admin-header-bar">
         <div>
-          <Link to="/admin/dashboard" className="btn btn-sm btn-secondary" style={{ marginBottom: '0.5rem' }}>
-            <ArrowLeft size={14} /> 回儀表板
+          <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
+            <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
           </Link>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700 }}>{t('admin.donationMgmt')}</h1>
+          <h1 className="admin-page-title">{t('admin.donationMgmt')}</h1>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div className="filter-button-group">
           {['all', 'pending', 'confirmed', 'rejected'].map(st => (
             <button
               key={st}
               onClick={() => setFilterStatus(st)}
               className={`btn btn-sm ${filterStatus === st ? 'btn-primary' : 'btn-secondary'}`}
             >
-              {st === 'all' ? '全部' : t(`admin.${st}`)}
+              {st === 'all' ? (lang === 'zh-CN' ? '全部' : 'All') : t(`admin.${st}`)}
             </button>
           ))}
         </div>
@@ -80,12 +80,12 @@ export const AdminDonations = () => {
             <tr>
               <th>ID</th>
               <th>{t('admin.donorName')}</th>
-              <th>聯絡電話</th>
+              <th>{lang === 'zh-CN' ? '联系电话' : 'Phone'}</th>
               <th>{t('admin.amount')}</th>
-              <th>付款方式</th>
+              <th>{lang === 'zh-CN' ? '付款方式' : 'Method'}</th>
               <th>{t('admin.receipt')}</th>
               <th>{t('admin.status')}</th>
-              <th>提交時間</th>
+              <th>{lang === 'zh-CN' ? '提交时间' : 'Submitted At'}</th>
               <th>{t('admin.actions')}</th>
             </tr>
           </thead>
@@ -93,9 +93,9 @@ export const AdminDonations = () => {
             {donations.map(item => (
               <tr key={item.id}>
                 <td>#{item.id}</td>
-                <td style={{ fontWeight: 600 }}>{item.donor_name}</td>
+                <td className="font-bold">{item.donor_name}</td>
                 <td>{item.phone}</td>
-                <td style={{ fontWeight: 700, color: 'var(--primary-color)' }}>MYR {parseFloat(item.amount).toFixed(2)}</td>
+                <td className="font-bold text-primary">MYR {parseFloat(item.amount).toFixed(2)}</td>
                 <td>{item.payment_method.toUpperCase()}</td>
                 <td>
                   {item.receipt_image_url ? (
@@ -106,7 +106,7 @@ export const AdminDonations = () => {
                       <ImageIcon size={14} /> {t('admin.viewReceipt')}
                     </button>
                   ) : (
-                    <span style={{ color: 'var(--text-muted)' }}>無截圖</span>
+                    <span className="text-muted">{lang === 'zh-CN' ? '无截图' : 'No Receipt'}</span>
                   )}
                 </td>
                 <td>
@@ -114,20 +114,20 @@ export const AdminDonations = () => {
                     {t(`admin.${item.status}`)}
                   </span>
                 </td>
-                <td style={{ fontSize: '0.85rem' }}>{item.created_at}</td>
+                <td className="text-xs">{item.created_at}</td>
                 <td>
-                  <div style={{ display: 'flex', gap: '0.4rem' }}>
+                  <div className="flex-row-gap-xs">
                     <button
                       onClick={() => updateStatus(item.id, 'confirmed')}
                       className="btn btn-sm btn-success"
-                      title="確認對帳"
+                      title={lang === 'zh-CN' ? '确认对账' : 'Confirm'}
                     >
                       <Check size={14} />
                     </button>
                     <button
                       onClick={() => updateStatus(item.id, 'rejected')}
                       className="btn btn-sm btn-danger"
-                      title="退回/無效"
+                      title={lang === 'zh-CN' ? '退回/无效' : 'Reject'}
                     >
                       <XIcon size={14} />
                     </button>
@@ -142,11 +142,11 @@ export const AdminDonations = () => {
       {/* Screenshot Lightbox Modal */}
       <Modal isOpen={!!activeReceiptUrl} onClose={() => setActiveReceiptUrl(null)} title={t('admin.receipt')}>
         {activeReceiptUrl && (
-          <div style={{ textAlign: 'center' }}>
+          <div className="text-center">
             <img
               src={activeReceiptUrl}
               alt="Donation Receipt"
-              style={{ maxWidth: '100%', maxHeight: '70vh', borderRadius: 'var(--radius-sm)' }}
+              className="modal-lightbox-img"
             />
           </div>
         )}

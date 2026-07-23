@@ -40,16 +40,16 @@ export const NewsEvents = () => {
     <div>
       <SeoHead title={t('nav.news')} description={t('news.metaDesc')} />
 
-      <section style={{ backgroundColor: 'var(--bg-secondary)', padding: '3rem 0', borderBottom: '1px solid var(--card-border)' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
+      <section className="page-header-banner">
+        <div className="container text-center">
           <h1 className="section-title">{t('news.pageTitle')}</h1>
           <p className="section-subtitle">{t('news.metaDesc')}</p>
         </div>
       </section>
 
-      <section className="container" style={{ padding: '3rem 1.25rem' }}>
+      <section className="container section-container">
         {/* Category Filters */}
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '2.5rem' }}>
+        <div className="category-filter-bar">
           {categories.map(cat => (
             <button
               key={cat.key}
@@ -84,7 +84,7 @@ export const NewsEvents = () => {
         </div>
 
         {filteredNews.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--text-muted)' }}>
+          <div className="empty-state-box">
             <p>{t('admin.noData')}</p>
           </div>
         )}

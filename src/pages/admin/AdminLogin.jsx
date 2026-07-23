@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, Lock, User, AlertCircle } from 'lucide-react';
+import { ShieldCheck, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { SeoHead } from '../../components/SeoHead';
 
 export const AdminLogin = () => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ export const AdminLogin = () => {
         login('dev_admin_token_2026', { id: 1, username: 'admin' });
         navigate('/admin/dashboard');
       } else {
-        setError('帳號或密碼錯誤 (Invalid username or password)');
+        setError(lang === 'zh-CN' ? '账号或密码错误 (Invalid username or password)' : 'Invalid username or password');
       }
     } finally {
       setLoading(false);
@@ -50,22 +50,22 @@ export const AdminLogin = () => {
   };
 
   return (
-    <div style={{ padding: '4rem 1.25rem', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div className="admin-login-wrapper">
       <SeoHead title={t('admin.loginTitle')} />
 
-      <div className="card" style={{ maxWidth: '420px', width: '100%', padding: '2.5rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-          <ShieldCheck size={48} color="var(--primary-color)" />
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginTop: '0.5rem' }}>
+      <div className="card admin-login-card">
+        <div className="text-center margin-bottom-md">
+          <ShieldCheck size={48} className="card-icon-primary" />
+          <h1 className="admin-login-title">
             {t('admin.loginTitle')}
           </h1>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            慧音社官方網站後台管理系統
+          <p className="admin-login-subtitle">
+            {lang === 'zh-CN' ? '慧音社官方网站后台管理系统' : 'Hui Yin Seh Admin Management Portal'}
           </p>
         </div>
 
         {error && (
-          <div style={{ backgroundColor: 'var(--danger-bg)', color: 'var(--danger-color)', padding: '0.75rem', borderRadius: 'var(--radius-sm)', marginBottom: '1rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div className="alert-box alert-danger text-sm">
             <AlertCircle size={16} /> {error}
           </div>
         )}
@@ -93,9 +93,8 @@ export const AdminLogin = () => {
 
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary btn-full-width margin-top-md"
             disabled={loading}
-            style={{ width: '100%', marginTop: '1rem', padding: '0.875rem' }}
           >
             {loading ? 'Authenticating...' : t('admin.loginBtn')}
           </button>

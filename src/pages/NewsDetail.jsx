@@ -26,7 +26,7 @@ export const NewsDetail = () => {
 
   if (!article) {
     return (
-      <div className="container" style={{ padding: '4rem 1.25rem', textAlign: 'center' }}>
+      <div className="container empty-state-box text-center">
         <p>Loading article...</p>
       </div>
     );
@@ -39,21 +39,21 @@ export const NewsDetail = () => {
     <div>
       <SeoHead title={title} description={content.substring(0, 150)} image={article.cover_image} />
 
-      <section style={{ padding: '3rem 1.25rem' }}>
-        <div className="container" style={{ maxWidth: '800px' }}>
-          <Link to="/news" className="btn btn-sm btn-secondary" style={{ marginBottom: '1.5rem' }}>
-            <ArrowLeft size={16} /> 返回消息列表
+      <section className="section-container">
+        <div className="container article-container">
+          <Link to="/news" className="btn btn-sm btn-secondary margin-bottom-md">
+            <ArrowLeft size={16} /> {lang === 'zh-CN' ? '返回消息列表' : 'Back to News'}
           </Link>
 
-          <span className="card-category" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+          <span className="card-category category-badge-inline">
             <Tag size={14} /> {t(`news.${article.category}`) || article.category}
           </span>
 
-          <h1 style={{ fontSize: '2.25rem', fontWeight: 700, margin: '0.5rem 0 1rem', lineHeight: 1.3 }}>
+          <h1 className="article-title">
             {title}
           </h1>
 
-          <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div className="article-meta">
             <Calendar size={16} /> {article.created_at ? article.created_at.substring(0, 10) : ''}
           </div>
 
@@ -61,11 +61,11 @@ export const NewsDetail = () => {
             <img
               src={article.cover_image}
               alt={title}
-              style={{ width: '100%', maxHeight: '450px', objectFit: 'cover', borderRadius: 'var(--radius-md)', marginBottom: '2rem' }}
+              className="article-cover-media"
             />
           )}
 
-          <div style={{ fontSize: '1.1rem', lineHeight: 1.8, whiteSpace: 'pre-wrap', color: 'var(--text-primary)' }}>
+          <div className="article-content-body">
             {content}
           </div>
         </div>

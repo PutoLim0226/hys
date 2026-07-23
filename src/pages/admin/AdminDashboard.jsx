@@ -8,7 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 import { SeoHead } from '../../components/SeoHead';
 
 export const AdminDashboard = () => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const { admin, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -18,16 +18,16 @@ export const AdminDashboard = () => {
   };
 
   return (
-    <div className="container" style={{ padding: '3rem 1.25rem', flex: 1 }}>
+    <div className="container admin-container flex-1">
       <SeoHead title={t('admin.dashboard')} />
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="admin-header-bar">
         <div>
-          <h1 style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+          <h1 className="admin-page-title">
             {t('admin.dashboard')}
           </h1>
-          <p style={{ color: 'var(--text-muted)' }}>
-            歡迎回來，管理者 <strong>{admin?.username || 'Admin'}</strong>
+          <p className="admin-page-subtitle">
+            {lang === 'zh-CN' ? '欢迎回来，管理员' : 'Welcome back, Admin'} <strong>{admin?.username || 'Admin'}</strong>
           </p>
         </div>
 
@@ -37,62 +37,62 @@ export const AdminDashboard = () => {
       </div>
 
       {/* Quick Access Modules */}
-      <div className="grid-layout" style={{ marginBottom: '3rem' }}>
+      <div className="grid-layout margin-bottom-lg">
         
         {/* Module 1: News CMS */}
-        <div className="card" style={{ padding: '1.75rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ backgroundColor: 'var(--primary-light)', padding: '0.75rem', borderRadius: 'var(--radius-md)' }}>
-              <Newspaper size={32} color="var(--primary-color)" />
+        <div className="card card-padding-md">
+          <div className="admin-module-header">
+            <div className="admin-icon-box">
+              <Newspaper size={32} className="card-icon-primary" />
             </div>
             <div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700 }}>{t('admin.newsCms')}</h3>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>最新消息與活動圖文管理</span>
+              <h3 className="admin-module-title">{t('admin.newsCms')}</h3>
+              <span className="admin-module-badge">{lang === 'zh-CN' ? '最新消息与活动图文管理' : 'News & Events Management'}</span>
             </div>
           </div>
-          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-            發布、修改或刪除慧音社各項公益活動、獻血新聞與合唱團動態。
+          <p className="admin-module-desc">
+            {lang === 'zh-CN' ? '发布、修改或删除慧音社各项公益活动、献血新闻与合唱团动态。' : 'Publish, edit, or delete news and event updates.'}
           </p>
-          <Link to="/admin/news" className="btn btn-primary btn-sm" style={{ width: '100%' }}>
-            <PlusCircle size={16} /> 管理最新消息
+          <Link to="/admin/news" className="btn btn-primary btn-sm btn-full-width">
+            <PlusCircle size={16} /> {lang === 'zh-CN' ? '管理最新消息' : 'Manage News'}
           </Link>
         </div>
 
         {/* Module 2: Donation Audit */}
-        <div className="card" style={{ padding: '1.75rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ backgroundColor: 'var(--primary-light)', padding: '0.75rem', borderRadius: 'var(--radius-md)' }}>
-              <HeartHandshake size={32} color="var(--primary-color)" />
+        <div className="card card-padding-md">
+          <div className="admin-module-header">
+            <div className="admin-icon-box">
+              <HeartHandshake size={32} className="card-icon-primary" />
             </div>
             <div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700 }}>{t('admin.donationMgmt')}</h3>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>轉帳截圖與善款對帳</span>
+              <h3 className="admin-module-title">{t('admin.donationMgmt')}</h3>
+              <span className="admin-module-badge">{lang === 'zh-CN' ? '转账截图与善款对账' : 'Donation Receipt Verification'}</span>
             </div>
           </div>
-          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-            查看信眾上傳的 TNG / DuitNow 轉帳截圖，人工核對並進行對帳確認。
+          <p className="admin-module-desc">
+            {lang === 'zh-CN' ? '查看信众上传的 TNG / DuitNow 转账截图，人工核对并进行对账确认。' : 'Review e-wallet transfer screenshots and audit donations.'}
           </p>
-          <Link to="/admin/donations" className="btn btn-primary btn-sm" style={{ width: '100%' }}>
-            <CheckSquare size={16} /> 管理捐款記錄
+          <Link to="/admin/donations" className="btn btn-primary btn-sm btn-full-width">
+            <CheckSquare size={16} /> {lang === 'zh-CN' ? '管理捐款记录' : 'Manage Donations'}
           </Link>
         </div>
 
         {/* Module 3: Volunteer Management */}
-        <div className="card" style={{ padding: '1.75rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ backgroundColor: 'var(--primary-light)', padding: '0.75rem', borderRadius: 'var(--radius-md)' }}>
-              <Users size={32} color="var(--primary-color)" />
+        <div className="card card-padding-md">
+          <div className="admin-module-header">
+            <div className="admin-icon-box">
+              <Users size={32} className="card-icon-primary" />
             </div>
             <div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700 }}>{t('admin.volunteerMgmt')}</h3>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>志工報名名單與審核</span>
+              <h3 className="admin-module-title">{t('admin.volunteerMgmt')}</h3>
+              <span className="admin-module-badge">{lang === 'zh-CN' ? '志愿者报名名单与审核' : 'Volunteer Applications Audit'}</span>
             </div>
           </div>
-          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-            檢視大眾線上報名之志工資料庫，進行審核與聯繫狀態更新。
+          <p className="admin-module-desc">
+            {lang === 'zh-CN' ? '检视大众线上报名之志愿者资料库，进行审核与联系状态更新。' : 'View volunteer registrations and update approval status.'}
           </p>
-          <Link to="/admin/volunteers" className="btn btn-primary btn-sm" style={{ width: '100%' }}>
-            <Users size={16} /> 管理志工名單
+          <Link to="/admin/volunteers" className="btn btn-primary btn-sm btn-full-width">
+            <Users size={16} /> {lang === 'zh-CN' ? '管理志愿者名单' : 'Manage Volunteers'}
           </Link>
         </div>
 

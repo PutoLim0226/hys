@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Edit3, Trash2, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { Plus, Edit3, Trash2, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { SeoHead } from '../../components/SeoHead';
 import { Modal } from '../../components/Modal';
 
 export const AdminNews = () => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const { getAuthHeaders } = useAuth();
 
   const [news, setNews] = useState([]);
@@ -132,15 +132,15 @@ export const AdminNews = () => {
   };
 
   return (
-    <div className="container" style={{ padding: '3rem 1.25rem', flex: 1 }}>
+    <div className="container admin-container flex-1">
       <SeoHead title={t('admin.newsCms')} />
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="admin-header-bar">
         <div>
-          <Link to="/admin/dashboard" className="btn btn-sm btn-secondary" style={{ marginBottom: '0.5rem' }}>
-            <ArrowLeft size={14} /> 回儀表板
+          <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
+            <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
           </Link>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700 }}>{t('admin.newsCms')}</h1>
+          <h1 className="admin-page-title">{t('admin.newsCms')}</h1>
         </div>
 
         <button onClick={openAddModal} className="btn btn-primary">
@@ -153,11 +153,11 @@ export const AdminNews = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>封面圖</th>
-              <th>標題 (中 / EN)</th>
+              <th>{lang === 'zh-CN' ? '封面图' : 'Cover'}</th>
+              <th>{lang === 'zh-CN' ? '标题 (中 / EN)' : 'Title (CN / EN)'}</th>
               <th>{t('admin.category')}</th>
               <th>{t('admin.status')}</th>
-              <th>發布時間</th>
+              <th>{lang === 'zh-CN' ? '发布时间' : 'Published At'}</th>
               <th>{t('admin.actions')}</th>
             </tr>
           </thead>
@@ -169,12 +169,12 @@ export const AdminNews = () => {
                   <img
                     src={item.cover_image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?auto=format&fit=crop&w=800&q=80'}
                     alt="cover"
-                    style={{ width: '50px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}
+                    className="table-thumb"
                   />
                 </td>
                 <td>
-                  <div style={{ fontWeight: 600 }}>{item.title_zh}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{item.title_en}</div>
+                  <div className="font-bold">{item.title_zh}</div>
+                  <div className="text-muted text-xs">{item.title_en}</div>
                 </td>
                 <td><span className="badge badge-pending">{t(`news.${item.category}`) || item.category}</span></td>
                 <td>
@@ -182,9 +182,9 @@ export const AdminNews = () => {
                     {item.status === 'published' ? t('admin.published') : t('admin.draft')}
                   </span>
                 </td>
-                <td style={{ fontSize: '0.85rem' }}>{item.created_at ? item.created_at.substring(0, 10) : ''}</td>
+                <td className="text-xs">{item.created_at ? item.created_at.substring(0, 10) : ''}</td>
                 <td>
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <div className="flex-row-gap-xs">
                     <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label="Edit">
                       <Edit3 size={14} />
                     </button>
@@ -263,7 +263,7 @@ export const AdminNews = () => {
             <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setCoverFile(e.target.files[0])} />
           </div>
 
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
+          <div className="modal-actions-bar">
             <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>
               {t('admin.cancel')}
             </button>
@@ -276,12 +276,12 @@ export const AdminNews = () => {
 
       {/* Delete Confirmation Modal */}
       <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} title={t('admin.delete')}>
-        <p style={{ marginBottom: '1.5rem' }}>{t('admin.deleteConfirm')}</p>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+        <p className="margin-bottom-md">{t('admin.deleteConfirm')}</p>
+        <div className="modal-actions-bar">
           <button className="btn btn-secondary" onClick={() => setDeleteModalOpen(false)}>
             {t('admin.cancel')}
           </button>
-          <button className="btn btn-danger" onClick={handleDelete}>
+          <button className="btn className-danger btn-danger" onClick={handleDelete}>
             {t('admin.delete')}
           </button>
         </div>

@@ -29,7 +29,7 @@ export const Volunteer = () => {
     setSuccessMsg('');
 
     if (!formData.name || !formData.phone || !formData.email) {
-      setErrorMsg('請填寫必填欄位 (Please fill in name, phone, and email)');
+      setErrorMsg('请填写必填栏位 (Please fill in name, phone, and email)');
       return;
     }
 
@@ -50,7 +50,7 @@ export const Volunteer = () => {
         setErrorMsg(json.message || 'Submission failed');
       }
     } catch (err) {
-      setErrorMsg('無法傳送報名資料，請檢查網路連線或稍後再試 (Connection error, please try again)');
+      setErrorMsg('无法发送报名资料，请检查网络连接或稍后再试 (Connection error, please try again)');
     } finally {
       setIsSubmitting(false);
     }
@@ -60,28 +60,28 @@ export const Volunteer = () => {
     <div>
       <SeoHead title={t('nav.volunteer')} description={t('volunteer.metaDesc')} />
 
-      <section style={{ backgroundColor: 'var(--bg-secondary)', padding: '3rem 0', borderBottom: '1px solid var(--card-border)' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
+      <section className="page-header-banner">
+        <div className="container text-center">
           <h1 className="section-title">{t('volunteer.title')}</h1>
           <p className="section-subtitle">{t('volunteer.subtitle')}</p>
         </div>
       </section>
 
-      <section className="container" style={{ padding: '3rem 1.25rem' }}>
-        <div className="card" style={{ maxWidth: '700px', margin: '0 auto', padding: '2.5rem' }}>
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--primary-color)', marginBottom: '1.5rem', textAlign: 'center' }}>
-            <Users size={24} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} />
+      <section className="container section-container">
+        <div className="card max-w-form card-padding-lg margin-center">
+          <h2 className="card-heading-section text-center">
+            <Users size={24} className="icon-inline-primary" />
             {t('volunteer.formTitle')}
           </h2>
 
           {errorMsg && (
-            <div style={{ backgroundColor: 'var(--danger-bg)', color: 'var(--danger-color)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-sm)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div className="alert-box alert-danger">
               <AlertCircle size={18} /> {errorMsg}
             </div>
           )}
 
           {successMsg && (
-            <div style={{ backgroundColor: 'var(--success-bg)', color: 'var(--success-color)', padding: '1rem', borderRadius: 'var(--radius-sm)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div className="alert-box alert-success">
               <CheckCircle size={20} /> {successMsg}
             </div>
           )}
@@ -104,15 +104,15 @@ export const Volunteer = () => {
 
             <div className="form-group">
               <label>{t('volunteer.skills')}</label>
-              <input type="text" name="skills" value={formData.skills} onChange={handleChange} placeholder="e.g. 獻血登記、活動主持人、合唱伴奏" />
+              <input type="text" name="skills" value={formData.skills} onChange={handleChange} placeholder="e.g. 献血登记、活动主持人、合唱伴奏" />
             </div>
 
             <div className="form-group">
               <label>{t('volunteer.availability')}</label>
-              <input type="text" name="availability" value={formData.availability} onChange={handleChange} placeholder="e.g. 週末上午 / 專案支援" />
+              <input type="text" name="availability" value={formData.availability} onChange={handleChange} placeholder="e.g. 周末上午 / 项目支持" />
             </div>
 
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting} style={{ width: '100%', marginTop: '1rem', padding: '0.875rem' }}>
+            <button type="submit" className="btn btn-primary btn-full-width margin-top-md" disabled={isSubmitting}>
               {isSubmitting ? 'Submitting...' : t('volunteer.submitBtn')}
             </button>
           </form>

@@ -26,7 +26,7 @@ export function App() {
   return (
     <>
       <Header />
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <main className="app-main">
         <Routes>
           {/* Public Client Routes */}
           <Route path="/" element={<Home />} />

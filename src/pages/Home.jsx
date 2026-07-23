@@ -51,20 +51,20 @@ export const Home = () => {
         <div className="grid-layout">
           <div className="card">
             <div className="card-body">
-              <h3 className="card-title">弘揚佛法與教化</h3>
-              <p className="card-excerpt">推動佛學講座、發行社刊、辦理慈幼班，引導青少年立身正道。</p>
+              <h3 className="card-title">弘扬佛法与教化</h3>
+              <p className="card-excerpt">推动佛学讲座、发行社刊、办理慈幼班，引导青少年立身正道。</p>
             </div>
           </div>
           <div className="card">
             <div className="card-body">
-              <h3 className="card-title">定期愛心獻血</h3>
-              <p className="card-excerpt">常年組織大型愛心捐血運動，協助檳城中央醫院庫存充裕，累計救人無數。</p>
+              <h3 className="card-title">定期爱心献血</h3>
+              <p className="card-excerpt">常年组织大型爱心献血运动，协助槟城中央医院库存充沛，累计救人无数。</p>
             </div>
           </div>
           <div className="card">
             <div className="card-body">
-              <h3 className="card-title">音樂藝術與合唱團</h3>
-              <p className="card-excerpt">慧音社合唱團致力於推廣高品質合唱藝術，透過美妙歌聲傳遞平和與愛。</p>
+              <h3 className="card-title">音乐艺术与合唱团</h3>
+              <p className="card-excerpt">慧音社合唱团致力于推广高质量合唱艺术，透过美妙歌声传递平和与爱。</p>
             </div>
           </div>
         </div>

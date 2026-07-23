@@ -30,7 +30,6 @@ export const Donation = () => {
 
     setErrorMsg('');
 
-    // Pre-validate file size (max 2MB = 2097152 bytes)
     if (file.size > 2 * 1024 * 1024) {
       setErrorMsg(t('donation.fileSizeErr'));
       setReceiptFile(null);
@@ -38,7 +37,6 @@ export const Donation = () => {
       return;
     }
 
-    // Pre-validate file MIME type
     const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
     if (!validTypes.includes(file.type)) {
       setErrorMsg(t('donation.fileTypeErr'));
@@ -57,7 +55,7 @@ export const Donation = () => {
     setSuccessMsg('');
 
     if (!formData.donor_name || !formData.phone || !formData.amount) {
-      setErrorMsg('請填寫完整資訊 (Please complete all required fields)');
+      setErrorMsg('请填写完整信息 (Please complete all required fields)');
       return;
     }
 
@@ -89,7 +87,7 @@ export const Donation = () => {
         setErrorMsg(json.message || 'Submission failed');
       }
     } catch (err) {
-      setErrorMsg('無法傳送捐款資料，請檢查網路連線或稍後再試 (Connection error, please try again)');
+      setErrorMsg('无法发送捐款资料，请检查网络连接或稍后再试 (Connection error, please try again)');
     } finally {
       setIsSubmitting(false);
     }
@@ -99,28 +97,27 @@ export const Donation = () => {
     <div>
       <SeoHead title={t('nav.donation')} description={t('donation.metaDesc')} />
 
-      <section style={{ backgroundColor: 'var(--bg-secondary)', padding: '3rem 0', borderBottom: '1px solid var(--card-border)' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
+      <section className="page-header-banner">
+        <div className="container text-center">
           <h1 className="section-title">{t('donation.title')}</h1>
           <p className="section-subtitle">{t('donation.intro')}</p>
         </div>
       </section>
 
-      <section className="container" style={{ padding: '3rem 1.25rem' }}>
-        <div className="grid-layout" style={{ gridTemplateColumns: '1fr', gap: '2.5rem' }}>
+      <section className="container section-container">
+        <div className="grid-single-col">
           
           {/* Static QR Code & Transfer Guide */}
-          <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--primary-color)', marginBottom: '0.75rem' }}>
-              <QrCode size={24} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} />
+          <div className="card card-padding-md text-center">
+            <h2 className="card-heading-section">
+              <QrCode size={24} className="icon-inline-primary" />
               {t('donation.bankInfoTitle')}
             </h2>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
+            <p className="card-subtext-secondary">
               {t('donation.bankInfoDesc')}
             </p>
 
-            <div style={{ backgroundColor: '#FFFFFF', padding: '1.5rem', borderRadius: 'var(--radius-md)', display: 'inline-block', border: '2px dashed var(--primary-color)' }}>
-              {/* Static TNG / DuitNow QR Code Graphic */}
+            <div className="qr-code-wrapper">
               <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="200" height="200" fill="#FFFFFF"/>
                 <rect x="10" y="10" width="60" height="60" fill="#E65100"/>
@@ -138,29 +135,29 @@ export const Donation = () => {
                 <rect x="140" y="90" width="40" height="20" fill="#212529"/>
                 <rect x="90" y="140" width="50" height="50" fill="#212529"/>
               </svg>
-              <div style={{ marginTop: '0.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              <div className="qr-title">
                 DuitNow / Touch 'n Go eWallet
               </div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+              <div className="qr-subtitle">
                 Account Name: HUI YIN SEH PENANG
               </div>
             </div>
           </div>
 
           {/* Donation Form */}
-          <div className="card" style={{ padding: '2rem' }}>
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--primary-color)', marginBottom: '1.5rem' }}>
+          <div className="card card-padding-md">
+            <h2 className="card-heading-section">
               {t('donation.formTitle')}
             </h2>
 
             {errorMsg && (
-              <div style={{ backgroundColor: 'var(--danger-bg)', color: 'var(--danger-color)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-sm)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div className="alert-box alert-danger">
                 <AlertCircle size={18} /> {errorMsg}
               </div>
             )}
 
             {successMsg && (
-              <div style={{ backgroundColor: 'var(--success-bg)', color: 'var(--success-color)', padding: '1rem', borderRadius: 'var(--radius-sm)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div className="alert-box alert-success">
                 <CheckCircle size={20} /> {successMsg}
               </div>
             )}
@@ -174,7 +171,7 @@ export const Donation = () => {
                   value={formData.donor_name}
                   onChange={handleInputChange}
                   required
-                  placeholder="e.g. 陳大明 / Tan Tai Beng"
+                  placeholder="e.g. 陈大明 / Tan Tai Beng"
                 />
               </div>
 
@@ -217,29 +214,28 @@ export const Donation = () => {
                 <label>{t('donation.uploadLabel')}</label>
                 <label className="file-uploader">
                   <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleFileChange} />
-                  <Upload size={32} color="var(--primary-color)" style={{ margin: '0 auto 0.5rem' }} />
-                  <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                    {receiptFile ? receiptFile.name : '點擊選擇檔案 (Click to select image)'}
+                  <Upload size={32} className="icon-center-primary" />
+                  <p className="file-uploader-text">
+                    {receiptFile ? receiptFile.name : '点击选择文件 (Click to select image)'}
                   </p>
                   <span className="form-hint">{t('donation.uploadHint')}</span>
                 </label>
               </div>
 
               {receiptPreview && (
-                <div style={{ marginBottom: '1.25rem', textAlign: 'center' }}>
+                <div className="preview-container">
                   <img
                     src={receiptPreview}
                     alt="Receipt preview"
-                    style={{ maxHeight: '180px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}
+                    className="preview-image"
                   />
                 </div>
               )}
 
               <button
                 type="submit"
-                className="btn btn-primary"
+                className="btn btn-primary btn-full-width"
                 disabled={isSubmitting}
-                style={{ width: '100%', marginTop: '1rem', padding: '0.875rem' }}
               >
                 <Heart size={18} /> {isSubmitting ? t('donation.submitting') : t('donation.submitBtn')}
               </button>

@@ -26,7 +26,7 @@ export const Footer = () => {
           </div>
 
           <div className="footer-col">
-            <h4>快速連結 (Quick Links)</h4>
+            <h4>快速链接 (Quick Links)</h4>
             <p><Link to="/about">{t('nav.about')}</Link></p>
             <p><Link to="/news">{t('nav.news')}</Link></p>
             <p><Link to="/donation">{t('nav.donation')}</Link></p>
