@@ -17,17 +17,14 @@ export const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const [stats, setStats] = useState({
-    donations: { total_amount: 500.00, total_count: 2, pending_count: 1, confirmed_count: 1 },
+    donations: { total_amount: 0.00, total_count: 0, pending_count: 0, confirmed_count: 0 },
     volunteers: {
-      total_count: 2,
-      pending_count: 1,
-      approved_count: 1,
-      list: [
-        { id: 1, name: '林志豪 (Lim Chee How)', phone: '+6017-4567890', skills: '献血运动现场登记、活动主持', availability: '每个周末、项目紧急支持', status: 'approved' },
-        { id: 2, name: '陈雅婷 (Tan Ya Ting)', phone: '+6012-3334444', skills: '合唱团伴奏、文宣设计', availability: '周五晚间、周六下午', status: 'pending' }
-      ]
+      total_count: 0,
+      pending_count: 0,
+      approved_count: 0,
+      list: []
     },
-    news: { total_count: 3, published_count: 3, draft_count: 0, categories: { donation_drive: 1, choir: 1, charity: 1 } }
+    news: { total_count: 0, published_count: 0, draft_count: 0, categories: {} }
   });
 
   useEffect(() => {
@@ -41,7 +38,11 @@ export const AdminDashboard = () => {
         }
       })
       .catch(() => {
-        // Keep fallback analytical data for dev preview
+        setStats({
+          donations: { total_amount: 0.00, total_count: 0, pending_count: 0, confirmed_count: 0 },
+          volunteers: { total_count: 0, pending_count: 0, approved_count: 0, list: [] },
+          news: { total_count: 0, published_count: 0, draft_count: 0, categories: {} }
+        });
       });
   }, []);
 
