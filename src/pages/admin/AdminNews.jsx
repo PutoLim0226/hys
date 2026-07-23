@@ -1,16 +1,21 @@
 // src/pages/admin/AdminNews.jsx - News CMS Management
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Plus, Edit3, Trash2, ArrowLeft } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Plus, Edit3, Trash2, ArrowLeft, LogOut, Sun, Moon, Globe } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { SeoHead } from '../../components/SeoHead';
 import { Modal } from '../../components/Modal';
 
+import logoImg from '../../assets/img/logo.png';
+
 export const AdminNews = () => {
-  const { lang, t } = useLanguage();
-  const { getAuthHeaders } = useAuth();
+  const { lang, toggleLanguage, t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
+  const { logout, getAuthHeaders } = useAuth();
+  const navigate = useNavigate();
 
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,6 +55,11 @@ export const AdminNews = () => {
   useEffect(() => {
     fetchNews();
   }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin/login');
+  };
 
   const openAddModal = () => {
     setActiveItem(null);
@@ -132,160 +142,187 @@ export const AdminNews = () => {
   };
 
   return (
-    <div className="container admin-container flex-1">
+    <div className="admin-page-wrapper flex-1">
       <SeoHead title={t('admin.newsCms')} />
 
-      <div className="admin-header-bar">
-        <div>
-          <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
-            <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
-          </Link>
-          <h1 className="admin-page-title">{t('admin.newsCms')}</h1>
+      {/* Standalone Admin Header Bar */}
+      <header className="admin-standalone-header">
+        <div className="container flex-row-between">
+          <div className="flex-row-gap-md">
+            <img src={logoImg} alt="Logo" className="brand-logo-img-sm" />
+            <div>
+              <span className="admin-portal-brand">{t('brandName')}</span>
+              <small className="admin-portal-sub">{lang === 'zh-CN' ? '管理后台' : 'Admin Portal'}</small>
+            </div>
+          </div>
+
+          <div className="flex-row-gap-sm">
+            <button className="lang-btn" onClick={toggleLanguage} aria-label="Toggle language">
+              <Globe size={14} className="inline-icon" /> {lang === 'zh-CN' ? 'EN' : '中文'}
+            </button>
+            <button className="icon-btn" onClick={toggleTheme} aria-label="Toggle theme">
+              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+            <button onClick={handleLogout} className="btn btn-secondary btn-sm">
+              <LogOut size={16} /> {t('admin.logout')}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="container admin-container">
+        <div className="admin-header-bar">
+          <div>
+            <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
+              <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
+            </Link>
+            <h1 className="admin-page-title">{t('admin.newsCms')}</h1>
+          </div>
+
+          <button onClick={openAddModal} className="btn btn-primary">
+            <Plus size={18} /> {t('admin.addNews')}
+          </button>
         </div>
 
-        <button onClick={openAddModal} className="btn btn-primary">
-          <Plus size={18} /> {t('admin.addNews')}
-        </button>
-      </div>
-
-      <div className="table-responsive">
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>{lang === 'zh-CN' ? '封面图' : 'Cover'}</th>
-              <th>{lang === 'zh-CN' ? '标题 (中 / EN)' : 'Title (CN / EN)'}</th>
-              <th>{t('admin.category')}</th>
-              <th>{t('admin.status')}</th>
-              <th>{lang === 'zh-CN' ? '发布时间' : 'Published At'}</th>
-              <th>{t('admin.actions')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {news.map(item => (
-              <tr key={item.id}>
-                <td>#{item.id}</td>
-                <td>
-                  <img
-                    src={item.cover_image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?auto=format&fit=crop&w=800&q=80'}
-                    alt="cover"
-                    className="table-thumb"
-                  />
-                </td>
-                <td>
-                  <div className="font-bold">{item.title_zh}</div>
-                  <div className="text-muted text-xs">{item.title_en}</div>
-                </td>
-                <td><span className="badge badge-pending">{t(`news.${item.category}`) || item.category}</span></td>
-                <td>
-                  <span className={`badge ${item.status === 'published' ? 'badge-confirmed' : 'badge-rejected'}`}>
-                    {item.status === 'published' ? t('admin.published') : t('admin.draft')}
-                  </span>
-                </td>
-                <td className="text-xs">{item.created_at ? item.created_at.substring(0, 10) : ''}</td>
-                <td>
-                  <div className="flex-row-gap-xs">
-                    <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label="Edit">
-                      <Edit3 size={14} />
-                    </button>
-                    <button onClick={() => openDeleteModal(item)} className="btn btn-sm btn-danger" aria-label="Delete">
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </td>
+        <div className="table-responsive">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>{lang === 'zh-CN' ? '封面图' : 'Cover'}</th>
+                <th>{lang === 'zh-CN' ? '标题 (中 / EN)' : 'Title (CN / EN)'}</th>
+                <th>{t('admin.category')}</th>
+                <th>{t('admin.status')}</th>
+                <th>{lang === 'zh-CN' ? '发布时间' : 'Published At'}</th>
+                <th>{t('admin.actions')}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {news.map(item => (
+                <tr key={item.id}>
+                  <td>#{item.id}</td>
+                  <td>
+                    <img
+                      src={item.cover_image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?auto=format&fit=crop&w=800&q=80'}
+                      alt="cover"
+                      className="table-thumb"
+                    />
+                  </td>
+                  <td>
+                    <div className="font-bold">{item.title_zh}</div>
+                    <div className="text-muted text-xs">{item.title_en}</div>
+                  </td>
+                  <td><span className="badge badge-pending">{t(`news.${item.category}`) || item.category}</span></td>
+                  <td>
+                    <span className={`badge ${item.status === 'published' ? 'badge-confirmed' : 'badge-rejected'}`}>
+                      {item.status === 'published' ? t('admin.published') : t('admin.draft')}
+                    </span>
+                  </td>
+                  <td className="text-xs">{item.created_at ? item.created_at.substring(0, 10) : ''}</td>
+                  <td>
+                    <div className="flex-row-gap-xs">
+                      <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label="Edit">
+                        <Edit3 size={14} />
+                      </button>
+                      <button onClick={() => openDeleteModal(item)} className="btn btn-sm btn-danger" aria-label="Delete">
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      {/* Add / Edit Modal */}
-      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={activeItem ? t('admin.editNews') : t('admin.addNews')}>
-        <form onSubmit={handleSave}>
-          <div className="form-group">
-            <label>{t('admin.titleZh')} *</label>
-            <input
-              type="text"
-              required
-              value={formData.title_zh}
-              onChange={(e) => setFormData({ ...formData, title_zh: e.target.value })}
-            />
-          </div>
+        {/* Add / Edit Modal */}
+        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={activeItem ? t('admin.editNews') : t('admin.addNews')}>
+          <form onSubmit={handleSave}>
+            <div className="form-group">
+              <label>{t('admin.titleZh')} *</label>
+              <input
+                type="text"
+                required
+                value={formData.title_zh}
+                onChange={(e) => setFormData({ ...formData, title_zh: e.target.value })}
+              />
+            </div>
 
-          <div className="form-group">
-            <label>{t('admin.titleEn')} *</label>
-            <input
-              type="text"
-              required
-              value={formData.title_en}
-              onChange={(e) => setFormData({ ...formData, title_en: e.target.value })}
-            />
-          </div>
+            <div className="form-group">
+              <label>{t('admin.titleEn')} *</label>
+              <input
+                type="text"
+                required
+                value={formData.title_en}
+                onChange={(e) => setFormData({ ...formData, title_en: e.target.value })}
+              />
+            </div>
 
-          <div className="form-group">
-            <label>{t('admin.category')}</label>
-            <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
-              <option value="general">{t('news.general')}</option>
-              <option value="donation_drive">{t('news.donation_drive')}</option>
-              <option value="choir">{t('news.choir')}</option>
-              <option value="charity">{t('news.charity')}</option>
-            </select>
-          </div>
+            <div className="form-group">
+              <label>{t('admin.category')}</label>
+              <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
+                <option value="general">{t('news.general')}</option>
+                <option value="donation_drive">{t('news.donation_drive')}</option>
+                <option value="choir">{t('news.choir')}</option>
+                <option value="charity">{t('news.charity')}</option>
+              </select>
+            </div>
 
-          <div className="form-group">
-            <label>{t('admin.status')}</label>
-            <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}>
-              <option value="published">{t('admin.published')}</option>
-              <option value="draft">{t('admin.draft')}</option>
-            </select>
-          </div>
+            <div className="form-group">
+              <label>{t('admin.status')}</label>
+              <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}>
+                <option value="published">{t('admin.published')}</option>
+                <option value="draft">{t('admin.draft')}</option>
+              </select>
+            </div>
 
-          <div className="form-group">
-            <label>{t('admin.contentZh')} *</label>
-            <textarea
-              required
-              value={formData.content_zh}
-              onChange={(e) => setFormData({ ...formData, content_zh: e.target.value })}
-            ></textarea>
-          </div>
+            <div className="form-group">
+              <label>{t('admin.contentZh')} *</label>
+              <textarea
+                required
+                value={formData.content_zh}
+                onChange={(e) => setFormData({ ...formData, content_zh: e.target.value })}
+              ></textarea>
+            </div>
 
-          <div className="form-group">
-            <label>{t('admin.contentEn')} *</label>
-            <textarea
-              required
-              value={formData.content_en}
-              onChange={(e) => setFormData({ ...formData, content_en: e.target.value })}
-            ></textarea>
-          </div>
+            <div className="form-group">
+              <label>{t('admin.contentEn')} *</label>
+              <textarea
+                required
+                value={formData.content_en}
+                onChange={(e) => setFormData({ ...formData, content_en: e.target.value })}
+              ></textarea>
+            </div>
 
-          <div className="form-group">
-            <label>{t('admin.coverImage')}</label>
-            <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setCoverFile(e.target.files[0])} />
-          </div>
+            <div className="form-group">
+              <label>{t('admin.coverImage')}</label>
+              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setCoverFile(e.target.files[0])} />
+            </div>
 
+            <div className="modal-actions-bar">
+              <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>
+                {t('admin.cancel')}
+              </button>
+              <button type="submit" className="btn btn-primary">
+                {t('admin.save')}
+              </button>
+            </div>
+          </form>
+        </Modal>
+
+        {/* Delete Confirmation Modal */}
+        <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} title={t('admin.delete')}>
+          <p className="margin-bottom-md">{t('admin.deleteConfirm')}</p>
           <div className="modal-actions-bar">
-            <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>
+            <button className="btn btn-secondary" onClick={() => setDeleteModalOpen(false)}>
               {t('admin.cancel')}
             </button>
-            <button type="submit" className="btn btn-primary">
-              {t('admin.save')}
+            <button className="btn btn-danger" onClick={handleDelete}>
+              {t('admin.delete')}
             </button>
           </div>
-        </form>
-      </Modal>
-
-      {/* Delete Confirmation Modal */}
-      <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} title={t('admin.delete')}>
-        <p className="margin-bottom-md">{t('admin.deleteConfirm')}</p>
-        <div className="modal-actions-bar">
-          <button className="btn btn-secondary" onClick={() => setDeleteModalOpen(false)}>
-            {t('admin.cancel')}
-          </button>
-          <button className="btn className-danger btn-danger" onClick={handleDelete}>
-            {t('admin.delete')}
-          </button>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
     </div>
   );
 };

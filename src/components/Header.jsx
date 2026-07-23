@@ -2,17 +2,15 @@
 
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Sun, Moon, Globe, Menu, X, ShieldAlert } from 'lucide-react';
+import { Sun, Moon, Globe, Menu, X } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
-import { useAuth } from '../context/AuthContext';
 
 import logoImg from '../assets/img/logo.png';
 
 export const Header = () => {
   const { lang, toggleLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const toggleMobile = () => setMobileOpen(!mobileOpen);
@@ -50,16 +48,6 @@ export const Header = () => {
             {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
 
-          {isAuthenticated ? (
-            <Link to="/admin/dashboard" className="btn btn-sm btn-primary">
-              <ShieldAlert size={16} /> {t('nav.admin')}
-            </Link>
-          ) : (
-            <Link to="/admin/login" className="btn btn-sm btn-secondary">
-              {t('nav.admin')}
-            </Link>
-          )}
-
           <button className="mobile-toggle" onClick={toggleMobile} aria-label="Toggle menu">
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -75,17 +63,6 @@ export const Header = () => {
           <li><NavLink to="/donation" onClick={closeMobile}>{t('nav.donation')}</NavLink></li>
           <li><NavLink to="/volunteer" onClick={closeMobile}>{t('nav.volunteer')}</NavLink></li>
           <li><NavLink to="/contact" onClick={closeMobile}>{t('nav.contact')}</NavLink></li>
-          <li>
-            {isAuthenticated ? (
-              <Link to="/admin/dashboard" className="btn btn-primary" onClick={closeMobile}>
-                {t('nav.admin')}
-              </Link>
-            ) : (
-              <Link to="/admin/login" className="btn btn-secondary" onClick={closeMobile}>
-                {t('nav.admin')}
-              </Link>
-            )}
-          </li>
         </ul>
       </div>
     </header>

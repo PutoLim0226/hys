@@ -1,7 +1,7 @@
 // src/App.jsx - Application Router & Layout
 
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 
@@ -23,10 +23,13 @@ import { AdminVolunteers } from './pages/admin/AdminVolunteers';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 export function App() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <>
-      <Header />
-      <main className="app-main">
+      {!isAdminRoute && <Header />}
+      <main className={isAdminRoute ? "admin-main-wrapper" : "app-main"}>
         <Routes>
           {/* Public Client Routes */}
           <Route path="/" element={<Home />} />
@@ -73,7 +76,7 @@ export function App() {
           />
         </Routes>
       </main>
-      <Footer />
+      {!isAdminRoute && <Footer />}
     </>
   );
 }

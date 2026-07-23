@@ -1285,3 +1285,116 @@ a {
   display: flex;
   flex-direction: column;
 }
+
+/* ==========================================================================
+   Standalone Admin Portal & Dashboard Analytics Styles
+   ========================================================================== */
+
+.admin-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-secondary);
+  min-height: 100vh;
+}
+
+.admin-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.admin-standalone-header {
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--card-border);
+  box-shadow: var(--shadow-sm);
+  padding: 0.875rem 0;
+
+  .admin-portal-brand {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+
+  .admin-portal-sub {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+}
+
+.brand-logo-img-sm {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+.flex-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-row-gap-md {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.flex-row-gap-sm {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.stat-card-analytics {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+
+  .stat-icon-wrapper {
+    background-color: var(--primary-light);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stat-info {
+    flex: 1;
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: block;
+    }
+
+    .stat-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0.25rem 0;
+    }
+
+    .stat-badge-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.4rem;
+    }
+  }
+}
+
+.activity-skill-tag {
+  display: inline-block;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+}

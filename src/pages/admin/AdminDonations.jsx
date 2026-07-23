@@ -1,16 +1,21 @@
 // src/pages/admin/AdminDonations.jsx - Donation Receipt Audit Management
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Check, X as XIcon, Image as ImageIcon } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Check, X as XIcon, Image as ImageIcon, LogOut, Sun, Moon, Globe } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { SeoHead } from '../../components/SeoHead';
 import { Modal } from '../../components/Modal';
 
+import logoImg from '../../assets/img/logo.png';
+
 export const AdminDonations = () => {
-  const { lang, t } = useLanguage();
-  const { getAuthHeaders } = useAuth();
+  const { lang, toggleLanguage, t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
+  const { logout, getAuthHeaders } = useAuth();
+  const navigate = useNavigate();
 
   const [donations, setDonations] = useState([]);
   const [filterStatus, setFilterStatus] = useState('all');
@@ -35,6 +40,11 @@ export const AdminDonations = () => {
     fetchDonations();
   }, [filterStatus]);
 
+  const handleLogout = () => {
+    logout();
+    navigate('/admin/login');
+  };
+
   const updateStatus = async (id, newStatus) => {
     try {
       await fetch('/api/admin/donation_update.php', {
@@ -50,107 +60,134 @@ export const AdminDonations = () => {
   };
 
   return (
-    <div className="container admin-container flex-1">
+    <div className="admin-page-wrapper flex-1">
       <SeoHead title={t('admin.donationMgmt')} />
 
-      <div className="admin-header-bar">
-        <div>
-          <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
-            <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
-          </Link>
-          <h1 className="admin-page-title">{t('admin.donationMgmt')}</h1>
-        </div>
-
-        <div className="filter-button-group">
-          {['all', 'pending', 'confirmed', 'rejected'].map(st => (
-            <button
-              key={st}
-              onClick={() => setFilterStatus(st)}
-              className={`btn btn-sm ${filterStatus === st ? 'btn-primary' : 'btn-secondary'}`}
-            >
-              {st === 'all' ? (lang === 'zh-CN' ? '全部' : 'All') : t(`admin.${st}`)}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="table-responsive">
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>{t('admin.donorName')}</th>
-              <th>{lang === 'zh-CN' ? '联系电话' : 'Phone'}</th>
-              <th>{t('admin.amount')}</th>
-              <th>{lang === 'zh-CN' ? '付款方式' : 'Method'}</th>
-              <th>{t('admin.receipt')}</th>
-              <th>{t('admin.status')}</th>
-              <th>{lang === 'zh-CN' ? '提交时间' : 'Submitted At'}</th>
-              <th>{t('admin.actions')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {donations.map(item => (
-              <tr key={item.id}>
-                <td>#{item.id}</td>
-                <td className="font-bold">{item.donor_name}</td>
-                <td>{item.phone}</td>
-                <td className="font-bold text-primary">MYR {parseFloat(item.amount).toFixed(2)}</td>
-                <td>{item.payment_method.toUpperCase()}</td>
-                <td>
-                  {item.receipt_image_url ? (
-                    <button
-                      className="btn btn-sm btn-secondary"
-                      onClick={() => setActiveReceiptUrl(item.receipt_image_url)}
-                    >
-                      <ImageIcon size={14} /> {t('admin.viewReceipt')}
-                    </button>
-                  ) : (
-                    <span className="text-muted">{lang === 'zh-CN' ? '无截图' : 'No Receipt'}</span>
-                  )}
-                </td>
-                <td>
-                  <span className={`badge badge-${item.status}`}>
-                    {t(`admin.${item.status}`)}
-                  </span>
-                </td>
-                <td className="text-xs">{item.created_at}</td>
-                <td>
-                  <div className="flex-row-gap-xs">
-                    <button
-                      onClick={() => updateStatus(item.id, 'confirmed')}
-                      className="btn btn-sm btn-success"
-                      title={lang === 'zh-CN' ? '确认对账' : 'Confirm'}
-                    >
-                      <Check size={14} />
-                    </button>
-                    <button
-                      onClick={() => updateStatus(item.id, 'rejected')}
-                      className="btn btn-sm btn-danger"
-                      title={lang === 'zh-CN' ? '退回/无效' : 'Reject'}
-                    >
-                      <XIcon size={14} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Screenshot Lightbox Modal */}
-      <Modal isOpen={!!activeReceiptUrl} onClose={() => setActiveReceiptUrl(null)} title={t('admin.receipt')}>
-        {activeReceiptUrl && (
-          <div className="text-center">
-            <img
-              src={activeReceiptUrl}
-              alt="Donation Receipt"
-              className="modal-lightbox-img"
-            />
+      {/* Standalone Admin Header Bar */}
+      <header className="admin-standalone-header">
+        <div className="container flex-row-between">
+          <div className="flex-row-gap-md">
+            <img src={logoImg} alt="Logo" className="brand-logo-img-sm" />
+            <div>
+              <span className="admin-portal-brand">{t('brandName')}</span>
+              <small className="admin-portal-sub">{lang === 'zh-CN' ? '管理后台' : 'Admin Portal'}</small>
+            </div>
           </div>
-        )}
-      </Modal>
+
+          <div className="flex-row-gap-sm">
+            <button className="lang-btn" onClick={toggleLanguage} aria-label="Toggle language">
+              <Globe size={14} className="inline-icon" /> {lang === 'zh-CN' ? 'EN' : '中文'}
+            </button>
+            <button className="icon-btn" onClick={toggleTheme} aria-label="Toggle theme">
+              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+            <button onClick={handleLogout} className="btn btn-secondary btn-sm">
+              <LogOut size={16} /> {t('admin.logout')}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="container admin-container">
+        <div className="admin-header-bar">
+          <div>
+            <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
+              <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
+            </Link>
+            <h1 className="admin-page-title">{t('admin.donationMgmt')}</h1>
+          </div>
+
+          <div className="filter-button-group">
+            {['all', 'pending', 'confirmed', 'rejected'].map(st => (
+              <button
+                key={st}
+                onClick={() => setFilterStatus(st)}
+                className={`btn btn-sm ${filterStatus === st ? 'btn-primary' : 'btn-secondary'}`}
+              >
+                {st === 'all' ? (lang === 'zh-CN' ? '全部' : 'All') : t(`admin.${st}`)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="table-responsive">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>{t('admin.donorName')}</th>
+                <th>{lang === 'zh-CN' ? '联系电话' : 'Phone'}</th>
+                <th>{t('admin.amount')}</th>
+                <th>{lang === 'zh-CN' ? '付款方式' : 'Method'}</th>
+                <th>{t('admin.receipt')}</th>
+                <th>{t('admin.status')}</th>
+                <th>{lang === 'zh-CN' ? '提交时间' : 'Submitted At'}</th>
+                <th>{t('admin.actions')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {donations.map(item => (
+                <tr key={item.id}>
+                  <td>#{item.id}</td>
+                  <td className="font-bold">{item.donor_name}</td>
+                  <td>{item.phone}</td>
+                  <td className="font-bold text-primary">MYR {parseFloat(item.amount).toFixed(2)}</td>
+                  <td>{item.payment_method.toUpperCase()}</td>
+                  <td>
+                    {item.receipt_image_url ? (
+                      <button
+                        className="btn btn-sm btn-secondary"
+                        onClick={() => setActiveReceiptUrl(item.receipt_image_url)}
+                      >
+                        <ImageIcon size={14} /> {t('admin.viewReceipt')}
+                      </button>
+                    ) : (
+                      <span className="text-muted">{lang === 'zh-CN' ? '无截图' : 'No Receipt'}</span>
+                    )}
+                  </td>
+                  <td>
+                    <span className={`badge badge-${item.status}`}>
+                      {t(`admin.${item.status}`)}
+                    </span>
+                  </td>
+                  <td className="text-xs">{item.created_at}</td>
+                  <td>
+                    <div className="flex-row-gap-xs">
+                      <button
+                        onClick={() => updateStatus(item.id, 'confirmed')}
+                        className="btn btn-sm btn-success"
+                        title={lang === 'zh-CN' ? '确认对账' : 'Confirm'}
+                      >
+                        <Check size={14} />
+                      </button>
+                      <button
+                        onClick={() => updateStatus(item.id, 'rejected')}
+                        className="btn btn-sm btn-danger"
+                        title={lang === 'zh-CN' ? '退回/无效' : 'Reject'}
+                      >
+                        <XIcon size={14} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Screenshot Lightbox Modal */}
+        <Modal isOpen={!!activeReceiptUrl} onClose={() => setActiveReceiptUrl(null)} title={t('admin.receipt')}>
+          {activeReceiptUrl && (
+            <div className="text-center">
+              <img
+                src={activeReceiptUrl}
+                alt="Donation Receipt"
+                className="modal-lightbox-img"
+              />
+            </div>
+          )}
+        </Modal>
+      </div>
     </div>
   );
 };
