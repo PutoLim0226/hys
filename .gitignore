@@ -141,3 +141,12 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Playwright & Automated Testing
+tests/
+test_*.py
+playwright-report/
+test-results/
+screenshots/
+*.png
+
