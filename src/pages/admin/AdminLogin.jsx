@@ -9,8 +9,14 @@ import { SeoHead } from '../../components/SeoHead';
 
 export const AdminLogin = () => {
   const { lang, t } = useLanguage();
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/admin/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

@@ -31,9 +31,16 @@ export const AdminDashboard = () => {
     fetch('/api/admin/dashboard_stats.php', {
       headers: getAuthHeaders()
     })
-      .then(res => res.json())
       .then(res => {
-        if (res.status === 'success' && res.data) {
+        if (res.status === 401) {
+          logout();
+          navigate('/admin/login');
+          return null;
+        }
+        return res.json();
+      })
+      .then(res => {
+        if (res && res.status === 'success' && res.data) {
           setStats(res.data);
         }
       })

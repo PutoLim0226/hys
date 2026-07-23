@@ -1,7 +1,7 @@
 // src/App.jsx - Application Router & Layout
 
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 
@@ -41,6 +41,7 @@ export function App() {
           <Route path="/contact" element={<Contact />} />
 
           {/* Admin Authentication & Protected Management Routes */}
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route
             path="/admin/dashboard"
