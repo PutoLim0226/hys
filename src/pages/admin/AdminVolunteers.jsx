@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Check, Archive, Eye, LogOut, Sun, Moon, Globe } from 'lucide-react';
+import { ArrowLeft, Check, Archive, Eye, LogOut, Sun, Moon, Globe, Download } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -97,7 +97,7 @@ export const AdminVolunteers = () => {
             <h1 className="admin-page-title">{t('admin.volunteerMgmt')}</h1>
           </div>
 
-          <div className="filter-button-group">
+          <div className="filter-button-group flex-row-gap-sm">
             {['all', 'pending', 'approved', 'archived'].map(st => (
               <button
                 key={st}
@@ -107,6 +107,14 @@ export const AdminVolunteers = () => {
                 {st === 'all' ? (lang === 'zh-CN' ? '全部' : 'All') : t(`admin.${st}`)}
               </button>
             ))}
+            <a
+              href="/api/admin/export_csv.php?type=volunteers"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-sm btn-success"
+            >
+              <Download size={14} /> {lang === 'zh-CN' ? '导出 Excel/CSV' : 'Export CSV'}
+            </a>
           </div>
         </div>
 

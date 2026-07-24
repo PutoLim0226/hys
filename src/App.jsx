@@ -11,6 +11,7 @@ import { About } from './pages/About';
 import { NewsEvents } from './pages/NewsEvents';
 import { NewsDetail } from './pages/NewsDetail';
 import { Donation } from './pages/Donation';
+import { DonationVerification } from './pages/DonationVerification';
 import { Volunteer } from './pages/Volunteer';
 import { Contact } from './pages/Contact';
 
@@ -37,6 +38,7 @@ export function App() {
           <Route path="/news" element={<NewsEvents />} />
           <Route path="/news/:id" element={<NewsDetail />} />
           <Route path="/donation" element={<Donation />} />
+          <Route path="/donations-public" element={<DonationVerification />} />
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/contact" element={<Contact />} />
 

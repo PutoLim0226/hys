@@ -1,10 +1,11 @@
-// src/components/Header.jsx - Main Application Navigation Header
+// src/components/Header.jsx - Main Application Navigation Header with Search & Verification
 
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Sun, Moon, Globe, Menu, X } from 'lucide-react';
+import { Sun, Moon, Globe, Menu, X, Search } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import { SiteSearchModal } from './SiteSearchModal';
 
 import logoImg from '../assets/img/logo.png';
 
@@ -12,6 +13,7 @@ export const Header = () => {
   const { lang, toggleLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const toggleMobile = () => setMobileOpen(!mobileOpen);
   const closeMobile = () => setMobileOpen(false);
@@ -34,6 +36,7 @@ export const Header = () => {
             <li className="nav-item"><NavLink to="/about">{t('nav.about')}</NavLink></li>
             <li className="nav-item"><NavLink to="/news">{t('nav.news')}</NavLink></li>
             <li className="nav-item"><NavLink to="/donation">{t('nav.donation')}</NavLink></li>
+            <li className="nav-item"><NavLink to="/donations-public">{lang === 'zh-CN' ? '捐款征信' : 'Verification'}</NavLink></li>
             <li className="nav-item"><NavLink to="/volunteer">{t('nav.volunteer')}</NavLink></li>
             <li className="nav-item"><NavLink to="/contact">{t('nav.contact')}</NavLink></li>
           </ul>
@@ -41,6 +44,10 @@ export const Header = () => {
 
         {/* Header Actions */}
         <div className="header-actions">
+          <button className="icon-btn" onClick={() => setSearchOpen(true)} aria-label="Search site" title={lang === 'zh-CN' ? '搜索' : 'Search'}>
+            <Search size={18} />
+          </button>
+
           <button className="lang-btn" onClick={toggleLanguage} aria-label="Toggle language">
             <Globe size={14} className="inline-icon" /> {lang === 'zh-CN' ? 'EN' : '中文'}
           </button>
@@ -61,10 +68,14 @@ export const Header = () => {
           <li><NavLink to="/about" onClick={closeMobile}>{t('nav.about')}</NavLink></li>
           <li><NavLink to="/news" onClick={closeMobile}>{t('nav.news')}</NavLink></li>
           <li><NavLink to="/donation" onClick={closeMobile}>{t('nav.donation')}</NavLink></li>
+          <li><NavLink to="/donations-public" onClick={closeMobile}>{lang === 'zh-CN' ? '捐款征信' : 'Verification'}</NavLink></li>
           <li><NavLink to="/volunteer" onClick={closeMobile}>{t('nav.volunteer')}</NavLink></li>
           <li><NavLink to="/contact" onClick={closeMobile}>{t('nav.contact')}</NavLink></li>
         </ul>
       </div>
+
+      {/* Site-wide Search Modal */}
+      <SiteSearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 };

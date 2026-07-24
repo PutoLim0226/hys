@@ -1,17 +1,19 @@
-// src/pages/Donation.jsx - Online Donation & Receipt Submission Component
+// src/pages/Donation.jsx - Online Donation & Receipt Submission Component with Anonymity Support
 
 import React, { useState } from 'react';
-import { Heart, QrCode, Upload, CheckCircle, AlertCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Heart, QrCode, Upload, CheckCircle, AlertCircle, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { SeoHead } from '../components/SeoHead';
 
 export const Donation = () => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const [formData, setFormData] = useState({
     donor_name: '',
     phone: '',
     amount: '',
-    payment_method: 'tng'
+    payment_method: 'tng',
+    is_anonymous: false
   });
   const [receiptFile, setReceiptFile] = useState(null);
   const [receiptPreview, setReceiptPreview] = useState(null);
@@ -20,8 +22,11 @@ export const Donation = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
   };
 
   const handleFileChange = (e) => {
@@ -67,6 +72,7 @@ export const Donation = () => {
       data.append('phone', formData.phone);
       data.append('amount', formData.amount);
       data.append('payment_method', formData.payment_method);
+      data.append('is_anonymous', formData.is_anonymous ? '1' : '0');
       if (receiptFile) {
         data.append('receipt', receiptFile);
       }
@@ -80,7 +86,7 @@ export const Donation = () => {
 
       if (res.ok && json.status === 'success') {
         setSuccessMsg(t('donation.successMsg'));
-        setFormData({ donor_name: '', phone: '', amount: '', payment_method: 'tng' });
+        setFormData({ donor_name: '', phone: '', amount: '', payment_method: 'tng', is_anonymous: false });
         setReceiptFile(null);
         setReceiptPreview(null);
       } else {
@@ -105,6 +111,24 @@ export const Donation = () => {
       </section>
 
       <section className="container section-container">
+        {/* Callout Link to Public Donation Verification Roster */}
+        <div className="card card-padding-md bg-highlight margin-bottom-lg flex-row-between flex-wrap-gap">
+          <div className="flex-row-gap-md">
+            <ShieldCheck size={28} className="card-icon-primary" />
+            <div>
+              <h3 className="card-heading-section font-bold">
+                {lang === 'zh-CN' ? '查阅慧音社已对账捐款征信名册' : 'View Public Donation Verification Roster'}
+              </h3>
+              <p className="text-xs text-muted">
+                {lang === 'zh-CN' ? '公开透明、人工核对，支持下载正式电子感谢状/收据' : 'Transparent & verified donation records with downloadable certificates'}
+              </p>
+            </div>
+          </div>
+          <Link to="/donations-public" className="btn btn-secondary btn-sm">
+            <ShieldCheck size={16} /> {lang === 'zh-CN' ? '前往捐款征信名册' : 'View Verified Roster'}
+          </Link>
+        </div>
+
         <div className="grid-single-col">
           
           {/* Static QR Code & Transfer Guide */}
@@ -207,6 +231,19 @@ export const Donation = () => {
                   <option value="tng">Touch 'n Go eWallet</option>
                   <option value="duitnow">DuitNow QR / Bank Transfer</option>
                 </select>
+              </div>
+
+              {/* Anonymity Checkbox */}
+              <div className="form-group checkbox-group">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="is_anonymous"
+                    checked={formData.is_anonymous}
+                    onChange={handleInputChange}
+                  />
+                  <span>{lang === 'zh-CN' ? '匿名捐款 (在徵信名冊中顯示為「無名氏」)' : 'Anonymous Donation (Display as "Anonymous" on public roster)'}</span>
+                </label>
               </div>
 
               {/* Receipt File Upload */}
