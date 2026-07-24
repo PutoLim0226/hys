@@ -1,8 +1,8 @@
-// src/pages/admin/AdminNews.jsx - News CMS Management
+// src/pages/admin/AdminNews.jsx - News CMS Management with Event Date & Capacity
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Plus, Edit3, Trash2, ArrowLeft, LogOut, Sun, Moon, Globe } from 'lucide-react';
+import { Plus, Edit3, Trash2, ArrowLeft, LogOut, Sun, Moon, Globe, Calendar, Users, Target } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -33,7 +33,11 @@ export const AdminNews = () => {
     content_zh: '',
     content_en: '',
     category: 'general',
-    status: 'published'
+    status: 'published',
+    event_date: '',
+    max_capacity: 0,
+    fundraising_goal: 0,
+    fundraising_raised: 0
   });
   const [coverFile, setCoverFile] = useState(null);
 
@@ -70,7 +74,11 @@ export const AdminNews = () => {
       content_zh: '',
       content_en: '',
       category: 'general',
-      status: 'published'
+      status: 'published',
+      event_date: '',
+      max_capacity: 0,
+      fundraising_goal: 0,
+      fundraising_raised: 0
     });
     setCoverFile(null);
     setModalOpen(true);
@@ -85,7 +93,11 @@ export const AdminNews = () => {
       content_zh: item.content_zh,
       content_en: item.content_en,
       category: item.category,
-      status: item.status
+      status: item.status,
+      event_date: item.event_date || '',
+      max_capacity: item.max_capacity || 0,
+      fundraising_goal: item.fundraising_goal || 0,
+      fundraising_raised: item.fundraising_raised || 0
     });
     setCoverFile(null);
     setModalOpen(true);
@@ -106,6 +118,11 @@ export const AdminNews = () => {
     data.append('content_en', formData.content_en);
     data.append('category', formData.category);
     data.append('status', formData.status);
+    if (formData.event_date) data.append('event_date', formData.event_date);
+    data.append('max_capacity', formData.max_capacity);
+    data.append('fundraising_goal', formData.fundraising_goal);
+    data.append('fundraising_raised', formData.fundraising_raised);
+
     if (coverFile) {
       data.append('cover_image', coverFile);
     }
@@ -191,9 +208,9 @@ export const AdminNews = () => {
                 <th>ID</th>
                 <th>{lang === 'zh-CN' ? '封面图' : 'Cover'}</th>
                 <th>{lang === 'zh-CN' ? '标题 (中 / EN)' : 'Title (CN / EN)'}</th>
+                <th>{lang === 'zh-CN' ? '活动/预告日期' : 'Event Date'}</th>
                 <th>{t('admin.category')}</th>
                 <th>{t('admin.status')}</th>
-                <th>{lang === 'zh-CN' ? '发布时间' : 'Published At'}</th>
                 <th>{t('admin.actions')}</th>
               </tr>
             </thead>
@@ -212,13 +229,21 @@ export const AdminNews = () => {
                     <div className="font-bold">{item.title_zh}</div>
                     <div className="text-muted text-xs">{item.title_en}</div>
                   </td>
+                  <td>
+                    {item.event_date ? (
+                      <span className="badge badge-confirmed">
+                        <Calendar size={12} /> {item.event_date}
+                      </span>
+                    ) : (
+                      <span className="text-muted text-xs">{lang === 'zh-CN' ? '无特定日期' : 'No Event Date'}</span>
+                    )}
+                  </td>
                   <td><span className="badge badge-pending">{t(`news.${item.category}`) || item.category}</span></td>
                   <td>
                     <span className={`badge ${item.status === 'published' ? 'badge-confirmed' : 'badge-rejected'}`}>
                       {item.status === 'published' ? t('admin.published') : t('admin.draft')}
                     </span>
                   </td>
-                  <td className="text-xs">{item.created_at ? item.created_at.substring(0, 10) : ''}</td>
                   <td>
                     <div className="flex-row-gap-xs">
                       <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label="Edit">
@@ -255,6 +280,43 @@ export const AdminNews = () => {
                 required
                 value={formData.title_en}
                 onChange={(e) => setFormData({ ...formData, title_en: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>
+                <Calendar size={14} className="inline-icon" /> {lang === 'zh-CN' ? '活动/预告日期 (Event Date)' : 'Event Date'}
+              </label>
+              <input
+                type="date"
+                value={formData.event_date}
+                onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
+              />
+              <small className="form-hint">{lang === 'zh-CN' ? '设定预告日期，前台将明确标示活动举办日期与预告标签' : 'Set target event date for upcoming announcements'}</small>
+            </div>
+
+            <div className="form-group">
+              <label>
+                <Users size={14} className="inline-icon" /> {lang === 'zh-CN' ? '志工/参与名额上限 (Max Capacity)' : 'Max Capacity'}
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={formData.max_capacity}
+                onChange={(e) => setFormData({ ...formData, max_capacity: parseInt(e.target.value) || 0 })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>
+                <Target size={14} className="inline-icon" /> {lang === 'zh-CN' ? '筹款目标金额 MYR (Fundraising Goal)' : 'Fundraising Goal MYR'}
+              </label>
+              <input
+                type="number"
+                min="0"
+                step="100"
+                value={formData.fundraising_goal}
+                onChange={(e) => setFormData({ ...formData, fundraising_goal: parseFloat(e.target.value) || 0 })}
               />
             </div>
 

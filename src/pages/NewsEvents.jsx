@@ -1,8 +1,8 @@
-// src/pages/NewsEvents.jsx - News & Events List Component
+// src/pages/NewsEvents.jsx - News & Events List Component with Event Date & Upcoming Badges
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Tag } from 'lucide-react';
+import { Calendar, Tag, Clock } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { SeoHead } from '../components/SeoHead';
 
@@ -71,9 +71,24 @@ export const NewsEvents = () => {
                 className="card-media"
               />
               <div className="card-body">
-                <span className="card-category">{t(`news.${item.category}`) || item.category}</span>
+                <div className="flex-row-between margin-bottom-xs">
+                  <span className="card-category">{t(`news.${item.category}`) || item.category}</span>
+                  {item.event_date && (
+                    <span className="badge badge-confirmed text-xs">
+                      <Clock size={12} /> {lang === 'zh-CN' ? '活动预告' : 'Upcoming Event'}
+                    </span>
+                  )}
+                </div>
+
                 <h3 className="card-title">{lang === 'zh-CN' ? item.title_zh : item.title_en}</h3>
                 <p className="card-excerpt">{lang === 'zh-CN' ? item.content_zh : item.content_en}</p>
+
+                {item.event_date && (
+                  <div className="text-xs font-bold text-primary margin-bottom-xs flex-row-gap-xs">
+                    <Calendar size={14} /> {lang === 'zh-CN' ? '活动日期：' : 'Event Date: '} {item.event_date}
+                  </div>
+                )}
+
                 <div className="card-meta">
                   <span><Calendar size={14} /> {item.created_at ? item.created_at.substring(0, 10) : ''}</span>
                   <Link to={`/news/${item.id}`}>{t('news.readArticle')}</Link>
