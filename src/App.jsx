@@ -21,6 +21,7 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminNews } from './pages/admin/AdminNews';
 import { AdminDonations } from './pages/admin/AdminDonations';
 import { AdminVolunteers } from './pages/admin/AdminVolunteers';
+import { AdminAbout } from './pages/admin/AdminAbout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 export function App() {
@@ -74,6 +75,14 @@ export function App() {
             element={
               <ProtectedRoute>
                 <AdminVolunteers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/about"
+            element={
+              <ProtectedRoute>
+                <AdminAbout />
               </ProtectedRoute>
             }
           />

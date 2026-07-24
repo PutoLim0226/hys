@@ -300,6 +300,25 @@ export const AdminDashboard = () => {
             </Link>
           </div>
 
+          {/* Module 4: About Us CMS */}
+          <div className="card card-padding-md">
+            <div className="admin-module-header">
+              <div className="admin-icon-box">
+                <Globe size={32} className="card-icon-primary" />
+              </div>
+              <div>
+                <h3 className="admin-module-title">{lang === 'zh-CN' ? '关于我们内容管理' : 'About Us Management'}</h3>
+                <span className="admin-module-badge">{lang === 'zh-CN' ? '本社简史与四大宗旨编辑' : 'History & Mission CMS'}</span>
+              </div>
+            </div>
+            <p className="admin-module-desc">
+              {lang === 'zh-CN' ? '实时修改与维护「关于我们」页面中的本社简史、四大宗旨与组织架构介绍。' : 'Edit and manage history, mission, and organization content on the About Us page.'}
+            </p>
+            <Link to="/admin/about" className="btn btn-primary btn-sm btn-full-width">
+              <Globe size={16} /> {lang === 'zh-CN' ? '管理关于我们' : 'Manage About Us'}
+            </Link>
+          </div>
+
         </div>
       </div>
     </div>
