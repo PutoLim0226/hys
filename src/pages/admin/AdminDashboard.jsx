@@ -7,6 +7,8 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { SeoHead } from '../../components/SeoHead';
+import { AdminHeader } from '../../components/admin/AdminHeader';
+import { AdminKpiCards } from '../../components/admin/AdminKpiCards';
 
 import logoImg from '../../assets/img/logo.png';
 
@@ -63,29 +65,7 @@ export const AdminDashboard = () => {
       <SeoHead title={t('admin.dashboard')} />
 
       {/* Standalone Admin Header Bar */}
-      <header className="admin-standalone-header">
-        <div className="container flex-row-between">
-          <div className="flex-row-gap-md">
-            <img src={logoImg} alt="Logo" className="brand-logo-img-sm" />
-            <div>
-              <span className="admin-portal-brand">{t('brandName')}</span>
-              <small className="admin-portal-sub">{lang === 'zh-CN' ? '管理后台' : 'Admin Portal'}</small>
-            </div>
-          </div>
-
-          <div className="flex-row-gap-sm">
-            <button className="lang-btn" onClick={toggleLanguage} aria-label="Toggle language">
-              <Globe size={14} className="inline-icon" /> {lang === 'zh-CN' ? 'EN' : '中文'}
-            </button>
-            <button className="icon-btn" onClick={toggleTheme} aria-label="Toggle theme">
-              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-            </button>
-            <button onClick={handleLogout} className="btn btn-secondary btn-sm">
-              <LogOut size={16} /> {t('admin.logout')}
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminHeader />
 
       <div className="container admin-container">
         {/* Welcome Section */}
@@ -99,66 +79,7 @@ export const AdminDashboard = () => {
         </div>
 
         {/* Analytics & KPI Summary Cards */}
-        <div className="grid-layout margin-bottom-lg">
-          
-          {/* KPI 1: Donations */}
-          <div className="card card-padding-md stat-card-analytics">
-            <div className="stat-icon-wrapper">
-              <DollarSign size={28} className="card-icon-primary" />
-            </div>
-            <div className="stat-info">
-              <span className="stat-label">{lang === 'zh-CN' ? '累计对账善款金额' : 'Confirmed Donations'}</span>
-              <h3 className="stat-value">MYR {parseFloat(stats.donations?.total_amount || 0).toFixed(2)}</h3>
-              <div className="stat-badge-row">
-                <span className="badge badge-pending">
-                  <Clock size={12} /> {lang === 'zh-CN' ? '待对账' : 'Pending'}: {stats.donations?.pending_count || 0} 笔
-                </span>
-                <span className="badge badge-confirmed">
-                  {lang === 'zh-CN' ? '已确认' : 'Confirmed'}: {stats.donations?.confirmed_count || 0} 笔
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* KPI 2: Volunteers */}
-          <div className="card card-padding-md stat-card-analytics">
-            <div className="stat-icon-wrapper">
-              <Users size={28} className="card-icon-primary" />
-            </div>
-            <div className="stat-info">
-              <span className="stat-label">{lang === 'zh-CN' ? '志愿者注册总人数' : 'Total Volunteers'}</span>
-              <h3 className="stat-value">{stats.volunteers?.total_count || 0} 人</h3>
-              <div className="stat-badge-row">
-                <span className="badge badge-pending">
-                  {lang === 'zh-CN' ? '待审核' : 'Pending'}: {stats.volunteers?.pending_count || 0} 人
-                </span>
-                <span className="badge badge-approved">
-                  {lang === 'zh-CN' ? '已审核通过' : 'Approved'}: {stats.volunteers?.approved_count || 0} 人
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* KPI 3: News / Events */}
-          <div className="card card-padding-md stat-card-analytics">
-            <div className="stat-icon-wrapper">
-              <Newspaper size={28} className="card-icon-primary" />
-            </div>
-            <div className="stat-info">
-              <span className="stat-label">{lang === 'zh-CN' ? '最新消息与活动发布数' : 'Total Published News'}</span>
-              <h3 className="stat-value">{stats.news?.published_count || 0} 篇</h3>
-              <div className="stat-badge-row">
-                <span className="badge badge-pending">
-                  {lang === 'zh-CN' ? '草稿' : 'Drafts'}: {stats.news?.draft_count || 0} 篇
-                </span>
-                <span className="badge badge-approved">
-                  {lang === 'zh-CN' ? '总记录' : 'Total'}: {stats.news?.total_count || 0} 篇
-                </span>
-              </div>
-            </div>
-          </div>
-
-        </div>
+        <AdminKpiCards stats={stats} lang={lang} />
 
         {/* Volunteer Count per Event / Activity Breakdown */}
         <div className="card card-padding-md margin-bottom-lg">
@@ -263,61 +184,67 @@ export const AdminDashboard = () => {
           </div>
 
           {/* Module 2: Donation Audit */}
-          <div className="card card-padding-md">
-            <div className="admin-module-header">
-              <div className="admin-icon-box">
-                <HeartHandshake size={32} className="card-icon-primary" />
+          {admin?.role !== 'staff' && (
+            <div className="card card-padding-md">
+              <div className="admin-module-header">
+                <div className="admin-icon-box">
+                  <HeartHandshake size={32} className="card-icon-primary" />
+                </div>
+                <div>
+                  <h3 className="admin-module-title">{t('admin.donationMgmt')}</h3>
+                  <span className="admin-module-badge">{lang === 'zh-CN' ? '转账截图与善款对账' : 'Donation Receipt Verification'}</span>
+                </div>
               </div>
-              <div>
-                <h3 className="admin-module-title">{t('admin.donationMgmt')}</h3>
-                <span className="admin-module-badge">{lang === 'zh-CN' ? '转账截图与善款对账' : 'Donation Receipt Verification'}</span>
-              </div>
+              <p className="admin-module-desc">
+                {lang === 'zh-CN' ? '查看信众上传的 TNG / DuitNow 转账截图，人工核对并进行对账确认。' : 'Review e-wallet transfer screenshots and audit donations.'}
+              </p>
+              <Link to="/admin/donations" className="btn btn-primary btn-sm btn-full-width">
+                <CheckSquare size={16} /> {lang === 'zh-CN' ? '管理捐款记录' : 'Manage Donations'}
+              </Link>
             </div>
-            <p className="admin-module-desc">
-              {lang === 'zh-CN' ? '查看信众上传的 TNG / DuitNow 转账截图，人工核对并进行对账确认。' : 'Review e-wallet transfer screenshots and audit donations.'}
-            </p>
-            <Link to="/admin/donations" className="btn btn-primary btn-sm btn-full-width">
-              <CheckSquare size={16} /> {lang === 'zh-CN' ? '管理捐款记录' : 'Manage Donations'}
-            </Link>
-          </div>
+          )}
 
           {/* Module 3: Volunteer Management */}
-          <div className="card card-padding-md">
-            <div className="admin-module-header">
-              <div className="admin-icon-box">
-                <Users size={32} className="card-icon-primary" />
+          {admin?.role !== 'staff' && (
+            <div className="card card-padding-md">
+              <div className="admin-module-header">
+                <div className="admin-icon-box">
+                  <Users size={32} className="card-icon-primary" />
+                </div>
+                <div>
+                  <h3 className="admin-module-title">{t('admin.volunteerMgmt')}</h3>
+                  <span className="admin-module-badge">{lang === 'zh-CN' ? '志愿者报名名单与审核' : 'Volunteer Applications Audit'}</span>
+                </div>
               </div>
-              <div>
-                <h3 className="admin-module-title">{t('admin.volunteerMgmt')}</h3>
-                <span className="admin-module-badge">{lang === 'zh-CN' ? '志愿者报名名单与审核' : 'Volunteer Applications Audit'}</span>
-              </div>
+              <p className="admin-module-desc">
+                {lang === 'zh-CN' ? '检视大众线上报名之志愿者资料库，进行审核与联系状态更新。' : 'View volunteer registrations and update approval status.'}
+              </p>
+              <Link to="/admin/volunteers" className="btn btn-primary btn-sm btn-full-width">
+                <Users size={16} /> {lang === 'zh-CN' ? '管理志愿者名单' : 'Manage Volunteers'}
+              </Link>
             </div>
-            <p className="admin-module-desc">
-              {lang === 'zh-CN' ? '检视大众线上报名之志愿者资料库，进行审核与联系状态更新。' : 'View volunteer registrations and update approval status.'}
-            </p>
-            <Link to="/admin/volunteers" className="btn btn-primary btn-sm btn-full-width">
-              <Users size={16} /> {lang === 'zh-CN' ? '管理志愿者名单' : 'Manage Volunteers'}
-            </Link>
-          </div>
+          )}
 
           {/* Module 4: About Us CMS */}
-          <div className="card card-padding-md">
-            <div className="admin-module-header">
-              <div className="admin-icon-box">
-                <Globe size={32} className="card-icon-primary" />
+          {admin?.role !== 'staff' && (
+            <div className="card card-padding-md">
+              <div className="admin-module-header">
+                <div className="admin-icon-box">
+                  <Globe size={32} className="card-icon-primary" />
+                </div>
+                <div>
+                  <h3 className="admin-module-title">{lang === 'zh-CN' ? '关于我们内容管理' : 'About Us Management'}</h3>
+                  <span className="admin-module-badge">{lang === 'zh-CN' ? '本社简史与四大宗旨编辑' : 'History & Mission CMS'}</span>
+                </div>
               </div>
-              <div>
-                <h3 className="admin-module-title">{lang === 'zh-CN' ? '关于我们内容管理' : 'About Us Management'}</h3>
-                <span className="admin-module-badge">{lang === 'zh-CN' ? '本社简史与四大宗旨编辑' : 'History & Mission CMS'}</span>
-              </div>
+              <p className="admin-module-desc">
+                {lang === 'zh-CN' ? '实时修改与维护「关于我们」页面中的本社简史、四大宗旨与组织架构介绍。' : 'Edit and manage history, mission, and organization content on the About Us page.'}
+              </p>
+              <Link to="/admin/about" className="btn btn-primary btn-sm btn-full-width">
+                <Globe size={16} /> {lang === 'zh-CN' ? '管理关于我们' : 'Manage About Us'}
+              </Link>
             </div>
-            <p className="admin-module-desc">
-              {lang === 'zh-CN' ? '实时修改与维护「关于我们」页面中的本社简史、四大宗旨与组织架构介绍。' : 'Edit and manage history, mission, and organization content on the About Us page.'}
-            </p>
-            <Link to="/admin/about" className="btn btn-primary btn-sm btn-full-width">
-              <Globe size={16} /> {lang === 'zh-CN' ? '管理关于我们' : 'Manage About Us'}
-            </Link>
-          </div>
+          )}
 
         </div>
       </div>
