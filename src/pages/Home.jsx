@@ -13,7 +13,7 @@ export const Home = () => {
 
   useEffect(() => {
     apiFetch('/news.php?status=published')
-      .then(res => res.json())
+      
       .then(res => {
         if (res.status === 'success' && Array.isArray(res.data)) {
           setFeaturedNews(res.data.slice(0, 3));

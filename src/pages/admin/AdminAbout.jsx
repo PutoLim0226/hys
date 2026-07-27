@@ -103,10 +103,9 @@ export const AdminAbout = () => {
     try {
       const res = await apiFetch('/api/admin/about_save.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify(formData)
+        headers: getAuthHeaders(),
+        body: formData
       });
-      await res.json();
     } catch (err) {
       console.error('Error saving about section:', err);
     } finally {

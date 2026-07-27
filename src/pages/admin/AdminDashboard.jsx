@@ -35,14 +35,6 @@ export const AdminDashboard = () => {
       headers: getAuthHeaders()
     })
       .then(res => {
-        if (res.status === 401) {
-          logout();
-          navigate('/admin/login');
-          return null;
-        }
-        return res.json();
-      })
-      .then(res => {
         if (res && res.status === 'success' && res.data) {
           setStats(res.data);
         }

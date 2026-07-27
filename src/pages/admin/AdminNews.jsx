@@ -136,7 +136,6 @@ export const AdminNews = () => {
         headers: getAuthHeaders(),
         body: data
       });
-      await res.json();
     } catch (err) {
       console.error('Error saving news:', err);
     } finally {
