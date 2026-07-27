@@ -1,41 +1,34 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../context/LanguageContext';
-import { Link } from 'react-router-dom';
 
 export const Events = () => {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   return (
-    <div className="page-container bg-light min-vh-100">
+    <div>
       <Helmet>
         <title>{t('nav.events')} | HUI YIN SEH</title>
       </Helmet>
-
-      <div className="bg-primary text-white py-5 mb-5 text-center">
+      
+      <section className="page-banner">
         <div className="container">
-          <h1 className="display-4 font-weight-bold">{t('nav.events')}</h1>
-          <p className="lead">{lang === 'zh-CN' ? '最新活动资讯与回顾' : 'Latest Events and Reviews'}</p>
+          <h1 className="section-title">{t('nav.events')}</h1>
+          <p className="section-subtitle">{t('nav.events')}</p>
         </div>
-      </div>
+      </section>
 
-      <div className="container pb-5">
-        <div className="row">
-          <div className="col-md-6 mb-4">
-            <div className="card h-100 shadow-sm border-0 p-5">
-              <h3 className="h4 text-primary font-weight-bold mb-3">{lang === 'zh-CN' ? '近期活动' : 'Upcoming Events'}</h3>
-              <p className="text-muted lead mb-4">{lang === 'zh-CN' ? '查看我们即将举办的各项活动，欢迎踊跃报名参加。' : 'Check out our latest upcoming events and register to join us.'}</p>
-              <Link to="/news" className="btn btn-outline-primary mt-auto align-self-start px-4 py-2">{lang === 'zh-CN' ? '查看更多' : 'View More'}</Link>
+      <section className="container section-padding">
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+
+          <div className="card" style={{ padding: '2.5rem', marginBottom: '2rem' }}>
+            <h2 style={{ color: 'var(--primary-color)', marginBottom: '1rem' }}>{t('nav.events')}</h2>
+            <div style={{ lineHeight: '1.8', color: 'var(--text-secondary)' }}>
+              {t('nav.events')}内容建设中...
             </div>
           </div>
-          <div className="col-md-6 mb-4">
-            <div className="card h-100 shadow-sm border-0 p-5">
-              <h3 className="h4 text-primary font-weight-bold mb-3">{lang === 'zh-CN' ? '活动回顾' : 'Past Events'}</h3>
-              <p className="text-muted lead mb-4">{lang === 'zh-CN' ? '回顾我们过去举办的精彩活动与珍贵时刻。' : 'Review our wonderful past events and precious moments.'}</p>
-              <Link to="/news" className="btn btn-outline-primary mt-auto align-self-start px-4 py-2">{lang === 'zh-CN' ? '查看回顾' : 'View Past Events'}</Link>
-            </div>
-          </div>
+
         </div>
-      </div>
+      </section>
     </div>
   );
 };
