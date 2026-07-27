@@ -14,34 +14,32 @@ export const News = () => {
   ];
 
   return (
-    <div>
+    <div className="page-container bg-light min-vh-100">
       <Helmet><title>{t('nav.news')} | HUI YIN SEH</title></Helmet>
-      
-      <section className="page-banner">
+      <div className="bg-primary text-white py-5 mb-5 text-center">
         <div className="container">
-          <h1 className="section-title">{t('nav.news')}</h1>
-          <p className="section-subtitle">{t('news.metaDesc')}</p>
+          <h1 className="display-4 font-weight-bold">{t('nav.news')}</h1>
+          <p className="lead">{t('news.metaDesc')}</p>
         </div>
-      </section>
-      
-      <section className="container section-padding">
-        <div className="grid-layout">
+      </div>
+      <div className="container pb-5">
+        <div className="row">
           {dummyNews.map(item => (
-            <div key={item.id} className="card">
-              <div className="card-body">
-                <span className="card-category" style={{ color: 'var(--primary-color)', fontSize: '0.9rem', fontWeight: 600 }}>{t(`news.${item.category}`) || item.category}</span>
-                <h3 className="card-title" style={{ margin: '0.5rem 0' }}>{item.title}</h3>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                  <Calendar size={14} /> {item.date}
+            <div key={item.id} className="col-md-4 mb-4">
+              <div className="card h-100 shadow-sm border-0">
+                <div className="card-body p-4 d-flex flex-column">
+                  <div className="mb-2 text-primary small font-weight-bold">{t(`news.${item.category}`)}</div>
+                  <h3 className="h5 mb-3 font-weight-bold">{item.title}</h3>
+                  <div className="text-muted small mb-4 d-flex align-items-center">
+                    <Calendar size={14} className="me-2" /> {item.date}
+                  </div>
+                  <Link to={`/news/${item.id}`} className="btn btn-outline-primary mt-auto align-self-start px-4">{t('news.readArticle')}</Link>
                 </div>
-                <Link to={`/news/${item.id}`} className="btn btn-secondary">
-                  {t('news.readArticle')}
-                </Link>
               </div>
             </div>
           ))}
         </div>
-      </section>
+      </div>
     </div>
   );
 };

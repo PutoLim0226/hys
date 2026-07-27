@@ -1,147 +1,97 @@
-// src/pages/Home.jsx - Homepage Component
-
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Heart, Users, Calendar, Award, ArrowRight } from 'lucide-react';
-import { apiFetch } from '../api/client';
-import { useLanguage } from '../context/LanguageContext';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { Heart, Users, Calendar, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Home = () => {
-  const { lang, t } = useLanguage();
-  const [featuredNews, setFeaturedNews] = useState([]);
-
-  useEffect(() => {
-    apiFetch('/news.php?status=published')
-      .then(res => res.json())
-      .then(res => {
-        if (res.status === 'success' && Array.isArray(res.data)) {
-          setFeaturedNews(res.data.slice(0, 3));
-        }
-      })
-      .catch(() => {
-        setFeaturedNews([]);
-      });
-  }, []);
+  const { t } = useLanguage();
 
   return (
-    <div>
+    <div className="page-container home-page">
       <Helmet>
         <title>{t('nav.home')} | HUI YIN SEH</title>
       </Helmet>
 
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="container hero-content">
-          <h1>{t('hero.title')}</h1>
-          <p>{t('hero.subtitle')}</p>
-          <div className="hero-actions">
-            <Link to="/donation" className="btn btn-primary">
-              <Heart size={18} /> {t('hero.donateBtn')}
-            </Link>
-            <Link to="/volunteers" className="btn btn-outline-white">
-              <Users size={18} /> {t('hero.volunteerBtn')}
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section Preview */}
-      <section className="container section-padding">
-        <h2 className="section-title">{t('home.aboutSectionTitle')}</h2>
-        <p className="section-subtitle">{t('home.aboutSectionSub')}</p>
-        
-        <div className="grid-layout">
-          <div className="card">
-            <div className="card-body">
-              <h3 className="card-title">弘扬佛法与教化</h3>
-              <p className="card-excerpt">推动佛学讲座、发行社刊、办理慈幼班，引导青少年立身正道。</p>
-            </div>
-          </div>
-          <div className="card">
-            <div className="card-body">
-              <h3 className="card-title">定期爱心献血</h3>
-              <p className="card-excerpt">常年组织大型爱心捐血运动，协助槟城中央医院库存充裕，累计救人数无。</p>
-            </div>
-          </div>
-          <div className="card">
-            <div className="card-body">
-              <h3 className="card-title">音乐艺术与合唱团</h3>
-              <p className="card-excerpt">慧音社合唱团致力于推广高品质合唱艺术，透过美妙歌声传递平和与爱。</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-center margin-top-md">
-          <Link to="/about" className="btn btn-secondary">
-            {t('home.readMore')} <ArrowRight size={16} />
-          </Link>
-        </div>
-      </section>
-
-      {/* Latest News Highlights */}
-      <section className="section-padding page-banner">
+      <section className="hero-section text-center py-5">
         <div className="container">
-          <h2 className="section-title">{t('home.newsSectionTitle')}</h2>
-          <p className="section-subtitle">{t('home.newsSectionSub')}</p>
-
-          <div className="grid-layout">
-            {featuredNews.map(item => (
-              <div className="card" key={item.id}>
-                <img src={item.cover_image} alt={lang === 'zh-CN' ? item.title_zh : item.title_en} className="card-media" />
-                <div className="card-body">
-                  <span className="card-category">{t(`news.${item.category}`) || item.category}</span>
-                  <h3 className="card-title">{lang === 'zh-CN' ? item.title_zh : item.title_en}</h3>
-                  <p className="card-excerpt">{lang === 'zh-CN' ? item.content_zh : item.content_en}</p>
-                  <div className="card-meta">
-                    <span><Calendar size={14} /> {item.created_at ? item.created_at.substring(0, 10) : ''}</span>
-                    <Link to={`/news/${item.id}`}>{t('news.readArticle')}</Link>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="hero-content py-5">
+            <h1 className="display-4 font-weight-bold mb-3">{t('hero.title')}</h1>
+            <p className="hero-subtitle lead mb-4">{t('hero.subtitle')}</p>
+            <div className="hero-actions gap-3 d-flex justify-content-center">
+              <Link to="/donation" className="btn btn-primary btn-lg">{t('hero.donateBtn')}</Link>
+              <Link to="/volunteers" className="btn btn-outline-primary btn-lg">{t('hero.volunteerBtn')}</Link>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="text-center margin-top-md">
-            <Link to="/news" className="btn btn-primary">
-              {t('home.viewAllNews')}
-            </Link>
-          </div>
+      {/* About Overview */}
+      <section className="section about-overview py-5">
+        <div className="container text-center">
+          <h2 className="section-title mb-2">{t('home.aboutSectionTitle')}</h2>
+          <p className="section-subtitle text-muted mb-4">{t('home.aboutSectionSub')}</p>
+          <p className="max-w-2xl mx-auto mb-4" style={{maxWidth: '800px', margin: '0 auto'}}>{t('home.aboutText')}</p>
+          <Link to="/about" className="btn btn-link d-inline-flex align-items-center">
+            {t('home.readMore')} <ArrowRight size={16} className="ms-1" />
+          </Link>
         </div>
       </section>
 
       {/* Impact Stats */}
-      <section className="section-padding">
+      <section className="section impact-section bg-light py-5">
         <div className="container">
-          <h2 className="section-title">{t('home.impactTitle')}</h2>
-          <div className="grid-layout margin-top-md">
-            <div className="card stat-card">
-              <Heart size={48} className="stat-icon" />
-              <h3 className="stat-number">{t('home.bloodCount')}</h3>
-              <p>{t('home.bloodLabel')}</p>
+          <h2 className="section-title text-center mb-5">{t('home.impactTitle')}</h2>
+          <div className="row text-center">
+            <div className="col-md-4 mb-4">
+              <div className="stat-card p-4 bg-white rounded shadow-sm h-100">
+                <Heart size={48} className="text-primary mb-3" />
+                <h3 className="display-5 font-weight-bold">{t('home.bloodCount')}</h3>
+                <p className="text-muted mb-0">{t('home.bloodLabel')}</p>
+              </div>
             </div>
-            <div className="card stat-card">
-              <Users size={48} className="stat-icon" />
-              <h3 className="stat-number">{t('home.memberCount')}</h3>
-              <p>{t('home.memberLabel')}</p>
+            <div className="col-md-4 mb-4">
+              <div className="stat-card p-4 bg-white rounded shadow-sm h-100">
+                <Users size={48} className="text-primary mb-3" />
+                <h3 className="display-5 font-weight-bold">{t('home.memberCount')}</h3>
+                <p className="text-muted mb-0">{t('home.memberLabel')}</p>
+              </div>
             </div>
-            <div className="card stat-card">
-              <Award size={48} className="stat-icon" />
-              <h3 className="stat-number">{t('home.yearsCount')}</h3>
-              <p>{t('home.yearsLabel')}</p>
+            <div className="col-md-4 mb-4">
+              <div className="stat-card p-4 bg-white rounded shadow-sm h-100">
+                <Calendar size={48} className="text-primary mb-3" />
+                <h3 className="display-5 font-weight-bold">{t('home.yearsCount')}</h3>
+                <p className="text-muted mb-0">{t('home.yearsLabel')}</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Donation Callout Banner */}
-      <section className="callout-banner">
-        <div className="container callout-content">
-          <h2>{t('home.donationCalloutTitle')}</h2>
-          <p>{t('home.donationCalloutText')}</p>
-          <Link to="/donation" className="btn btn-primary">
-            <Heart size={20} /> {t('hero.donateBtn')}
-          </Link>
+      
+      {/* Quick Links Section */}
+      <section className="section quick-links py-5">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 mb-4">
+              <div className="card callout-card h-100 p-4 border-0 bg-primary text-white text-center rounded-lg shadow-sm">
+                <h3 className="mb-3">{t('home.donationCalloutTitle')}</h3>
+                <p className="mb-4">{t('home.donationCalloutText')}</p>
+                <div>
+                  <Link to="/donation" className="btn btn-light">{t('hero.donateBtn')}</Link>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 mb-4">
+              <div className="card callout-card h-100 p-4 border-0 bg-secondary text-white text-center rounded-lg shadow-sm">
+                <h3 className="mb-3">{t('home.newsSectionTitle')}</h3>
+                <p className="mb-4">{t('home.newsSectionSub')}</p>
+                <div>
+                  <Link to="/news" className="btn btn-light">{t('home.viewAllNews')}</Link>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
