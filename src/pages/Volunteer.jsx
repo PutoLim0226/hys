@@ -80,7 +80,7 @@ export const Volunteer = () => {
 
   return (
     <div>
-      <SeoHead title={t('nav.volunteer')} description={t('volunteer.metaDesc')} />
+      <SeoHead title={t('nav.volunteers')} description={t('volunteer.metaDesc')} />
 
       <section className="page-header-banner">
         <div className="container text-center">

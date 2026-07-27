@@ -30,7 +30,7 @@ export const Footer = () => {
             <p><Link to="/about">{t('nav.about')}</Link></p>
             <p><Link to="/news">{t('nav.news')}</Link></p>
             <p><Link to="/donation">{t('nav.donation')}</Link></p>
-            <p><Link to="/volunteer">{t('nav.volunteer')}</Link></p>
+            <p><Link to="/volunteers">{t('nav.volunteers')}</Link></p>
           </div>
         </div>
 
