@@ -1,5 +1,6 @@
 // src/pages/admin/AdminDonations.jsx - Donation Receipt Audit Management
 
+import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Check, X as XIcon, Image as ImageIcon, LogOut, Sun, Moon, Globe, Download, Award } from 'lucide-react';
@@ -23,10 +24,10 @@ export const AdminDonations = () => {
   const [activeReceiptUrl, setActiveReceiptUrl] = useState(null);
 
   const fetchDonations = () => {
-    fetch(`/api/admin/donations.php?status=${filterStatus}`, {
+    apiFetch(`/api/admin/donations.php?status=${filterStatus}`, {
       headers: getAuthHeaders()
     })
-      .then(res => res.json())
+      
       .then(res => {
         if (res.status === 'success' && Array.isArray(res.data)) {
           setDonations(res.data);
@@ -48,7 +49,7 @@ export const AdminDonations = () => {
 
   const updateStatus = async (id, newStatus) => {
     try {
-      await fetch('/api/admin/donation_update.php', {
+      await apiFetch('/api/admin/donation_update.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({ id, status: newStatus })

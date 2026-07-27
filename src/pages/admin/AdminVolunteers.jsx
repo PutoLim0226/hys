@@ -1,5 +1,6 @@
 // src/pages/admin/AdminVolunteers.jsx - Volunteer Audit & Management
 
+import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Check, Archive, Eye, LogOut, Sun, Moon, Globe, Download } from 'lucide-react';
@@ -23,10 +24,10 @@ export const AdminVolunteers = () => {
   const [selectedVolunteer, setSelectedVolunteer] = useState(null);
 
   const fetchVolunteers = () => {
-    fetch(`/api/admin/volunteers.php?status=${filterStatus}`, {
+    apiFetch(`/api/admin/volunteers.php?status=${filterStatus}`, {
       headers: getAuthHeaders()
     })
-      .then(res => res.json())
+      
       .then(res => {
         if (res.status === 'success' && Array.isArray(res.data)) {
           setVolunteers(res.data);
@@ -48,7 +49,7 @@ export const AdminVolunteers = () => {
 
   const updateStatus = async (id, newStatus) => {
     try {
-      await fetch('/api/admin/volunteer_update.php', {
+      await apiFetch('/api/admin/volunteer_update.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({ id, status: newStatus })

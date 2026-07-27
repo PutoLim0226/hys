@@ -1,5 +1,6 @@
 // src/pages/admin/AdminDashboard.jsx - Admin Overview, Analytics & CMS Hub
 
+import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Newspaper, HeartHandshake, Users, LogOut, PlusCircle, CheckSquare, Sun, Moon, Globe, Award, DollarSign, Clock, ShieldCheck } from 'lucide-react';
@@ -30,7 +31,7 @@ export const AdminDashboard = () => {
   });
 
   useEffect(() => {
-    fetch('/api/admin/dashboard_stats.php', {
+    apiFetch('/api/admin/dashboard_stats.php', {
       headers: getAuthHeaders()
     })
       .then(res => {

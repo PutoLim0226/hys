@@ -1,5 +1,6 @@
 // src/pages/admin/AdminAbout.jsx - About Us CMS Management Component
 
+import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Plus, Edit3, Trash2, ArrowLeft, LogOut, Sun, Moon, Globe, BookOpen, Heart, ShieldCheck, Music, Users, Award } from 'lucide-react';
@@ -40,8 +41,8 @@ export const AdminAbout = () => {
 
   const fetchSections = () => {
     setLoading(true);
-    fetch('/api/about.php')
-      .then(res => res.json())
+    apiFetch('/api/about.php')
+      
       .then(res => {
         if (res.status === 'success' && Array.isArray(res.data)) {
           setSections(res.data);
@@ -100,7 +101,7 @@ export const AdminAbout = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/admin/about_save.php', {
+      const res = await apiFetch('/api/admin/about_save.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify(formData)
@@ -117,7 +118,7 @@ export const AdminAbout = () => {
   const handleDelete = async () => {
     if (!activeItem) return;
     try {
-      await fetch('/api/admin/about_delete.php', {
+      await apiFetch('/api/admin/about_delete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({ id: activeItem.id })

@@ -1,5 +1,6 @@
 // src/components/SiteSearchModal.jsx - Bilingual Site-wide Search Modal
 
+import { apiFetch } from '../api/client';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, X, Calendar, ArrowRight } from 'lucide-react';
@@ -18,8 +19,8 @@ export const SiteSearchModal = ({ isOpen, onClose }) => {
     setLoading(true);
 
     try {
-      const res = await fetch(`/api/search.php?q=${encodeURIComponent(query)}`);
-      const json = await res.json();
+      const res = await apiFetch(`/api/search.php?q=${encodeURIComponent(query)}`);
+      const json = res;
       if (json.status === 'success' && Array.isArray(json.data)) {
         setResults(json.data);
       } else {

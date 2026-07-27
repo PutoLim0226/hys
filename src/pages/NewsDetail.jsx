@@ -1,5 +1,6 @@
 // src/pages/NewsDetail.jsx - News & Event Detail Component with PRD v2.0 Components
 
+import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, ArrowLeft, Tag, Users } from 'lucide-react';
@@ -16,8 +17,8 @@ export const NewsDetail = () => {
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/news_detail.php?id=${id}`)
-      .then(res => res.json())
+    apiFetch(`/api/news_detail.php?id=${id}`)
+      
       .then(res => {
         if (res.status === 'success' && res.data) {
           setArticle(res.data);

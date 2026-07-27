@@ -1,5 +1,6 @@
 // src/pages/admin/AdminLogin.jsx - Admin Authentication Portal
 
+import { apiFetch } from '../../api/client';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, AlertCircle } from 'lucide-react';
@@ -29,13 +30,13 @@ export const AdminLogin = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/admin/login.php', {
+      const res = await apiFetch('/api/admin/login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
 
-      const json = await res.json();
+      const json = res;
 
       if (res.ok && json.status === 'success') {
         login(json.data.token, json.data.admin);

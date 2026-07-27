@@ -1,5 +1,6 @@
 // src/pages/NewsEvents.jsx - News & Events List Component with Event Date & Upcoming Badges
 
+import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Tag, Clock } from 'lucide-react';
@@ -12,8 +13,8 @@ export const NewsEvents = () => {
   const [activeCategory, setActiveCategory] = useState('all');
 
   useEffect(() => {
-    fetch('/api/news.php?status=published')
-      .then(res => res.json())
+    apiFetch('/api/news.php?status=published')
+      
       .then(res => {
         if (res.status === 'success' && Array.isArray(res.data)) {
           setNews(res.data);

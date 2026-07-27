@@ -1,5 +1,6 @@
 // src/pages/Volunteer.jsx - Volunteer Application Component with Event Association
 
+import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Users, CheckCircle, AlertCircle, Calendar } from 'lucide-react';
@@ -26,8 +27,8 @@ export const Volunteer = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch('/api/news.php?status=published')
-      .then(res => res.json())
+    apiFetch('/api/news.php?status=published')
+      
       .then(res => {
         if (res.status === 'success' && Array.isArray(res.data)) {
           setEvents(res.data);
@@ -57,12 +58,12 @@ export const Volunteer = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch('/api/volunteers.php', {
+      const res = await apiFetch('/api/volunteers.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-      const json = await res.json();
+      const json = res;
 
       if (res.ok && json.status === 'success') {
         setSuccessMsg(t('volunteer.successMsg'));

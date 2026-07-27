@@ -1,5 +1,6 @@
 // src/pages/admin/AdminNews.jsx - News CMS Management with Event Date & Capacity
 
+import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Plus, Edit3, Trash2, ArrowLeft, LogOut, Sun, Moon, Globe, Calendar, Users, Target } from 'lucide-react';
@@ -45,8 +46,8 @@ export const AdminNews = () => {
 
   const fetchNews = () => {
     setLoading(true);
-    fetch('/api/news.php?status=all')
-      .then(res => res.json())
+    apiFetch('/api/news.php?status=all')
+      
       .then(res => {
         if (res.status === 'success' && Array.isArray(res.data)) {
           setNews(res.data);
@@ -130,7 +131,7 @@ export const AdminNews = () => {
     }
 
     try {
-      const res = await fetch('/api/admin/news_save.php', {
+      const res = await apiFetch('/api/admin/news_save.php', {
         method: 'POST',
         headers: getAuthHeaders(),
         body: data
@@ -147,7 +148,7 @@ export const AdminNews = () => {
   const handleDelete = async () => {
     if (!activeItem) return;
     try {
-      await fetch('/api/admin/news_delete.php', {
+      await apiFetch('/api/admin/news_delete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({ id: activeItem.id })

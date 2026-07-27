@@ -1,5 +1,6 @@
 // src/pages/DonationVerification.jsx - Public Donation Verification List Page
 
+import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Search, Award } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -13,8 +14,8 @@ export const DonationVerification = () => {
 
   const fetchDonations = () => {
     setLoading(true);
-    fetch(`/api/donations_public.php?q=${encodeURIComponent(query)}`)
-      .then(res => res.json())
+    apiFetch(`/api/donations_public.php?q=${encodeURIComponent(query)}`)
+      
       .then(res => {
         if (res.status === 'success' && Array.isArray(res.data)) {
           setDonations(res.data);
