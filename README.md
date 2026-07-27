@@ -1,9 +1,10 @@
-# Version: 1.0.5 - 慧音社 (HUI YIN SEH) Frontend React Application
+# Version: 1.0.6 - 慧音社 (HUI YIN SEH) Frontend React Application
 
 ## 專案簡介 (Project Overview)
 馬來西亞檳城慧音社 (HUI YIN SEH) 雙語官方網站與後台管理介面。採用 React (Vite)、JavaScript、SCSS 模組化極簡設計、React-Helmet-Async SEO 優化以及多語系 (i18n) 支援。
 
 ## 版本紀錄 (Version History)
+- **1.0.6**: 完成階段六 (Stage 6) API 整合與測試。建立 `src/api/client.js` 集中封裝 `fetch` 邏輯與錯誤處理，並加入防快取 (Cache-Control) 標頭。全站程式碼重構完畢，確保每個元件行數低於 300 行限制。
 - **1.0.5**: 完成階段五 (Stage 5) 重構，模組化 `AdminHeader` 及 `AdminKpiCards`，並針對所有管理員頁面實行 300 行以下程式碼重構；完善管理員角色權限控制 (Role-based access)。
 - **1.0.4**: 設定 Netlify 反向代理 `/api/*` 至 Vultr 伺服器 IP (`http://45.32.25.8/api/:splat`)，解決前端 HTTPS 與 IP 後端連線與 API CRUD 操作。
 - **1.0.3**: 新增 Netlify SPA 路由重定向設定 (`_redirects` 與 `netlify.toml`)，解決 Netlify 部署後直接訪問或重新整理 `/admin` 等子路由出現 404/無法呈現的問題。
