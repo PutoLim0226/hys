@@ -1,9 +1,10 @@
-# Version: 1.0.4 - 慧音社 (HUI YIN SEH) Frontend React Application
+# Version: 1.0.5 - 慧音社 (HUI YIN SEH) Frontend React Application
 
 ## 專案簡介 (Project Overview)
 馬來西亞檳城慧音社 (HUI YIN SEH) 雙語官方網站與後台管理介面。採用 React (Vite)、JavaScript、SCSS 模組化極簡設計、React-Helmet-Async SEO 優化以及多語系 (i18n) 支援。
 
 ## 版本紀錄 (Version History)
+- **1.0.5**: 完成階段五 (Stage 5) 重構，模組化 `AdminHeader` 及 `AdminKpiCards`，並針對所有管理員頁面實行 300 行以下程式碼重構；完善管理員角色權限控制 (Role-based access)。
 - **1.0.4**: 設定 Netlify 反向代理 `/api/*` 至 Vultr 伺服器 IP (`http://45.32.25.8/api/:splat`)，解決前端 HTTPS 與 IP 後端連線與 API CRUD 操作。
 - **1.0.3**: 新增 Netlify SPA 路由重定向設定 (`_redirects` 與 `netlify.toml`)，解決 Netlify 部署後直接訪問或重新整理 `/admin` 等子路由出現 404/無法呈現的問題。
 - **1.0.2**: 完成 PRD v2.0 產品需求升級規劃——包含活動名額與進度條、一鍵加入 Google/Apple 日曆、PDF 電子收據下載、前台捐款徵信與匿名功能、FB/WhatsApp/Telegram 社群分享卡片、全站雙語搜尋、動態 CSV 檔名與慧音社 12 大幹部職務權限分級 (RBAC)。
