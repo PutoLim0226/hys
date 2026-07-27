@@ -38,7 +38,7 @@ export const AdminLogin = () => {
 
       const json = res;
 
-      if (res.ok && json.status === 'success') {
+      if (json.status === 'success') {
         login(json.data.token, json.data.admin);
         navigate('/admin/dashboard');
       } else {

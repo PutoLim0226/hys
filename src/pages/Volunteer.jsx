@@ -65,7 +65,7 @@ export const Volunteer = () => {
       });
       const json = res;
 
-      if (res.ok && json.status === 'success') {
+      if (json.status === 'success') {
         setSuccessMsg(t('volunteer.successMsg'));
         setFormData({ event_id: '', name: '', phone: '', email: '', skills: '', availability: '' });
       } else {
