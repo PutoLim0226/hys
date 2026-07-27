@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, X, Calendar, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { Modal } from './Modal';
+import { Modal } from './common/Modal';
 
 export const SiteSearchModal = ({ isOpen, onClose }) => {
   const { lang } = useLanguage();

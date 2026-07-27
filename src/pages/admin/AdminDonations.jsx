@@ -7,7 +7,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { SeoHead } from '../../components/SeoHead';
-import { Modal } from '../../components/Modal';
+import { Modal } from '../../components/common/Modal';
 
 import logoImg from '../../assets/img/logo.png';
 

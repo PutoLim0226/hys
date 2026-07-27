@@ -5,10 +5,10 @@ import { useParams, Link } from 'react-router-dom';
 import { Calendar, ArrowLeft, Tag, Users } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { SeoHead } from '../components/SeoHead';
-import { CapacityProgressBar } from '../components/CapacityProgressBar';
-import { FundraisingProgressBar } from '../components/FundraisingProgressBar';
+import { CapacityProgressBar } from '../components/common/CapacityProgressBar';
+import { FundraisingProgressBar } from '../components/common/FundraisingProgressBar';
 import { AddToCalendar } from '../components/AddToCalendar';
-import { SocialShareButtons } from '../components/SocialShareButtons';
+import { SocialShareButtons } from '../components/common/SocialShareButtons';
 
 export const NewsDetail = () => {
   const { id } = useParams();
