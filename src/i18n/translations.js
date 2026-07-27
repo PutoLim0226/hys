@@ -5,16 +5,16 @@ export const translations = {
     brandName: '慧音社',
     brandSub: 'HUI YIN SEH PENANG',
     nav: {
-      home: '首頁',
-      about: '關於我們',
-      events: '活動資訊',
-      charity: '慈善項目',
-      dharma: '佛法弘揚',
-      volunteers: '義工園地',
+      home: '首页',
+      about: '关于我们',
+      events: '活动资讯',
+      charity: '慈善项目',
+      dharma: '佛法弘扬',
+      volunteers: '义工园地',
       donation: '捐款支持',
-      news: '新聞中心',
-      contact: '聯絡我們',
-      admin: '後台管理'
+      news: '新闻中心',
+      contact: '联系我们',
+      admin: '后台管理'
     },
     hero: {
       title: '慈悲喜舍 静听慧音',

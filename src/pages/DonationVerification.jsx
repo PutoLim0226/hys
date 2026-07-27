@@ -76,7 +76,7 @@ export const DonationVerification = () => {
                   <th>{lang === 'zh-CN' ? '付款方式' : 'Payment Method'}</th>
                   <th>{lang === 'zh-CN' ? '对账状态' : 'Audit Status'}</th>
                   <th>{lang === 'zh-CN' ? '对账日期' : 'Verified Date'}</th>
-                  <th>{lang === 'zh-CN' ? '電子憑證' : 'Receipt / Certificate'}</th>
+                  <th>{lang === 'zh-CN' ? '电子凭证' : 'Receipt / Certificate'}</th>
                 </tr>
               </thead>
               <tbody>
@@ -95,7 +95,7 @@ export const DonationVerification = () => {
                           rel="noopener noreferrer"
                           className="btn btn-sm btn-secondary"
                         >
-                          <Award size={14} /> {lang === 'zh-CN' ? '檢視感謝狀' : 'View Receipt'}
+                          <Award size={14} /> {lang === 'zh-CN' ? '查看感谢状' : 'View Receipt'}
                         </a>
                       </td>
                     </tr>

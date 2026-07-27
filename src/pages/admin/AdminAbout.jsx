@@ -232,12 +232,12 @@ export const AdminAbout = () => {
               <label>{lang === 'zh-CN' ? '图示选择' : 'Icon Select'}</label>
               <select value={formData.icon_name} onChange={(e) => setFormData({ ...formData, icon_name: e.target.value })}>
                 <option value="BookOpen">BookOpen (弘法/教育)</option>
-                <option value="Heart">Heart (獻血/慈心)</option>
-                <option value="ShieldCheck">ShieldCheck (社會福利/防護)</option>
-                <option value="Music">Music (合唱團/藝術)</option>
-                <option value="Users">Users (組織結構/團隊)</option>
-                <option value="Award">Award (榮譽/歷史)</option>
-                <option value="Globe">Globe (國際/文化)</option>
+                <option value="Heart">Heart (献血/慈心)</option>
+                <option value="ShieldCheck">ShieldCheck (社会福利/防护)</option>
+                <option value="Music">Music (合唱团/艺术)</option>
+                <option value="Users">Users (组织结构/团队)</option>
+                <option value="Award">Award (荣誉/历史)</option>
+                <option value="Globe">Globe (国际/文化)</option>
               </select>
             </div>
 

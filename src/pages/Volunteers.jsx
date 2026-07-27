@@ -31,7 +31,7 @@ export const Volunteers = () => {
                   <div className="alert alert-success text-center py-4">
                     <h4 className="alert-heading mb-3">✅ {t('volunteer.successMsg')}</h4>
                     <button className="btn btn-outline-success mt-3" onClick={() => setSubmitted(false)}>
-                      {lang === 'zh-CN' ? '重新填寫' : 'Submit Another'}
+                      {lang === 'zh-CN' ? '重新填写' : 'Submit Another'}
                     </button>
                   </div>
                 ) : (

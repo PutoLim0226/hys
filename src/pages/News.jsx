@@ -8,9 +8,9 @@ export const News = () => {
   const { t, lang } = useLanguage();
   
   const dummyNews = [
-    { id: 1, title: lang === 'zh-CN' ? '2026年大型捐血活動圓滿結束' : '2026 Mega Blood Donation Drive Concluded', date: '2026-07-20', category: 'donation_drive' },
-    { id: 2, title: lang === 'zh-CN' ? '慧音社合唱團年度公演開放售票' : 'Annual Choir Concert Tickets Available', date: '2026-07-15', category: 'choir' },
-    { id: 3, title: lang === 'zh-CN' ? '清寒學子助學金頒發典禮' : 'Scholarship Award Ceremony', date: '2026-07-10', category: 'charity' },
+    { id: 1, title: lang === 'zh-CN' ? '2026年大型捐血活动圆满结束' : '2026 Mega Blood Donation Drive Concluded', date: '2026-07-20', category: 'donation_drive' },
+    { id: 2, title: lang === 'zh-CN' ? '慧音社合唱团年度公演开放售票' : 'Annual Choir Concert Tickets Available', date: '2026-07-15', category: 'choir' },
+    { id: 3, title: lang === 'zh-CN' ? '清寒学子助学金颁发典礼' : 'Scholarship Award Ceremony', date: '2026-07-10', category: 'charity' },
   ];
 
   return (
