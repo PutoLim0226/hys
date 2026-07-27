@@ -8,11 +8,12 @@ import { Footer } from './components/Footer';
 // Client Pages
 import { Home } from './pages/Home';
 import { About } from './pages/About';
-import { NewsEvents } from './pages/NewsEvents';
-import { NewsDetail } from './pages/NewsDetail';
+import { Events } from './pages/Events';
+import { Charity } from './pages/Charity';
+import { Dharma } from './pages/Dharma';
+import { Volunteers } from './pages/Volunteers';
 import { Donation } from './pages/Donation';
-import { DonationVerification } from './pages/DonationVerification';
-import { Volunteer } from './pages/Volunteer';
+import { News } from './pages/News';
 import { Contact } from './pages/Contact';
 
 // Admin Pages
@@ -36,16 +37,18 @@ export function App() {
           {/* Public Client Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/news" element={<NewsEvents />} />
-          <Route path="/news/:id" element={<NewsDetail />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/charity" element={<Charity />} />
+          <Route path="/dharma" element={<Dharma />} />
+          <Route path="/volunteers" element={<Volunteers />} />
           <Route path="/donation" element={<Donation />} />
-          <Route path="/donations-public" element={<DonationVerification />} />
-          <Route path="/volunteer" element={<Volunteer />} />
+          <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contact />} />
 
           {/* Admin Authentication & Protected Management Routes */}
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          
           <Route
             path="/admin/dashboard"
             element={
