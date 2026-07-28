@@ -3,14 +3,16 @@
 import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Plus, Edit3, Trash2, ArrowLeft, LogOut, Sun, Moon, Globe, Calendar, Users, Target } from 'lucide-react';
+import { Plus, Edit3, Trash2, ArrowLeft, LogOut, Sun, Moon, Globe, Calendar, Users, Target, Search } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { SeoHead } from '../../components/SeoHead';
 import { Modal } from '../../components/common/Modal';
+import { Pagination } from '../../components/common/Pagination';
 import { AdminHeader } from '../../components/admin/AdminHeader';
 import { AdminNewsForm } from '../../components/admin/AdminNewsForm';
+import { useTablePagination } from '../../hooks/useTablePagination';
 
 import logoImg from '../../assets/img/logo.png';
 
@@ -22,6 +24,26 @@ export const AdminNews = () => {
 
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Pagination & Filtering Hook
+  const {
+    searchTerm,
+    setSearchTerm,
+    categoryFilter,
+    setCategoryFilter,
+    statusFilter,
+    setStatusFilter,
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    setPageSize,
+    totalPages,
+    totalItems,
+    paginatedItems
+  } = useTablePagination(news, {
+    searchFields: ['title_zh', 'title_en', 'content_zh', 'content_en'],
+    initialPageSize: 10
+  });
 
   // Modal State
   const [modalOpen, setModalOpen] = useState(false);
@@ -181,6 +203,42 @@ export const AdminNews = () => {
           </button>
         </div>
 
+        {/* Search & Filter Toolbar */}
+        <div className="table-toolbar">
+          <div className="table-toolbar-left">
+            <div className="search-box">
+              <Search size={16} className="search-icon" />
+              <input
+                type="text"
+                placeholder={lang === 'zh-CN' ? '搜索新闻标题/内容...' : 'Search news title or content...'}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+
+            <select
+              className="filter-select"
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+            >
+              <option value="all">{lang === 'zh-CN' ? '所有分类 (All Categories)' : 'All Categories'}</option>
+              <option value="general">{lang === 'zh-CN' ? '最新消息 (General)' : 'General'}</option>
+              <option value="event">{lang === 'zh-CN' ? '活动预告 (Event)' : 'Event'}</option>
+              <option value="fundraising">{lang === 'zh-CN' ? '筹款专案 (Fundraising)' : 'Fundraising'}</option>
+            </select>
+
+            <select
+              className="filter-select"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="all">{lang === 'zh-CN' ? '所有状态 (All Status)' : 'All Status'}</option>
+              <option value="published">{lang === 'zh-CN' ? '已发布 (Published)' : 'Published'}</option>
+              <option value="draft">{lang === 'zh-CN' ? '草稿 (Draft)' : 'Draft'}</option>
+            </select>
+          </div>
+        </div>
+
         <div className="table-responsive">
           <table className="admin-table">
             <thead>
@@ -195,50 +253,68 @@ export const AdminNews = () => {
               </tr>
             </thead>
             <tbody>
-              {news.map(item => (
-                <tr key={item.id}>
-                  <td>#{item.id}</td>
-                  <td>
-                    <img
-                      src={item.cover_image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?auto=format&fit=crop&w=800&q=80'}
-                      alt="cover"
-                      className="table-thumb"
-                    />
-                  </td>
-                  <td>
-                    <div className="font-bold">{item.title_zh}</div>
-                    <div className="text-muted text-xs">{item.title_en}</div>
-                  </td>
-                  <td>
-                    {item.event_date ? (
-                      <span className="badge badge-confirmed">
-                        <Calendar size={12} /> {item.event_date}
+              {paginatedItems.length > 0 ? (
+                paginatedItems.map(item => (
+                  <tr key={item.id}>
+                    <td>#{item.id}</td>
+                    <td>
+                      <img
+                        src={item.cover_image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?auto=format&fit=crop&w=800&q=80'}
+                        alt="cover"
+                        className="table-thumb"
+                      />
+                    </td>
+                    <td>
+                      <div className="font-bold">{item.title_zh}</div>
+                      <div className="text-muted text-xs">{item.title_en}</div>
+                    </td>
+                    <td>
+                      {item.event_date ? (
+                        <span className="badge badge-confirmed">
+                          <Calendar size={12} /> {item.event_date}
+                        </span>
+                      ) : (
+                        <span className="text-muted text-xs">{lang === 'zh-CN' ? '无特定日期' : 'No Event Date'}</span>
+                      )}
+                    </td>
+                    <td><span className="badge badge-pending">{t(`news.${item.category}`) || item.category}</span></td>
+                    <td>
+                      <span className={`badge ${item.status === 'published' ? 'badge-confirmed' : 'badge-rejected'}`}>
+                        {item.status === 'published' ? t('admin.published') : t('admin.draft')}
                       </span>
-                    ) : (
-                      <span className="text-muted text-xs">{lang === 'zh-CN' ? '无特定日期' : 'No Event Date'}</span>
-                    )}
-                  </td>
-                  <td><span className="badge badge-pending">{t(`news.${item.category}`) || item.category}</span></td>
-                  <td>
-                    <span className={`badge ${item.status === 'published' ? 'badge-confirmed' : 'badge-rejected'}`}>
-                      {item.status === 'published' ? t('admin.published') : t('admin.draft')}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="flex-row-gap-xs">
-                      <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label="Edit">
-                        <Edit3 size={14} />
-                      </button>
-                      <button onClick={() => openDeleteModal(item)} className="btn btn-sm btn-danger" aria-label="Delete">
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
+                    </td>
+                    <td>
+                      <div className="flex-row-gap-xs">
+                        <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label="Edit">
+                          <Edit3 size={14} />
+                        </button>
+                        <button onClick={() => openDeleteModal(item)} className="btn btn-sm btn-danger" aria-label="Delete">
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+                    {lang === 'zh-CN' ? '没有找到符合条件的记录' : 'No records found'}
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Controls */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          pageSize={pageSize}
+          onPageChange={setCurrentPage}
+          onPageSizeChange={setPageSize}
+        />
 
         {/* Add / Edit Modal */}
         <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={activeItem ? t('admin.editNews') : t('admin.addNews')}>

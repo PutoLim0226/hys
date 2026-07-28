@@ -1505,4 +1505,131 @@ a:hover {
   white-space: pre-line;
 }
 
+/* Table Toolbar (Filter & Search) */
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  background-color: var(--card-bg);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--card-border);
+}
+.table-toolbar .table-toolbar-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+.table-toolbar .table-toolbar-left .search-box {
+  position: relative;
+  min-width: 200px;
+  flex: 1;
+  max-width: 320px;
+}
+.table-toolbar .table-toolbar-left .search-box .search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.table-toolbar .table-toolbar-left .search-box input {
+  width: 100%;
+  padding: 0.45rem 0.75rem 0.45rem 2.2rem;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast);
+}
+.table-toolbar .table-toolbar-left .search-box input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+.table-toolbar .table-toolbar-left .filter-select {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.table-toolbar .table-toolbar-left .filter-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+.table-toolbar .table-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Pagination Bar */
+.pagination-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--card-border);
+}
+.pagination-container .pagination-info {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+.pagination-container .pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.pagination-container .pagination-controls .pagination-select {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.825rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+.pagination-container .pagination-controls .pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.pagination-container .pagination-controls .pagination-btn:hover:not(:disabled) {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+.pagination-container .pagination-controls .pagination-btn.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #ffffff;
+}
+.pagination-container .pagination-controls .pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /*# sourceMappingURL=main.css.map */
