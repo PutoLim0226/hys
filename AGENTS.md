@@ -94,7 +94,7 @@ This project is developed by a single developer and an AI Copilot. The AI MUST s
 ### 2.8 Deployment & Environment Constraints
 - **Netlify Removed:** Do NOT perform Netlify deployment or Netlify-specific proxy checks (Netlify integration has been completely removed to prevent credit exhaustion).
 - **Environment:** Develop and test locally via Vite dev server (`http://localhost:3000`) and local PHP server (`http://localhost:8000`), or via direct server target.
-- **Automated AGENTS.md Sync:** `AGENTS.md` is automatically reviewed and updated daily at 10:00 AM to keep project specifications accurate.
+- **Automated AGENTS.md Sync:** `AGENTS.md` is automatically reviewed and updated weekly every Friday at 10:00 AM to keep project specifications accurate.
 
 ---
 
