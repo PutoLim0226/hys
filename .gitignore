@@ -151,3 +151,9 @@ screenshots/
 *.png
 
 *.py
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

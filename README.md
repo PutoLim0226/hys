@@ -1,9 +1,10 @@
-# Version: 1.1.0 - 慧音社 (HUI YIN SEH) Frontend React Application
+# Version: 1.1.1 - 慧音社 (HUI YIN SEH) Frontend React Application
 
 ## 專案簡介 (Project Overview)
 馬來西亞檳城慧音社 (HUI YIN SEH) 雙語官方網站與後台管理介面。採用 React (Vite)、JavaScript、SCSS 模組化極簡設計、React-Helmet-Async SEO 優化以及多語系 (i18n) 支援。
 
 ## 版本纪录 (Version History)
+- **1.1.1**: 新增志工報名名額控管與候補機制 (Waitlist)，報名成功提供 QR Code 憑證，並擴充表單支援服務時段與意向組別。後台新增對應的狀態篩選與手動報到功能。
 - **1.1.0**: 修复 Netlify 反向代理 Port 8080 端口错误：修正 `netlify.toml` 与 `public/_redirects` 中 `/api/*` 转发目标地址至 `http://45.32.25.8:8080/api/:splat`，解决线上环境 404 Route not found 报错。
 - **1.0.9**: 新增後台表格通用元件：包含 `useTablePagination` 自訂 Hook 與可重用 `Pagination` 分頁控制條元件；於 AdminNews 新增即時標題/內容搜尋、分類下拉選單、狀態篩選與動態分頁功能。
 - **1.0.8**: 修复 `res.ok` 在解析后的 JSON 对象中未定义导致生产环境 Netlify 代理 API 无法正确跳转至控制台的问题 (修复 AdminLogin 与 Volunteer 登录/提交状态)。

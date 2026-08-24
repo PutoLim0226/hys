@@ -32,8 +32,8 @@ export const CapacityProgressBar = ({ current = 0, max = 0 }) => {
       </div>
 
       {isFull && (
-        <div className="alert-box alert-danger text-xs margin-top-xs">
-          <AlertTriangle size={14} /> {lang === 'zh-CN' ? '此活动志工名额已满 (Event Capacity Full)' : 'Event Capacity Full'}
+        <div className="alert-box alert-warning text-xs margin-top-xs">
+          <AlertTriangle size={14} /> {lang === 'zh-CN' ? '此活動志工名額已滿，將自動排入候補名單 (Event Capacity Full, switching to Waitlist)' : 'Event Capacity Full, switching to Waitlist'}
         </div>
       )}
     </div>

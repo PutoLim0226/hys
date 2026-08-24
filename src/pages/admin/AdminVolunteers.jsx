@@ -3,7 +3,7 @@
 import { apiFetch } from '../../api/client';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Check, Archive, Eye, LogOut, Sun, Moon, Globe, Download } from 'lucide-react';
+import { ArrowLeft, Check, Archive, Eye, LogOut, Sun, Moon, Globe, Download, QrCode } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -77,14 +77,14 @@ export const AdminVolunteers = () => {
             <h1 className="admin-page-title">{t('admin.volunteerMgmt')}</h1>
           </div>
 
-          <div className="filter-button-group flex-row-gap-sm">
-            {['all', 'pending', 'approved', 'archived'].map(st => (
+          <div className="filter-button-group flex-row-gap-sm flex-wrap">
+            {['all', 'pending', 'approved', 'waitlisted', 'checked_in', 'archived'].map(st => (
               <button
                 key={st}
                 onClick={() => setFilterStatus(st)}
                 className={`btn btn-sm ${filterStatus === st ? 'btn-primary' : 'btn-secondary'}`}
               >
-                {st === 'all' ? (lang === 'zh-CN' ? '全部' : 'All') : t(`admin.${st}`)}
+                {st === 'all' ? (lang === 'zh-CN' ? '全部' : 'All') : t(`admin.${st}`) || st}
               </button>
             ))}
             <a
@@ -105,8 +105,8 @@ export const AdminVolunteers = () => {
                 <th>ID</th>
                 <th>{lang === 'zh-CN' ? '姓名' : 'Name'}</th>
                 <th>{lang === 'zh-CN' ? '报名活动 / 项目' : 'Target Event'}</th>
+                <th>{lang === 'zh-CN' ? '时段与组别' : 'Shift / Role'}</th>
                 <th>{lang === 'zh-CN' ? '联系电话' : 'Phone'}</th>
-                <th>{lang === 'zh-CN' ? '专长 / 技能' : 'Skills'}</th>
                 <th>{t('admin.status')}</th>
                 <th>{lang === 'zh-CN' ? '报名时间' : 'Applied At'}</th>
                 <th>{t('admin.actions')}</th>
@@ -122,11 +122,14 @@ export const AdminVolunteers = () => {
                       {lang === 'zh-CN' ? (item.event_title_zh || '通用支援') : (item.event_title_en || 'General Support')}
                     </span>
                   </td>
+                  <td className="text-xs">
+                    {item.shift_slot && <div>{item.shift_slot}</div>}
+                    {item.team_role && <div><strong className="text-primary">{item.team_role}</strong></div>}
+                  </td>
                   <td>{item.phone}</td>
-                  <td className="max-w-cell">{item.skills}</td>
                   <td>
                     <span className={`badge badge-${item.status}`}>
-                      {t(`admin.${item.status}`)}
+                      {t(`admin.${item.status}`) || item.status}
                     </span>
                   </td>
                   <td className="text-xs">{item.created_at}</td>
@@ -145,6 +148,13 @@ export const AdminVolunteers = () => {
                         title={lang === 'zh-CN' ? '审核通过' : 'Approve'}
                       >
                         <Check size={14} />
+                      </button>
+                      <button
+                        onClick={() => updateStatus(item.id, 'checked_in')}
+                        className="btn btn-sm btn-primary"
+                        title={lang === 'zh-CN' ? '手动报到' : 'Manual Check-in'}
+                      >
+                        <QrCode size={14} />
                       </button>
                       <button
                         onClick={() => updateStatus(item.id, 'archived')}
@@ -169,9 +179,14 @@ export const AdminVolunteers = () => {
               <p><strong>{lang === 'zh-CN' ? '姓名：' : 'Name: '}</strong> {selectedVolunteer.name}</p>
               <p><strong>{lang === 'zh-CN' ? '电话：' : 'Phone: '}</strong> {selectedVolunteer.phone}</p>
               <p><strong>{lang === 'zh-CN' ? 'Email：' : 'Email: '}</strong> {selectedVolunteer.email}</p>
+              <p><strong>{lang === 'zh-CN' ? '服务时段：' : 'Shift: '}</strong> {selectedVolunteer.shift_slot || '-'}</p>
+              <p><strong>{lang === 'zh-CN' ? '意向组别：' : 'Role: '}</strong> {selectedVolunteer.team_role || '-'}</p>
               <p><strong>{lang === 'zh-CN' ? '专长技能：' : 'Skills: '}</strong> {selectedVolunteer.skills}</p>
               <p><strong>{lang === 'zh-CN' ? '可配合时间：' : 'Availability: '}</strong> {selectedVolunteer.availability}</p>
-              <p><strong>{lang === 'zh-CN' ? '报名状态：' : 'Status: '}</strong> <span className={`badge badge-${selectedVolunteer.status}`}>{t(`admin.${selectedVolunteer.status}`)}</span></p>
+              <p><strong>{lang === 'zh-CN' ? '报名状态：' : 'Status: '}</strong> <span className={`badge badge-${selectedVolunteer.status}`}>{t(`admin.${selectedVolunteer.status}`) || selectedVolunteer.status}</span></p>
+              {selectedVolunteer.qr_code_token && (
+                <p><strong>QR Code Token: </strong> <code>{selectedVolunteer.qr_code_token}</code></p>
+              )}
             </div>
           )}
         </Modal>
@@ -179,3 +194,4 @@ export const AdminVolunteers = () => {
     </div>
   );
 };
+
