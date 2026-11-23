@@ -250,21 +250,29 @@ a {
     justify-content: space-between;
     gap: 0.75rem;
     min-height: 72px;
+    max-width: 1320px;
   }
 
   .brand-logo {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    font-size: 1.25rem;
+    gap: 0.65rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--primary-color);
     min-width: 0;
+    flex-shrink: 1;
     transition: opacity var(--transition-fast);
+
+    @media (min-width: 1280px) {
+      flex-shrink: 0;
+      gap: 0.75rem;
+      font-size: 1.25rem;
+    }
 
     @media (max-width: 576px) {
       gap: 0.5rem;
-      font-size: 1.05rem;
+      font-size: 1rem;
     }
 
     img,
@@ -290,14 +298,31 @@ a {
       }
     }
 
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      line-height: 1.2;
+    }
+
+    .brand-name {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .brand-sub {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       font-weight: 400;
       display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       @media (max-width: 576px) {
-        font-size: 0.65rem;
+        font-size: 0.62rem;
       }
     }
   }
@@ -305,12 +330,12 @@ a {
   .nav-menu {
     display: none;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.2rem;
     list-style: none;
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1280px) {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.35rem;
     }
 
     .nav-item {
@@ -318,10 +343,15 @@ a {
         white-space: nowrap;
         color: var(--text-primary);
         font-weight: 500;
-        font-size: 0.92rem;
-        padding: 0.5rem 0.6rem;
+        font-size: 0.88rem;
+        padding: 0.45rem 0.55rem;
         border-radius: var(--radius-sm);
         transition: all var(--transition-fast);
+
+        @media (min-width: 1400px) {
+          font-size: 0.92rem;
+          padding: 0.5rem 0.65rem;
+        }
 
         &:hover,
         &.active {
@@ -368,7 +398,7 @@ a {
     cursor: pointer;
     padding: 0.4rem;
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1280px) {
       display: none;
     }
   }
@@ -396,7 +426,7 @@ a {
     transform: translateX(0);
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1280px) {
     display: none;
   }
 

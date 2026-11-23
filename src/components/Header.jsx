@@ -23,8 +23,8 @@ export const Header = () => {
       <div className="container header-container">
         <Link to="/" className="brand-logo" onClick={closeMobile}>
           <img src={logoImg} alt={t('ui.logoAlt')} className="brand-logo-img" />
-          <div>
-            <span>{t('brandName')}</span>
+          <div className="brand-text">
+            <span className="brand-name">{t('brandName')}</span>
             <small className="brand-sub">{t('brandSub')}</small>
           </div>
         </Link>
