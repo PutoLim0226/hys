@@ -53,6 +53,8 @@ export const AdminDashboard = () => {
     navigate('/admin/login');
   };
 
+  const pplUnit = t('admin.unit.people');
+
   return (
     <div className="admin-page-wrapper flex-1">
       <SeoHead title={t('admin.dashboard')} />
@@ -66,13 +68,13 @@ export const AdminDashboard = () => {
           <div>
             <h1 className="admin-page-title">{t('admin.dashboard')}</h1>
             <p className="admin-page-subtitle">
-              {lang === 'zh-CN' ? '欢迎回来，管理员' : 'Welcome back, Admin'} <strong>{admin?.username || 'Admin'}</strong>
+              {t('admin.welcomeBack')} <strong>{admin?.username || 'Admin'}</strong>
             </p>
           </div>
         </div>
 
         {/* Analytics & KPI Summary Cards */}
-        <AdminKpiCards stats={stats} lang={lang} />
+        <AdminKpiCards stats={stats} />
 
         {/* Volunteer Count per Event / Activity Breakdown */}
         <div className="card card-padding-md margin-bottom-lg">
@@ -80,14 +82,14 @@ export const AdminDashboard = () => {
             <div>
               <h2 className="card-heading-section margin-bottom-xs">
                 <Award size={20} className="icon-inline-primary" />
-                {lang === 'zh-CN' ? '各活动 / 专案志愿者统计人数' : 'Volunteers Count Per Event Breakdown'}
+                {t('admin.eventBreakdownTitle')}
               </h2>
               <p className="text-muted text-sm">
-                {lang === 'zh-CN' ? '实时统计绑定至各个具体献血运动、合唱团音乐会与公益项目的报名人数' : 'Real-time volunteer registration counts grouped by specific published event'}
+                {t('admin.eventBreakdownDesc')}
               </p>
             </div>
             <Link to="/admin/volunteers" className="btn btn-secondary btn-sm">
-              <Users size={16} /> {lang === 'zh-CN' ? '管理完整名单' : 'Manage All Volunteers'}
+              <Users size={16} /> {t('admin.manageAllVolunteers')}
             </Link>
           </div>
 
@@ -96,9 +98,9 @@ export const AdminDashboard = () => {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>{lang === 'zh-CN' ? '活动 / 专案名称' : 'Event / Activity Name'}</th>
+                  <th>{t('admin.colEventName')}</th>
                   <th>{t('admin.category')}</th>
-                  <th>{lang === 'zh-CN' ? '已报名志工人数' : 'Registered Volunteers'}</th>
+                  <th>{t('admin.colRegisteredCount')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -107,7 +109,7 @@ export const AdminDashboard = () => {
                     <td>#{ev.event_id}</td>
                     <td className="font-bold">{lang === 'zh-CN' ? ev.title_zh : ev.title_en}</td>
                     <td><span className="badge badge-pending">{t(`news.${ev.category}`) || ev.category}</span></td>
-                    <td className="font-bold text-primary">{ev.count} 人</td>
+                    <td className="font-bold text-primary">{ev.count}{pplUnit ? ` ${pplUnit}` : ''}</td>
                   </tr>
                 ))}
               </tbody>
@@ -116,17 +118,17 @@ export const AdminDashboard = () => {
 
           <h3 className="card-heading-section margin-top-md margin-bottom-xs">
             <Users size={16} className="icon-inline-primary" />
-            {lang === 'zh-CN' ? '最新志愿服务报名明细' : 'Recent Volunteer Applications'}
+            {t('admin.recentVolunteers')}
           </h3>
           <div className="table-responsive">
             <table className="admin-table">
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>{lang === 'zh-CN' ? '姓名' : 'Name'}</th>
-                  <th>{lang === 'zh-CN' ? '联系电话' : 'Phone'}</th>
-                  <th>{lang === 'zh-CN' ? '对应活动项目' : 'Target Event'}</th>
-                  <th>{lang === 'zh-CN' ? '专长技能' : 'Skills'}</th>
+                  <th>{t('admin.colName')}</th>
+                  <th>{t('admin.colPhone')}</th>
+                  <th>{t('admin.colTargetEvent')}</th>
+                  <th>{t('admin.colSkills')}</th>
                   <th>{t('admin.status')}</th>
                 </tr>
               </thead>
@@ -136,7 +138,7 @@ export const AdminDashboard = () => {
                     <td>#{v.id}</td>
                     <td className="font-bold">{v.name}</td>
                     <td>{v.phone}</td>
-                    <td><span className="activity-skill-tag">{lang === 'zh-CN' ? (v.event_title_zh || '通用支援') : (v.event_title_en || 'General Support')}</span></td>
+                    <td><span className="activity-skill-tag">{lang === 'zh-CN' ? (v.event_title_zh || t('admin.generalSupport')) : (v.event_title_en || t('admin.generalSupport'))}</span></td>
                     <td className="text-sm">{v.skills}</td>
                     <td>
                       <span className={`badge badge-${v.status}`}>
@@ -153,10 +155,10 @@ export const AdminDashboard = () => {
         {/* CMS Management Quick Links */}
         <h2 className="card-heading-section margin-bottom-md">
           <ShieldCheck size={20} className="icon-inline-primary" />
-          {lang === 'zh-CN' ? '后台管理模组入口' : 'Management Modules'}
+          {t('admin.modules.sectionTitle')}
         </h2>
         <div className="grid-layout margin-bottom-lg">
-          
+
           {/* Module 1: News CMS */}
           <div className="card card-padding-md">
             <div className="admin-module-header">
@@ -165,14 +167,14 @@ export const AdminDashboard = () => {
               </div>
               <div>
                 <h3 className="admin-module-title">{t('admin.newsCms')}</h3>
-                <span className="admin-module-badge">{lang === 'zh-CN' ? '最新消息与活动图文管理' : 'News & Events Management'}</span>
+                <span className="admin-module-badge">{t('admin.modules.newsBadge')}</span>
               </div>
             </div>
             <p className="admin-module-desc">
-              {lang === 'zh-CN' ? '发布、修改或删除慧音社各项公益活动、献血新闻与合唱团动态。' : 'Publish, edit, or delete news and event updates.'}
+              {t('admin.modules.newsDesc')}
             </p>
             <Link to="/admin/news" className="btn btn-primary btn-sm btn-full-width">
-              <PlusCircle size={16} /> {lang === 'zh-CN' ? '管理最新消息' : 'Manage News'}
+              <PlusCircle size={16} /> {t('admin.modules.newsBtn')}
             </Link>
           </div>
 
@@ -185,14 +187,14 @@ export const AdminDashboard = () => {
                 </div>
                 <div>
                   <h3 className="admin-module-title">{t('admin.donationMgmt')}</h3>
-                  <span className="admin-module-badge">{lang === 'zh-CN' ? '转账截图与善款对账' : 'Donation Receipt Verification'}</span>
+                  <span className="admin-module-badge">{t('admin.modules.donationsBadge')}</span>
                 </div>
               </div>
               <p className="admin-module-desc">
-                {lang === 'zh-CN' ? '查看信众上传的 TNG / DuitNow 转账截图，人工核对并进行对账确认。' : 'Review e-wallet transfer screenshots and audit donations.'}
+                {t('admin.modules.donationsDesc')}
               </p>
               <Link to="/admin/donations" className="btn btn-primary btn-sm btn-full-width">
-                <CheckSquare size={16} /> {lang === 'zh-CN' ? '管理捐款记录' : 'Manage Donations'}
+                <CheckSquare size={16} /> {t('admin.modules.donationsBtn')}
               </Link>
             </div>
           )}
@@ -206,14 +208,14 @@ export const AdminDashboard = () => {
                 </div>
                 <div>
                   <h3 className="admin-module-title">{t('admin.volunteerMgmt')}</h3>
-                  <span className="admin-module-badge">{lang === 'zh-CN' ? '志愿者报名名单与审核' : 'Volunteer Applications Audit'}</span>
+                  <span className="admin-module-badge">{t('admin.modules.volunteersBadge')}</span>
                 </div>
               </div>
               <p className="admin-module-desc">
-                {lang === 'zh-CN' ? '检视大众线上报名之志愿者资料库，进行审核与联系状态更新。' : 'View volunteer registrations and update approval status.'}
+                {t('admin.modules.volunteersDesc')}
               </p>
               <Link to="/admin/volunteers" className="btn btn-primary btn-sm btn-full-width">
-                <Users size={16} /> {lang === 'zh-CN' ? '管理志愿者名单' : 'Manage Volunteers'}
+                <Users size={16} /> {t('admin.modules.volunteersBtn')}
               </Link>
             </div>
           )}
@@ -226,15 +228,15 @@ export const AdminDashboard = () => {
                   <Globe size={32} className="card-icon-primary" />
                 </div>
                 <div>
-                  <h3 className="admin-module-title">{lang === 'zh-CN' ? '关于我们内容管理' : 'About Us Management'}</h3>
-                  <span className="admin-module-badge">{lang === 'zh-CN' ? '本社简史与四大宗旨编辑' : 'History & Mission CMS'}</span>
+                  <h3 className="admin-module-title">{t('admin.aboutMgmt')}</h3>
+                  <span className="admin-module-badge">{t('admin.modules.aboutBadge')}</span>
                 </div>
               </div>
               <p className="admin-module-desc">
-                {lang === 'zh-CN' ? '实时修改与维护「关于我们」页面中的本社简史、四大宗旨与组织架构介绍。' : 'Edit and manage history, mission, and organization content on the About Us page.'}
+                {t('admin.modules.aboutDesc')}
               </p>
               <Link to="/admin/about" className="btn btn-primary btn-sm btn-full-width">
-                <Globe size={16} /> {lang === 'zh-CN' ? '管理关于我们' : 'Manage About Us'}
+                <Globe size={16} /> {t('admin.modules.aboutBtn')}
               </Link>
             </div>
           )}

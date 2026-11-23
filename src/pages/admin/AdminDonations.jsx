@@ -72,19 +72,19 @@ export const AdminDonations = () => {
         <div className="admin-header-bar">
           <div>
             <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
-              <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
+              <ArrowLeft size={14} /> {t('admin.backToDashboard')}
             </Link>
             <h1 className="admin-page-title">{t('admin.donationMgmt')}</h1>
           </div>
 
-          <div className="filter-button-group flex-row-gap-sm">
+          <div className="filter-button-group flex-row-gap-sm flex-wrap">
             {['all', 'pending', 'confirmed', 'rejected'].map(st => (
               <button
                 key={st}
                 onClick={() => setFilterStatus(st)}
                 className={`btn btn-sm ${filterStatus === st ? 'btn-primary' : 'btn-secondary'}`}
               >
-                {st === 'all' ? (lang === 'zh-CN' ? '全部' : 'All') : t(`admin.${st}`)}
+                {st === 'all' ? t('ui.all') : t(`admin.${st}`)}
               </button>
             ))}
             <a
@@ -93,7 +93,7 @@ export const AdminDonations = () => {
               rel="noopener noreferrer"
               className="btn btn-sm btn-success"
             >
-              <Download size={14} /> {lang === 'zh-CN' ? '导出 Excel/CSV' : 'Export CSV'}
+              <Download size={14} /> {t('admin.exportCsv')}
             </a>
           </div>
         </div>
@@ -104,12 +104,12 @@ export const AdminDonations = () => {
               <tr>
                 <th>ID</th>
                 <th>{t('admin.donorName')}</th>
-                <th>{lang === 'zh-CN' ? '联系电话' : 'Phone'}</th>
+                <th>{t('admin.colPhone')}</th>
                 <th>{t('admin.amount')}</th>
-                <th>{lang === 'zh-CN' ? '付款方式' : 'Method'}</th>
+                <th>{t('admin.colMethod')}</th>
                 <th>{t('admin.receipt')}</th>
                 <th>{t('admin.status')}</th>
-                <th>{lang === 'zh-CN' ? '提交时间' : 'Submitted At'}</th>
+                <th>{t('admin.colSubmittedAt')}</th>
                 <th>{t('admin.actions')}</th>
               </tr>
             </thead>
@@ -130,7 +130,7 @@ export const AdminDonations = () => {
                         <ImageIcon size={14} /> {t('admin.viewReceipt')}
                       </button>
                     ) : (
-                      <span className="text-muted">{lang === 'zh-CN' ? '无截图' : 'No Receipt'}</span>
+                      <span className="text-muted">{t('admin.noReceipt')}</span>
                     )}
                   </td>
                   <td>
@@ -144,17 +144,28 @@ export const AdminDonations = () => {
                       <button
                         onClick={() => updateStatus(item.id, 'confirmed')}
                         className="btn btn-sm btn-success"
-                        title={lang === 'zh-CN' ? '确认对账' : 'Confirm'}
+                        title={t('admin.confirmAction')}
                       >
                         <Check size={14} />
                       </button>
                       <button
                         onClick={() => updateStatus(item.id, 'rejected')}
                         className="btn btn-sm btn-danger"
-                        title={lang === 'zh-CN' ? '退回/无效' : 'Reject'}
+                        title={t('admin.rejectAction')}
                       >
                         <XIcon size={14} />
                       </button>
+                      {item.status === 'confirmed' && (
+                        <a 
+                          href={`/api/receipt_pdf.php?id=${item.id}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="btn btn-sm btn-secondary"
+                          title={t('admin.printReceipt')}
+                        >
+                          <Award size={14} />
+                        </a>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -169,7 +180,7 @@ export const AdminDonations = () => {
             <div className="text-center">
               <img
                 src={activeReceiptUrl}
-                alt="Donation Receipt"
+                alt={t('admin.receiptAlt')}
                 className="modal-lightbox-img"
               />
             </div>

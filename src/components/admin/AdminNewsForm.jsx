@@ -26,19 +26,19 @@ export const AdminNewsForm = ({ formData, setFormData, setCoverFile, handleSave,
 
       <div className="form-group">
         <label>
-          <Calendar size={14} className="inline-icon" /> {lang === 'zh-CN' ? '活动/预告日期 (Event Date)' : 'Event Date'}
+          <Calendar size={14} className="inline-icon" /> {t('admin.eventDate')}
         </label>
         <input
           type="date"
           value={formData.event_date}
           onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
         />
-        <small className="form-hint">{lang === 'zh-CN' ? '设定预告日期，前台将明确标示活动举办日期与预告标签' : 'Set target event date for upcoming announcements'}</small>
+        <small className="form-hint">{t('admin.eventDateHint')}</small>
       </div>
 
       <div className="form-group">
         <label>
-          <Users size={14} className="inline-icon" /> {lang === 'zh-CN' ? '志工/参与名额上限 (Max Capacity)' : 'Max Capacity'}
+          <Users size={14} className="inline-icon" /> {t('admin.maxCapacity')}
         </label>
         <input
           type="number"
@@ -50,7 +50,7 @@ export const AdminNewsForm = ({ formData, setFormData, setCoverFile, handleSave,
 
       <div className="form-group">
         <label>
-          <Target size={14} className="inline-icon" /> {lang === 'zh-CN' ? '筹款目标金额 MYR (Fundraising Goal)' : 'Fundraising Goal MYR'}
+          <Target size={14} className="inline-icon" /> {t('admin.fundraisingGoal')}
         </label>
         <input
           type="number"

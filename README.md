@@ -1,9 +1,10 @@
-# Version: 1.1.1 - 慧音社 (HUI YIN SEH) Frontend React Application
+# Version: 1.1.2 - 慧音社 (HUI YIN SEH) Frontend React Application
 
 ## 專案簡介 (Project Overview)
 馬來西亞檳城慧音社 (HUI YIN SEH) 雙語官方網站與後台管理介面。採用 React (Vite)、JavaScript、SCSS 模組化極簡設計、React-Helmet-Async SEO 優化以及多語系 (i18n) 支援。
 
 ## 版本纪录 (Version History)
+- **1.1.2**: 全站程式碼品質稽核修復（i18n / SCSS / RWD）：補齊所有缺失與硬編碼之 i18n 語系鍵值（支援參數插值）、全面清除 61 處 Inline CSS 並收斂至 `main.scss`、補齊 576px / 768px / 992px / 1200px 響應式斷點與彈性換行規則以解決手機版破版與溢位問題。
 - **1.1.1**: 新增志工報名名額控管與候補機制 (Waitlist)，報名成功提供 QR Code 憑證，並擴充表單支援服務時段與意向組別。後台新增對應的狀態篩選與手動報到功能。
 - **1.1.0**: 修复 Netlify 反向代理 Port 8080 端口错误：修正 `netlify.toml` 与 `public/_redirects` 中 `/api/*` 转发目标地址至 `http://45.32.25.8:8080/api/:splat`，解决线上环境 404 Route not found 报错。
 - **1.0.9**: 新增後台表格通用元件：包含 `useTablePagination` 自訂 Hook 與可重用 `Pagination` 分頁控制條元件；於 AdminNews 新增即時標題/內容搜尋、分類下拉選單、狀態篩選與動態分頁功能。

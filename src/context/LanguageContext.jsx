@@ -19,7 +19,7 @@ export const LanguageProvider = ({ children }) => {
     setLang(prev => (prev === 'zh-CN' ? 'en' : 'zh-CN'));
   };
 
-  const t = (path) => {
+  const t = (path, params) => {
     const keys = path.split('.');
     let current = translations[lang];
     for (const key of keys) {
@@ -28,6 +28,9 @@ export const LanguageProvider = ({ children }) => {
       } else {
         return path; // Fallback to path key if missing
       }
+    }
+    if (typeof current === 'string' && params) {
+      return current.replace(/\{(\w+)\}/g, (_, k) => (params[k] !== undefined ? params[k] : `{${k}}`));
     }
     return current;
   };

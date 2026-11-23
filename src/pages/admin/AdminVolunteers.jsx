@@ -72,7 +72,7 @@ export const AdminVolunteers = () => {
         <div className="admin-header-bar">
           <div>
             <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
-              <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
+              <ArrowLeft size={14} /> {t('admin.backToDashboard')}
             </Link>
             <h1 className="admin-page-title">{t('admin.volunteerMgmt')}</h1>
           </div>
@@ -84,7 +84,7 @@ export const AdminVolunteers = () => {
                 onClick={() => setFilterStatus(st)}
                 className={`btn btn-sm ${filterStatus === st ? 'btn-primary' : 'btn-secondary'}`}
               >
-                {st === 'all' ? (lang === 'zh-CN' ? '全部' : 'All') : t(`admin.${st}`) || st}
+                {st === 'all' ? t('ui.all') : t(`admin.${st}`)}
               </button>
             ))}
             <a
@@ -93,7 +93,7 @@ export const AdminVolunteers = () => {
               rel="noopener noreferrer"
               className="btn btn-sm btn-success"
             >
-              <Download size={14} /> {lang === 'zh-CN' ? '导出 Excel/CSV' : 'Export CSV'}
+              <Download size={14} /> {t('admin.exportCsv')}
             </a>
           </div>
         </div>
@@ -103,12 +103,12 @@ export const AdminVolunteers = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>{lang === 'zh-CN' ? '姓名' : 'Name'}</th>
-                <th>{lang === 'zh-CN' ? '报名活动 / 项目' : 'Target Event'}</th>
-                <th>{lang === 'zh-CN' ? '时段与组别' : 'Shift / Role'}</th>
-                <th>{lang === 'zh-CN' ? '联系电话' : 'Phone'}</th>
+                <th>{t('admin.colName')}</th>
+                <th>{t('admin.colTargetEvent')}</th>
+                <th>{t('admin.colShiftRole')}</th>
+                <th>{t('admin.colPhone')}</th>
                 <th>{t('admin.status')}</th>
-                <th>{lang === 'zh-CN' ? '报名时间' : 'Applied At'}</th>
+                <th>{t('admin.colAppliedAt')}</th>
                 <th>{t('admin.actions')}</th>
               </tr>
             </thead>
@@ -119,7 +119,7 @@ export const AdminVolunteers = () => {
                   <td className="font-bold">{item.name}</td>
                   <td>
                     <span className="badge badge-pending">
-                      {lang === 'zh-CN' ? (item.event_title_zh || '通用支援') : (item.event_title_en || 'General Support')}
+                      {lang === 'zh-CN' ? (item.event_title_zh || t('admin.generalSupport')) : (item.event_title_en || t('admin.generalSupport'))}
                     </span>
                   </td>
                   <td className="text-xs">
@@ -129,7 +129,7 @@ export const AdminVolunteers = () => {
                   <td>{item.phone}</td>
                   <td>
                     <span className={`badge badge-${item.status}`}>
-                      {t(`admin.${item.status}`) || item.status}
+                      {t(`admin.${item.status}`)}
                     </span>
                   </td>
                   <td className="text-xs">{item.created_at}</td>
@@ -138,28 +138,28 @@ export const AdminVolunteers = () => {
                       <button
                         className="btn btn-sm btn-secondary"
                         onClick={() => setSelectedVolunteer(item)}
-                        title={lang === 'zh-CN' ? '查看详情' : 'View Details'}
+                        title={t('admin.viewDetails')}
                       >
                         <Eye size={14} />
                       </button>
                       <button
                         onClick={() => updateStatus(item.id, 'approved')}
                         className="btn btn-sm btn-success"
-                        title={lang === 'zh-CN' ? '审核通过' : 'Approve'}
+                        title={t('admin.approveAction')}
                       >
                         <Check size={14} />
                       </button>
                       <button
                         onClick={() => updateStatus(item.id, 'checked_in')}
                         className="btn btn-sm btn-primary"
-                        title={lang === 'zh-CN' ? '手动报到' : 'Manual Check-in'}
+                        title={t('admin.checkinAction')}
                       >
                         <QrCode size={14} />
                       </button>
                       <button
                         onClick={() => updateStatus(item.id, 'archived')}
                         className="btn btn-sm btn-danger"
-                        title={lang === 'zh-CN' ? '归档' : 'Archive'}
+                        title={t('admin.archiveAction')}
                       >
                         <Archive size={14} />
                       </button>
@@ -172,20 +172,20 @@ export const AdminVolunteers = () => {
         </div>
 
         {/* Volunteer Details Modal */}
-        <Modal isOpen={!!selectedVolunteer} onClose={() => setSelectedVolunteer(null)} title={lang === 'zh-CN' ? '志愿者详细报名资料' : 'Volunteer Application Details'}>
+        <Modal isOpen={!!selectedVolunteer} onClose={() => setSelectedVolunteer(null)} title={t('admin.volunteerDetailTitle')}>
           {selectedVolunteer && (
             <div className="volunteer-detail-body">
-              <p><strong>{lang === 'zh-CN' ? '报名活动：' : 'Target Event: '}</strong> {lang === 'zh-CN' ? (selectedVolunteer.event_title_zh || '通用支援') : (selectedVolunteer.event_title_en || 'General Support')}</p>
-              <p><strong>{lang === 'zh-CN' ? '姓名：' : 'Name: '}</strong> {selectedVolunteer.name}</p>
-              <p><strong>{lang === 'zh-CN' ? '电话：' : 'Phone: '}</strong> {selectedVolunteer.phone}</p>
-              <p><strong>{lang === 'zh-CN' ? 'Email：' : 'Email: '}</strong> {selectedVolunteer.email}</p>
-              <p><strong>{lang === 'zh-CN' ? '服务时段：' : 'Shift: '}</strong> {selectedVolunteer.shift_slot || '-'}</p>
-              <p><strong>{lang === 'zh-CN' ? '意向组别：' : 'Role: '}</strong> {selectedVolunteer.team_role || '-'}</p>
-              <p><strong>{lang === 'zh-CN' ? '专长技能：' : 'Skills: '}</strong> {selectedVolunteer.skills}</p>
-              <p><strong>{lang === 'zh-CN' ? '可配合时间：' : 'Availability: '}</strong> {selectedVolunteer.availability}</p>
-              <p><strong>{lang === 'zh-CN' ? '报名状态：' : 'Status: '}</strong> <span className={`badge badge-${selectedVolunteer.status}`}>{t(`admin.${selectedVolunteer.status}`) || selectedVolunteer.status}</span></p>
+              <p><strong>{t('admin.colTargetEvent')}: </strong> {lang === 'zh-CN' ? (selectedVolunteer.event_title_zh || t('admin.generalSupport')) : (selectedVolunteer.event_title_en || t('admin.generalSupport'))}</p>
+              <p><strong>{t('admin.colName')}: </strong> {selectedVolunteer.name}</p>
+              <p><strong>{t('admin.colPhone')}: </strong> {selectedVolunteer.phone}</p>
+              <p><strong>{t('admin.colEmail')}: </strong> {selectedVolunteer.email}</p>
+              <p><strong>{t('volunteer.shiftSlot')}: </strong> {selectedVolunteer.shift_slot || '-'}</p>
+              <p><strong>{t('volunteer.teamRole')}: </strong> {selectedVolunteer.team_role || '-'}</p>
+              <p><strong>{t('admin.colSkills')}: </strong> {selectedVolunteer.skills}</p>
+              <p><strong>{t('admin.colAvailability')}: </strong> {selectedVolunteer.availability}</p>
+              <p><strong>{t('admin.status')}: </strong> <span className={`badge badge-${selectedVolunteer.status}`}>{t(`admin.${selectedVolunteer.status}`)}</span></p>
               {selectedVolunteer.qr_code_token && (
-                <p><strong>QR Code Token: </strong> <code>{selectedVolunteer.qr_code_token}</code></p>
+                <p><strong>{t('admin.qrCodeToken')}: </strong> <code>{selectedVolunteer.qr_code_token}</code></p>
               )}
             </div>
           )}

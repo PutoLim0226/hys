@@ -22,7 +22,7 @@ export const Header = () => {
     <header className="app-header">
       <div className="container header-container">
         <Link to="/" className="brand-logo" onClick={closeMobile}>
-          <img src={logoImg} alt="慧音社 Logo" className="brand-logo-img" />
+          <img src={logoImg} alt={t('ui.logoAlt')} className="brand-logo-img" />
           <div>
             <span>{t('brandName')}</span>
             <small className="brand-sub">{t('brandSub')}</small>
@@ -46,18 +46,18 @@ export const Header = () => {
 
         {/* Header Actions */}
         <div className="header-actions">
-          <button className="icon-btn" onClick={() => setSearchOpen(true)} aria-label="Search site" title={lang === 'zh-CN' ? '搜索' : 'Search'}>
+          <button className="icon-btn" onClick={() => setSearchOpen(true)} aria-label={t('ui.search')} title={t('ui.search')}>
             <Search size={18} />
           </button>
 
-          <button className="lang-btn" onClick={toggleLanguage} aria-label="Toggle language">
+          <button className="lang-btn" onClick={toggleLanguage} aria-label={t('ui.toggleLang')}>
             <Globe size={14} className="inline-icon" /> {lang === 'zh-CN' ? 'EN' : '中文'}
           </button>
-          <button className="icon-btn" onClick={toggleTheme} aria-label="Toggle theme">
+          <button className="icon-btn" onClick={toggleTheme} aria-label={t('ui.toggleTheme')}>
             {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
 
-          <button className="mobile-toggle" onClick={toggleMobile} aria-label="Toggle menu">
+          <button className="mobile-toggle" onClick={toggleMobile} aria-label={t('ui.toggleMenu')}>
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>

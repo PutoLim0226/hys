@@ -26,7 +26,7 @@ export const Footer = () => {
           </div>
 
           <div className="footer-col">
-            <h4>快速链接 (Quick Links)</h4>
+            <h4>{t('footer.quickLinks')}</h4>
             <p><Link to="/about">{t('nav.about')}</Link></p>
             <p><Link to="/news">{t('nav.news')}</Link></p>
             <p><Link to="/donation">{t('nav.donation')}</Link></p>
@@ -35,7 +35,7 @@ export const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} {t('brandName')} Hui Yin Seh Penang. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {t('footer.copyright')}</p>
         </div>
       </div>
     </footer>

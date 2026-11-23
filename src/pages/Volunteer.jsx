@@ -63,7 +63,7 @@ export const Volunteer = () => {
     setQrCodeToken('');
 
     if (!formData.name || !formData.phone || !formData.email) {
-      setErrorMsg('请填写必填栏位 (Please fill in name, phone, and email)');
+      setErrorMsg(t('volunteer.errRequired'));
       return;
     }
 
@@ -80,16 +80,16 @@ export const Volunteer = () => {
       if (json.status === 'success') {
         let finalMsg = t('volunteer.successMsg');
         if (json.data.status === 'waitlisted') {
-          finalMsg = lang === 'zh-CN' ? '名额已满，您已排入候補名單！(Added to waitlist)' : 'Capacity full. You have been added to the waitlist!';
+          finalMsg = t('volunteer.waitlistedMsg');
         }
         setSuccessMsg(finalMsg);
         setQrCodeToken(json.data.qr_code_token || '');
         setFormData({ event_id: formData.event_id, name: '', phone: '', email: '', skills: '', shift_slot: '', team_role: '', availability: '' });
       } else {
-        setErrorMsg(json.message || 'Submission failed');
+        setErrorMsg(json.message || t('volunteer.errSubmit'));
       }
     } catch (err) {
-      setErrorMsg('无法发送报名资料，请检查网络连接或稍后再试 (Connection error, please try again)');
+      setErrorMsg(t('volunteer.errNetwork'));
     } finally {
       setIsSubmitting(false);
     }
@@ -124,7 +124,7 @@ export const Volunteer = () => {
               <CheckCircle size={20} /> {successMsg}
               {qrCodeToken && (
                 <div className="qr-code-box margin-top-sm" data-testid="qr-code">
-                  <p><strong>{lang === 'zh-CN' ? '您的专属报到 QR Code (Check-in QR):' : 'Your Check-in QR Code:'}</strong></p>
+                  <p><strong>{t('volunteer.checkinQrLabel')}</strong></p>
                   <div className="qr-placeholder bg-light padding-md text-center margin-top-xs border-radius-sm">
                     <code>{qrCodeToken}</code>
                   </div>
@@ -136,7 +136,7 @@ export const Volunteer = () => {
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label>
-                <Calendar size={14} className="inline-icon" /> {lang === 'zh-CN' ? '选择报名活动 / 项目 *' : 'Select Target Event / Activity *'}
+                <Calendar size={14} className="inline-icon" /> {t('volunteer.selectEvent')}
               </label>
               <select
                 name="event_id"
@@ -144,7 +144,7 @@ export const Volunteer = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="">{lang === 'zh-CN' ? '-- 请选择志愿服务活动 --' : '-- Select an Activity --'}</option>
+                <option value="">{t('volunteer.selectEventPlaceholder')}</option>
                 {events.map(item => (
                   <option key={item.id} value={item.id}>
                     {lang === 'zh-CN' ? item.title_zh : item.title_en} [{t(`news.${item.category}`) || item.category}]
@@ -162,54 +162,54 @@ export const Volunteer = () => {
 
             <div className="form-group">
               <label>{t('volunteer.name')} *</label>
-              <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. 李小明 / Lee Siu Ming" />
+              <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder={t('volunteer.placeholderName')} />
             </div>
 
             <div className="form-group">
               <label>{t('volunteer.phone')} *</label>
-              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder="e.g. +6016-8889999" />
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder={t('volunteer.placeholderPhone')} />
             </div>
 
             <div className="form-group">
               <label>{t('volunteer.email')} *</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="e.g. volunteer@example.com" />
+              <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder={t('volunteer.placeholderEmail')} />
             </div>
 
             <div className="form-group">
               <label>
-                <Clock size={14} className="inline-icon" /> {lang === 'zh-CN' ? '服务时段 (Shift Slot)' : 'Shift Slot'}
+                <Clock size={14} className="inline-icon" /> {t('volunteer.shiftSlot')}
               </label>
               <select name="shift_slot" value={formData.shift_slot} onChange={handleChange}>
-                <option value="">{lang === 'zh-CN' ? '-- 不指定 / 全天 --' : '-- Anytime --'}</option>
-                <option value="Morning (9am - 1pm)">{lang === 'zh-CN' ? '早班 (9am - 1pm)' : 'Morning (9am - 1pm)'}</option>
-                <option value="Afternoon (1pm - 5pm)">{lang === 'zh-CN' ? '午班 (1pm - 5pm)' : 'Afternoon (1pm - 5pm)'}</option>
+                <option value="">{t('volunteer.shiftAny')}</option>
+                <option value="Morning (9am - 1pm)">{t('volunteer.shiftMorning')}</option>
+                <option value="Afternoon (1pm - 5pm)">{t('volunteer.shiftAfternoon')}</option>
               </select>
             </div>
 
             <div className="form-group">
               <label>
-                <Tag size={14} className="inline-icon" /> {lang === 'zh-CN' ? '意向组别 (Team Role)' : 'Team Role'}
+                <Tag size={14} className="inline-icon" /> {t('volunteer.teamRole')}
               </label>
               <select name="team_role" value={formData.team_role} onChange={handleChange}>
-                <option value="">{lang === 'zh-CN' ? '-- 不指定 --' : '-- Any --'}</option>
-                <option value="Registration">{lang === 'zh-CN' ? '现场登记组' : 'Registration Team'}</option>
-                <option value="Logistics">{lang === 'zh-CN' ? '后勤组' : 'Logistics Team'}</option>
-                <option value="Promotion">{lang === 'zh-CN' ? '文宣组' : 'Promotion Team'}</option>
+                <option value="">{t('volunteer.roleAny')}</option>
+                <option value="Registration">{t('volunteer.roleReg')}</option>
+                <option value="Logistics">{t('volunteer.roleLogistics')}</option>
+                <option value="Promotion">{t('volunteer.rolePromo')}</option>
               </select>
             </div>
 
             <div className="form-group">
               <label>{t('volunteer.skills')}</label>
-              <input type="text" name="skills" value={formData.skills} onChange={handleChange} placeholder="e.g. 献血登记、活动主持人、合唱伴奏" />
+              <input type="text" name="skills" value={formData.skills} onChange={handleChange} placeholder={t('volunteer.placeholderSkills')} />
             </div>
 
             <div className="form-group">
               <label>{t('volunteer.availability')}</label>
-              <input type="text" name="availability" value={formData.availability} onChange={handleChange} placeholder="e.g. 周末上午 / 项目支持" />
+              <input type="text" name="availability" value={formData.availability} onChange={handleChange} placeholder={t('volunteer.placeholderAvailability')} />
             </div>
 
             <button type="submit" className="btn btn-primary btn-full-width margin-top-md" disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : t('volunteer.submitBtn')}
+              {isSubmitting ? t('ui.submitting') : t('volunteer.submitBtn')}
             </button>
           </form>
         </div>

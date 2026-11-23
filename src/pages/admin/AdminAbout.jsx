@@ -144,7 +144,7 @@ export const AdminAbout = () => {
 
   return (
     <div className="admin-page-wrapper flex-1">
-      <SeoHead title={lang === 'zh-CN' ? '关于我们管理' : 'About Us Management'} />
+      <SeoHead title={t('admin.aboutMgmt')} />
 
       {/* Standalone Admin Header Bar */}
       <AdminHeader />
@@ -153,13 +153,13 @@ export const AdminAbout = () => {
         <div className="admin-header-bar">
           <div>
             <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
-              <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
+              <ArrowLeft size={14} /> {t('admin.backToDashboard')}
             </Link>
-            <h1 className="admin-page-title">{lang === 'zh-CN' ? '关于我们内容管理' : 'About Us Content Management'}</h1>
+            <h1 className="admin-page-title">{t('admin.aboutMgmt')}</h1>
           </div>
 
           <button onClick={openAddModal} className="btn btn-primary">
-            <Plus size={18} /> {lang === 'zh-CN' ? '新增关于我们区块' : 'Add Section'}
+            <Plus size={18} /> {t('admin.addAboutSection')}
           </button>
         </div>
 
@@ -167,11 +167,11 @@ export const AdminAbout = () => {
           <table className="admin-table">
             <thead>
               <tr>
-                <th>排序</th>
-                <th>Key</th>
-                <th>{lang === 'zh-CN' ? '图标' : 'Icon'}</th>
-                <th>{lang === 'zh-CN' ? '标题 (中 / EN)' : 'Title (CN / EN)'}</th>
-                <th>{lang === 'zh-CN' ? '内容预览 (中)' : 'Content (CN)'}</th>
+                <th>{t('admin.colSort')}</th>
+                <th>{t('admin.colKey')}</th>
+                <th>{t('admin.colIcon')}</th>
+                <th>{t('admin.colTitleBilingual')}</th>
+                <th>{t('admin.colContentPreview')}</th>
                 <th>{t('admin.actions')}</th>
               </tr>
             </thead>
@@ -190,10 +190,10 @@ export const AdminAbout = () => {
                   </td>
                   <td>
                     <div className="flex-row-gap-xs">
-                      <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label="Edit">
+                      <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label={t('admin.edit')}>
                         <Edit3 size={14} />
                       </button>
-                      <button onClick={() => openDeleteModal(item)} className="btn btn-sm btn-danger" aria-label="Delete">
+                      <button onClick={() => openDeleteModal(item)} className="btn btn-sm btn-danger" aria-label={t('admin.delete')}>
                         <Trash2 size={14} />
                       </button>
                     </div>
@@ -205,10 +205,10 @@ export const AdminAbout = () => {
         </div>
 
         {/* Add / Edit Modal */}
-        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={activeItem ? (lang === 'zh-CN' ? '编辑关于我们区块' : 'Edit Section') : (lang === 'zh-CN' ? '新增关于我们区块' : 'Add Section')}>
+        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={activeItem ? t('admin.editAboutSection') : t('admin.addAboutSection')}>
           <form onSubmit={handleSave}>
             <div className="form-group">
-              <label>{lang === 'zh-CN' ? '中文标题' : 'Title (ZH)'} *</label>
+              <label>{t('admin.titleZh')} *</label>
               <input
                 type="text"
                 required
@@ -218,7 +218,7 @@ export const AdminAbout = () => {
             </div>
 
             <div className="form-group">
-              <label>{lang === 'zh-CN' ? '英文标题' : 'Title (EN)'} *</label>
+              <label>{t('admin.titleEn')} *</label>
               <input
                 type="text"
                 required
@@ -228,20 +228,20 @@ export const AdminAbout = () => {
             </div>
 
             <div className="form-group">
-              <label>{lang === 'zh-CN' ? '图示选择' : 'Icon Select'}</label>
+              <label>{t('admin.iconSelect')}</label>
               <select value={formData.icon_name} onChange={(e) => setFormData({ ...formData, icon_name: e.target.value })}>
-                <option value="BookOpen">BookOpen (弘法/教育)</option>
-                <option value="Heart">Heart (献血/慈心)</option>
-                <option value="ShieldCheck">ShieldCheck (社会福利/防护)</option>
-                <option value="Music">Music (合唱团/艺术)</option>
-                <option value="Users">Users (组织结构/团队)</option>
-                <option value="Award">Award (荣誉/历史)</option>
-                <option value="Globe">Globe (国际/文化)</option>
+                <option value="BookOpen">{t('admin.icons.BookOpen')}</option>
+                <option value="Heart">{t('admin.icons.Heart')}</option>
+                <option value="ShieldCheck">{t('admin.icons.ShieldCheck')}</option>
+                <option value="Music">{t('admin.icons.Music')}</option>
+                <option value="Users">{t('admin.icons.Users')}</option>
+                <option value="Award">{t('admin.icons.Award')}</option>
+                <option value="Globe">{t('admin.icons.Globe')}</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label>{lang === 'zh-CN' ? '排序位置' : 'Sort Order'}</label>
+              <label>{t('admin.sortOrder')}</label>
               <input
                 type="number"
                 value={formData.sort_order}
@@ -250,7 +250,7 @@ export const AdminAbout = () => {
             </div>
 
             <div className="form-group">
-              <label>{lang === 'zh-CN' ? '中文内容' : 'Content (ZH)'} *</label>
+              <label>{t('admin.contentZh')} *</label>
               <textarea
                 required
                 rows={4}
@@ -260,7 +260,7 @@ export const AdminAbout = () => {
             </div>
 
             <div className="form-group">
-              <label>{lang === 'zh-CN' ? '英文内容' : 'Content (EN)'} *</label>
+              <label>{t('admin.contentEn')} *</label>
               <textarea
                 required
                 rows={4}

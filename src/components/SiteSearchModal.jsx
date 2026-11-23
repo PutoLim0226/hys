@@ -8,7 +8,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { Modal } from './common/Modal';
 
 export const SiteSearchModal = ({ isOpen, onClose }) => {
-  const { lang } = useLanguage();
+  const { lang, t } = useLanguage();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ export const SiteSearchModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={lang === 'zh-CN' ? '全站双语关键字搜索' : 'Site-wide Search'}>
+    <Modal isOpen={isOpen} onClose={onClose} title={t('search.modalTitle')}>
       <form onSubmit={handleSearch} className="search-form-modal">
         <div className="search-input-wrapper">
           <Search size={18} className="search-icon-inside" />
@@ -43,7 +43,7 @@ export const SiteSearchModal = ({ isOpen, onClose }) => {
             className="search-input-field"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={lang === 'zh-CN' ? '输入关键字搜索消息、献血活动、合唱团...' : 'Search news, blood drive, choir...'}
+            placeholder={t('search.placeholder')}
             autoFocus
           />
           {query && (
@@ -53,7 +53,7 @@ export const SiteSearchModal = ({ isOpen, onClose }) => {
           )}
         </div>
         <button type="submit" className="btn btn-primary margin-top-sm btn-full-width" disabled={loading}>
-          {loading ? (lang === 'zh-CN' ? '搜索中...' : 'Searching...') : (lang === 'zh-CN' ? '开始搜索' : 'Search')}
+          {loading ? t('search.searching') : t('search.submitBtn')}
         </button>
       </form>
 
@@ -67,7 +67,7 @@ export const SiteSearchModal = ({ isOpen, onClose }) => {
               className="search-result-card"
             >
               <div className="search-result-info">
-                <span className="badge badge-pending text-xs">{item.category}</span>
+                <span className="badge badge-pending text-xs">{t(`news.${item.category}`)}</span>
                 <h4 className="search-result-title">{lang === 'zh-CN' ? item.title_zh : item.title_en}</h4>
                 <p className="search-result-desc text-xs text-muted">
                   {(lang === 'zh-CN' ? item.content_zh : item.content_en).substring(0, 90)}...
@@ -79,7 +79,7 @@ export const SiteSearchModal = ({ isOpen, onClose }) => {
         ) : (
           query && !loading && (
             <div className="text-center text-muted card-padding-md">
-              {lang === 'zh-CN' ? '未找到相关结果，请尝试其他关键字' : 'No matching results found.'}
+              {t('search.noResults')}
             </div>
           )
         )}

@@ -193,7 +193,7 @@ export const AdminNews = () => {
         <div className="admin-header-bar">
           <div>
             <Link to="/admin/dashboard" className="btn btn-sm btn-secondary margin-bottom-xs">
-              <ArrowLeft size={14} /> {lang === 'zh-CN' ? '返回仪表板' : 'Back to Dashboard'}
+              <ArrowLeft size={14} /> {t('admin.backToDashboard')}
             </Link>
             <h1 className="admin-page-title">{t('admin.newsCms')}</h1>
           </div>
@@ -210,7 +210,7 @@ export const AdminNews = () => {
               <Search size={16} className="search-icon" />
               <input
                 type="text"
-                placeholder={lang === 'zh-CN' ? '搜索新闻标题/内容...' : 'Search news title or content...'}
+                placeholder={t('admin.searchNewsPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -221,10 +221,13 @@ export const AdminNews = () => {
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
             >
-              <option value="all">{lang === 'zh-CN' ? '所有分类 (All Categories)' : 'All Categories'}</option>
-              <option value="general">{lang === 'zh-CN' ? '最新消息 (General)' : 'General'}</option>
-              <option value="event">{lang === 'zh-CN' ? '活动预告 (Event)' : 'Event'}</option>
-              <option value="fundraising">{lang === 'zh-CN' ? '筹款专案 (Fundraising)' : 'Fundraising'}</option>
+              <option value="all">{t('admin.allCategories')}</option>
+              <option value="general">{t('news.general')}</option>
+              <option value="donation_drive">{t('news.donation_drive')}</option>
+              <option value="choir">{t('news.choir')}</option>
+              <option value="charity">{t('news.charity')}</option>
+              <option value="event">{t('news.event')}</option>
+              <option value="fundraising">{t('news.fundraising')}</option>
             </select>
 
             <select
@@ -232,9 +235,9 @@ export const AdminNews = () => {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
-              <option value="all">{lang === 'zh-CN' ? '所有状态 (All Status)' : 'All Status'}</option>
-              <option value="published">{lang === 'zh-CN' ? '已发布 (Published)' : 'Published'}</option>
-              <option value="draft">{lang === 'zh-CN' ? '草稿 (Draft)' : 'Draft'}</option>
+              <option value="all">{t('admin.allStatus')}</option>
+              <option value="published">{t('admin.published')}</option>
+              <option value="draft">{t('admin.draft')}</option>
             </select>
           </div>
         </div>
@@ -244,9 +247,9 @@ export const AdminNews = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>{lang === 'zh-CN' ? '封面图' : 'Cover'}</th>
-                <th>{lang === 'zh-CN' ? '标题 (中 / EN)' : 'Title (CN / EN)'}</th>
-                <th>{lang === 'zh-CN' ? '活动/预告日期' : 'Event Date'}</th>
+                <th>{t('admin.colCover')}</th>
+                <th>{t('admin.colTitleBilingual')}</th>
+                <th>{t('admin.eventDate')}</th>
                 <th>{t('admin.category')}</th>
                 <th>{t('admin.status')}</th>
                 <th>{t('admin.actions')}</th>
@@ -260,7 +263,7 @@ export const AdminNews = () => {
                     <td>
                       <img
                         src={item.cover_image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?auto=format&fit=crop&w=800&q=80'}
-                        alt="cover"
+                        alt={t('admin.colCover')}
                         className="table-thumb"
                       />
                     </td>
@@ -274,7 +277,7 @@ export const AdminNews = () => {
                           <Calendar size={12} /> {item.event_date}
                         </span>
                       ) : (
-                        <span className="text-muted text-xs">{lang === 'zh-CN' ? '无特定日期' : 'No Event Date'}</span>
+                        <span className="text-muted text-xs">{t('admin.noEventDate')}</span>
                       )}
                     </td>
                     <td><span className="badge badge-pending">{t(`news.${item.category}`) || item.category}</span></td>
@@ -285,10 +288,10 @@ export const AdminNews = () => {
                     </td>
                     <td>
                       <div className="flex-row-gap-xs">
-                        <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label="Edit">
+                        <button onClick={() => openEditModal(item)} className="btn btn-sm btn-secondary" aria-label={t('admin.edit')}>
                           <Edit3 size={14} />
                         </button>
-                        <button onClick={() => openDeleteModal(item)} className="btn btn-sm btn-danger" aria-label="Delete">
+                        <button onClick={() => openDeleteModal(item)} className="btn btn-sm btn-danger" aria-label={t('admin.delete')}>
                           <Trash2 size={14} />
                         </button>
                       </div>
@@ -297,8 +300,8 @@ export const AdminNews = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
-                    {lang === 'zh-CN' ? '没有找到符合条件的记录' : 'No records found'}
+                  <td colSpan="7" className="table-empty-cell">
+                    {t('admin.noMatchingRecords')}
                   </td>
                 </tr>
               )}

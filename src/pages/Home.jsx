@@ -54,20 +54,20 @@ export const Home = () => {
         <div className="grid-layout">
           <div className="card">
             <div className="card-body">
-              <h3 className="card-title">弘扬佛法与教化</h3>
-              <p className="card-excerpt">推动佛学讲座、发行社刊、办理慈幼班，引导青少年立身正道。</p>
+              <h3 className="card-title">{t('home.pillar1Title')}</h3>
+              <p className="card-excerpt">{t('home.pillar1Desc')}</p>
             </div>
           </div>
           <div className="card">
             <div className="card-body">
-              <h3 className="card-title">定期爱心献血</h3>
-              <p className="card-excerpt">常年组织大型爱心捐血运动，协助槟城中央医院库存充裕，累计救人数无。</p>
+              <h3 className="card-title">{t('home.pillar2Title')}</h3>
+              <p className="card-excerpt">{t('home.pillar2Desc')}</p>
             </div>
           </div>
           <div className="card">
             <div className="card-body">
-              <h3 className="card-title">音乐艺术与合唱团</h3>
-              <p className="card-excerpt">慧音社合唱团致力于推广高品质合唱艺术，透过美妙歌声传递平和与爱。</p>
+              <h3 className="card-title">{t('home.pillar3Title')}</h3>
+              <p className="card-excerpt">{t('home.pillar3Desc')}</p>
             </div>
           </div>
         </div>

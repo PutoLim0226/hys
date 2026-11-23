@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import { SeoHead } from '../../components/SeoHead';
 
 export const AdminLogin = () => {
-  const { lang, t } = useLanguage();
+  const { t } = useLanguage();
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -42,14 +42,14 @@ export const AdminLogin = () => {
         login(json.data.token, json.data.admin);
         navigate('/admin/dashboard');
       } else {
-        setError(json.message || 'Login failed');
+        setError(json.message || t('admin.loginFailed'));
       }
     } catch (err) {
       if (username === 'admin' && password === 'admin123') {
         login('dev_admin_token_2026', { id: 1, username: 'admin' });
         navigate('/admin/dashboard');
       } else {
-        setError(lang === 'zh-CN' ? '账号或密码错误 (Invalid username or password)' : 'Invalid username or password');
+        setError(t('admin.invalidCredentials'));
       }
     } finally {
       setLoading(false);
@@ -67,7 +67,7 @@ export const AdminLogin = () => {
             {t('admin.loginTitle')}
           </h1>
           <p className="admin-login-subtitle">
-            {lang === 'zh-CN' ? '慧音社官方网站后台管理系统' : 'Hui Yin Seh Admin Management Portal'}
+            {t('admin.portalSubtitle')}
           </p>
         </div>
 
@@ -103,7 +103,7 @@ export const AdminLogin = () => {
             className="btn btn-primary btn-full-width margin-top-md"
             disabled={loading}
           >
-            {loading ? 'Authenticating...' : t('admin.loginBtn')}
+            {loading ? t('admin.authenticating') : t('admin.loginBtn')}
           </button>
         </form>
       </div>

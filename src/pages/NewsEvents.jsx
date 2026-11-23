@@ -76,7 +76,7 @@ export const NewsEvents = () => {
                   <span className="card-category">{t(`news.${item.category}`) || item.category}</span>
                   {item.event_date && (
                     <span className="badge badge-confirmed text-xs">
-                      <Clock size={12} /> {lang === 'zh-CN' ? '活动预告' : 'Upcoming Event'}
+                      <Clock size={12} /> {t('news.upcomingEvent')}
                     </span>
                   )}
                 </div>
@@ -86,7 +86,7 @@ export const NewsEvents = () => {
 
                 {item.event_date && (
                   <div className="text-xs font-bold text-primary margin-bottom-xs flex-row-gap-xs">
-                    <Calendar size={14} /> {lang === 'zh-CN' ? '活动日期：' : 'Event Date: '} {item.event_date}
+                    <Calendar size={14} /> {t('news.eventDate')} {item.event_date}
                   </div>
                 )}
 

@@ -6,27 +6,27 @@ import { Calendar, ArrowLeft } from 'lucide-react';
 
 export const NewsDetail = () => {
   const { id } = useParams();
-  const { t, lang } = useLanguage();
-  
+  const { t } = useLanguage();
+
   return (
     <div>
       <Helmet><title>{t('news.readArticle')} | HUI YIN SEH</title></Helmet>
-      
+
       <section className="page-banner">
         <div className="container">
-          <h1 className="section-title">{lang === 'zh-CN' ? '2026年大型捐血活动圆满结束' : '2026 Mega Blood Donation Drive Concluded'}</h1>
-          <p className="section-subtitle"><Calendar size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }}/> 2026-07-20</p>
+          <h1 className="section-title">{t('news.sample1Title')}</h1>
+          <p className="section-subtitle"><Calendar size={16} className="inline-icon" /> 2026-07-20</p>
         </div>
       </section>
-      
+
       <section className="container section-padding">
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div className="card" style={{ padding: '2.5rem' }}>
-            <div style={{ lineHeight: '1.8', color: 'var(--text-secondary)' }}>
-              <p>{lang === 'zh-CN' ? '文章内容建设中...' : 'Article content under construction...'}</p>
+        <div className="article-container">
+          <div className="card content-card">
+            <div className="content-paragraph">
+              <p>{t('news.articleUnderConstruction')}</p>
             </div>
-            <div style={{ marginTop: '2rem' }}>
-              <Link to="/news" className="btn btn-outline-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div className="margin-top-md">
+              <Link to="/news" className="btn btn-outline-primary">
                 <ArrowLeft size={16} /> {t('nav.news')}
               </Link>
             </div>

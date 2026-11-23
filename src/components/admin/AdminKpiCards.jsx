@@ -1,24 +1,30 @@
 import React from 'react';
 import { DollarSign, Clock, Users, Newspaper } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
-export const AdminKpiCards = ({ stats, lang }) => {
+export const AdminKpiCards = ({ stats }) => {
+  const { t } = useLanguage();
+  const recUnit = t('admin.unit.records');
+  const pplUnit = t('admin.unit.people');
+  const postUnit = t('admin.unit.posts');
+
   return (
     <div className="grid-layout margin-bottom-lg">
-      
+
       {/* KPI 1: Donations */}
       <div className="card card-padding-md stat-card-analytics">
         <div className="stat-icon-wrapper">
           <DollarSign size={28} className="card-icon-primary" />
         </div>
         <div className="stat-info">
-          <span className="stat-label">{lang === 'zh-CN' ? '累计对账善款金额' : 'Confirmed Donations'}</span>
+          <span className="stat-label">{t('admin.kpi.confirmedDonations')}</span>
           <h3 className="stat-value">MYR {parseFloat(stats.donations?.total_amount || 0).toFixed(2)}</h3>
           <div className="stat-badge-row">
             <span className="badge badge-pending">
-              <Clock size={12} /> {lang === 'zh-CN' ? '待对账' : 'Pending'}: {stats.donations?.pending_count || 0} 笔
+              <Clock size={12} /> {t('admin.pending')}: {stats.donations?.pending_count || 0}{recUnit ? ` ${recUnit}` : ''}
             </span>
             <span className="badge badge-confirmed">
-              {lang === 'zh-CN' ? '已确认' : 'Confirmed'}: {stats.donations?.confirmed_count || 0} 笔
+              {t('admin.confirmed')}: {stats.donations?.confirmed_count || 0}{recUnit ? ` ${recUnit}` : ''}
             </span>
           </div>
         </div>
@@ -30,14 +36,14 @@ export const AdminKpiCards = ({ stats, lang }) => {
           <Users size={28} className="card-icon-primary" />
         </div>
         <div className="stat-info">
-          <span className="stat-label">{lang === 'zh-CN' ? '志愿者注册总人数' : 'Total Volunteers'}</span>
-          <h3 className="stat-value">{stats.volunteers?.total_count || 0} 人</h3>
+          <span className="stat-label">{t('admin.kpi.totalVolunteers')}</span>
+          <h3 className="stat-value">{stats.volunteers?.total_count || 0}{pplUnit ? ` ${pplUnit}` : ''}</h3>
           <div className="stat-badge-row">
             <span className="badge badge-pending">
-              {lang === 'zh-CN' ? '待审核' : 'Pending'}: {stats.volunteers?.pending_count || 0} 人
+              {t('admin.pending')}: {stats.volunteers?.pending_count || 0}{pplUnit ? ` ${pplUnit}` : ''}
             </span>
             <span className="badge badge-approved">
-              {lang === 'zh-CN' ? '已审核通过' : 'Approved'}: {stats.volunteers?.approved_count || 0} 人
+              {t('admin.approved')}: {stats.volunteers?.approved_count || 0}{pplUnit ? ` ${pplUnit}` : ''}
             </span>
           </div>
         </div>
@@ -49,14 +55,14 @@ export const AdminKpiCards = ({ stats, lang }) => {
           <Newspaper size={28} className="card-icon-primary" />
         </div>
         <div className="stat-info">
-          <span className="stat-label">{lang === 'zh-CN' ? '最新消息与活动发布数' : 'Total Published News'}</span>
-          <h3 className="stat-value">{stats.news?.published_count || 0} 篇</h3>
+          <span className="stat-label">{t('admin.kpi.publishedNews')}</span>
+          <h3 className="stat-value">{stats.news?.published_count || 0}{postUnit ? ` ${postUnit}` : ''}</h3>
           <div className="stat-badge-row">
             <span className="badge badge-pending">
-              {lang === 'zh-CN' ? '草稿' : 'Drafts'}: {stats.news?.draft_count || 0} 篇
+              {t('admin.draft')}: {stats.news?.draft_count || 0}{postUnit ? ` ${postUnit}` : ''}
             </span>
             <span className="badge badge-approved">
-              {lang === 'zh-CN' ? '总记录' : 'Total'}: {stats.news?.total_count || 0} 篇
+              {t('admin.kpi.totalRecords')}: {stats.news?.total_count || 0}{postUnit ? ` ${postUnit}` : ''}
             </span>
           </div>
         </div>

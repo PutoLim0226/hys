@@ -10,7 +10,7 @@ export const Pagination = ({
   onPageChange,
   onPageSizeChange
 }) => {
-  const { lang } = useLanguage();
+  const { t } = useLanguage();
 
   if (totalItems === 0) return null;
 
@@ -38,11 +38,7 @@ export const Pagination = ({
   return (
     <div className="pagination-container">
       <div className="pagination-info">
-        {lang === 'zh-CN' ? (
-          `显示第 ${startItem} - ${endItem} 条，共 ${totalItems} 条`
-        ) : (
-          `Showing ${startItem} - ${endItem} of ${totalItems} items`
-        )}
+        {t('pagination.summary', { start: startItem, end: endItem, total: totalItems })}
       </div>
 
       <div className="pagination-controls">
@@ -52,12 +48,12 @@ export const Pagination = ({
             value={pageSize}
             onChange={(e) => onPageSizeChange(e.target.value)}
             className="pagination-select"
-            aria-label="Items per page"
+            aria-label={t('pagination.itemsPerPage')}
           >
-            <option value={5}>5 / {lang === 'zh-CN' ? '页' : 'page'}</option>
-            <option value={10}>10 / {lang === 'zh-CN' ? '页' : 'page'}</option>
-            <option value={20}>20 / {lang === 'zh-CN' ? '页' : 'page'}</option>
-            <option value={50}>50 / {lang === 'zh-CN' ? '页' : 'page'}</option>
+            <option value={5}>5 / {t('pagination.perPage')}</option>
+            <option value={10}>10 / {t('pagination.perPage')}</option>
+            <option value={20}>20 / {t('pagination.perPage')}</option>
+            <option value={50}>50 / {t('pagination.perPage')}</option>
           </select>
         )}
 
@@ -66,7 +62,7 @@ export const Pagination = ({
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage <= 1}
           className="pagination-btn"
-          aria-label="Previous Page"
+          aria-label={t('pagination.prev')}
         >
           <ChevronLeft size={16} />
         </button>
@@ -87,7 +83,7 @@ export const Pagination = ({
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}
           className="pagination-btn"
-          aria-label="Next Page"
+          aria-label={t('pagination.next')}
         >
           <ChevronRight size={16} />
         </button>
